@@ -5,7 +5,7 @@ const B = require('../lib/build.js');
 const R0 = path.join(__dirname, '..'), J = f => JSON.parse(fs.readFileSync(path.join(R0, f), 'utf8'));
 const P = J('data/parts.json'), R = J('data/recipes.json'), SL = J('data/subjects/index.json');
 
-/* 부품 꼴 — 축 다섯, 코드 두 글자 · 축 안에서 겹치지 않음, current 판이 있다, only 가 가리키는 부품이 있다 */
+/* 부품 꼴 — 축 다섯, 코드 두 글자 · 축 안에서 겹치지 않음, current 판이 있다, pairs · requires 가 가리키는 부품이 있다, 판마다 한글 이름 */
 assert.deepEqual(P.axes.map(a => a.key), B.AXES, '축 차례');
 for (const a of B.AXES) {
   const rows = P.parts[a], codes = new Set();
@@ -16,10 +16,20 @@ for (const a of B.AXES) {
     assert(r.ko, a + '/' + k + ' ko');
     assert(r.versions.some(v => v.v === r.current), a + '/' + k + ' current 판');
     r.versions.forEach(v => { assert(/^v\d+$/.test(v.v)); assert(typeof v.text === 'string'); assert(!/\n/.test(v.text), a + '/' + k + ' 글에 줄바꿈'); });
-    if (a !== 'fx' || k !== 'none') assert(r.versions.find(v => v.v === r.current).text.length > 10, a + '/' + k + ' 글이 비었다');
-    if (['direction', 'face', 'paint', 'fx'].includes(a) && k !== 'none') assert(/^[A-Z]/.test(B.part(P, a, k).text) && /\.$/.test(B.part(P, a, k).text), a + '/' + k + ' 은 대문자로 시작해 마침표로 끝나는 문장');
+    if (a !== 'fx' || !['none', 'off'].includes(k)) assert(r.versions.find(v => v.v === r.current).text.length > 10, a + '/' + k + ' 글이 비었다');
+    if (['direction', 'face', 'paint', 'fx'].includes(a) && !['none', 'off'].includes(k)) assert(/^[A-Z0-9]/.test(B.part(P, a, k).text) && /\.$/.test(B.part(P, a, k).text), a + '/' + k + ' 은 대문자로 시작해 마침표로 끝나는 문장');
     if (a === 'light') assert(/^[a-z]/.test(B.part(P, a, k).text), 'light/' + k + ' 는 Light: 뒤에 붙는 소문자 시작');
-    for (const [oa, list] of Object.entries(r.only || {})) list.forEach(x => assert(P.parts[oa][x], a + '/' + k + ' only 가 없는 부품 ' + oa + '/' + x));
+    assert(!r.only, a + '/' + k + ' only 는 pairs(추천) · requires(모순)로 나눴다');
+    for (const f of ['pairs', 'requires']) for (const [oa, list] of Object.entries(r[f] || {})) list.forEach(x => assert(P.parts[oa][x], a + '/' + k + ' ' + f + ' 가 없는 부품 ' + oa + '/' + x));
+    r.versions.forEach(v => assert(v.ko, a + '/' + k + '@' + v.v + ' 판의 한글 이름'));
+    /* 담당 범위 — 축을 넘는 말 · 부정 말이 지금 판 문장에 없다(검토안 2 · 3절) */
+    if (r.current !== 'v1' || ['kr_game_keyart', 'jp_light_novel', 'off', 'semi_ideal'].includes(k) || r.retired) {
+      const t = B.part(P, a, k).text;
+      if (!r.retired) assert(!/\b(never|no|not)\b/i.test(t.replace(/not stylised/, '')), a + '/' + k + ' 부정 말은 avoid 로: ' + t);
+      if (a === 'direction' && !r.retired) assert(!/\b(oil|painterly|2D|3D|CGI|render|illustration|clean|finished|premium)\b/i.test(t), a + '/' + k + ' 방향에 표현 방식 · 재료 · 수식어: ' + t);
+      if (a === 'face' && !r.retired) assert(!/\b(adult|mature|small|large|eyes|blush|East Asian|2\.3D)\b/i.test(t), a + '/' + k + ' 얼굴 표현에 나이 · 크기 · 생김새: ' + t);
+      if (a === 'light' && !r.retired) assert(!/\b(paint|painted|matte)\b/i.test(t), a + '/' + k + ' 조명에 재료 · 표면: ' + t);
+    }
   }
 }
 
@@ -40,12 +50,17 @@ assert.equal(B.part(P, 'face', 'semi_soft@v1').v, 'v1');
 /* 말 되는 조합 — 짝 규칙이 줄인다(전부 곱한 수보다 작다), 3D 는 3D 끼리만 */
 const all = B.AXES.reduce((n, a) => n * Object.keys(P.parts[a]).length, 1), cs = B.combos(P);
 assert(cs.length > 0 && cs.length < all, '말 되는 조합 ' + cs.length + ' / ' + all);
-assert(cs.every(r => (r.parts[1].key === 'stylised3d') === (r.parts[2].key === 'render3d')), '3D 얼굴 ↔ 3D 렌더');
+assert(cs.every(r => r.parts[0].key !== 'photo_still' || ['photo', 'photoreal_cgi'].includes(r.parts[2].key)), '실사 영화는 사진 · 포토리얼 CGI 렌더링만(requires)');
+assert(cs.some(r => r.parts[1].key === 'anime_adult' && r.parts[2].key === 'oil_glaze'), '추천 짝 밖(애니 얼굴 + 유화)도 시험할 수 있다(검토안 6.1)');
+assert(B.untested(B.resolve(P, R, { direction: 'kr_mmorpg', face: 'anime_adult', paint: 'oil_glaze', light: 'muted', fx: 'none' })).length > 0, '추천 짝 밖은 알린다');
+assert(B.live(P, 'direction').indexOf('classical') < 0 && B.live(P, 'direction').indexOf('fantasy_paint') < 0 && B.live(P, 'direction').indexOf('jp_light_novel') >= 0 && B.live(P, 'direction').indexOf('kr_game_keyart') >= 0, '방향 고전 초상 · 판타지 페인팅 내림, 한국 게임 키아트 · 일본 라이트노벨 표지');
+{ const off = B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', Object.assign({}, R.recipes.semi_smooth.parts, { fx: 'off' }));
+  assert(/^Avoid: .*bloom.*halos\.$/m.test(off.text) && /^Light: [^\n]*highlights\.$/m.test(off.text), '이펙트 없음 = avoid 로 억제, 미지정은 빈 문장'); }
 /* 내린 것 — 말 되는 조합 · 살아 있는 조합에서 빠지고, 옛 그림을 위해 풀리기는 한다 */
 assert(!cs.some(r => r.parts.some(p => p.retired)), '내린 부품이 말 되는 조합에 있다');
 assert(B.live(P, 'direction').indexOf('anime') < 0 && P.parts.direction.anime.retired, '나라 말 없는 애니는 내렸다(2026-11-10)');
 assert(B.live(P, 'direction').indexOf('film3d') < 0 && B.live(P, 'direction').indexOf('jp_film3d') >= 0 && B.live(P, 'direction').indexOf('kr_film3d') >= 0, '3D 애니메이션도 일본 · 한국으로(2026-11-10)');
-assert(B.liveRecipes(R).indexOf('anime_brush') < 0 && B.resolve(P, R, 'anime_brush').id === 'an1-aa1-ba1-dl1-x01', '내린 조합도 옛 이름으로 풀린다');
+assert(B.liveRecipes(R).indexOf('anime_brush') < 0 && B.recipeNameOf(R, B.resolve(P, R, 'an1-aa1-ba1-dl1-x01')) === 'anime_brush', '내린 조합 · 옛 판 그림도 조합 이름을 찾는다');
 for (const k of B.liveRecipes(R)) assert.deepEqual(B.retiredIn(B.resolve(P, R, k)), [], k + ' 에 내린 부품');
 
 /* 이름 — 칸 · 그림 */
@@ -90,6 +105,6 @@ for (const s of SL.subjects) {
   assert(!/in this style/.test(W.faceFrame) && W.original && /in this style/.test(W.original.faceFrame), '얼굴 비율 줄 덮어쓰기 · 원본 보존');
   assert(!/smaller, narrower eyes/.test(W.character.join(' ')) && /large round eyes/.test(W.character.join(' ')), '문앙 무협은 크고 둥근 눈 하나로(삼국지 설계표 고침)');
   assert(P.axes.every(a => a.ko && a.rule), '축마다 한글 이름 · 담당 범위'); }
-assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', { direction: 'kr_mmorpg', face: 'stylised3d', paint: 'smooth', light: 'muted', fx: 'none' }), /같이 못 쓰는 짝/);
+assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', { direction: 'photo_still', face: 'real_natural', paint: 'smooth', light: 'muted', fx: 'none' }), /같이 못 쓰는 짝/);
 assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'semi_smooth', { kind: 'casual' }), /아직 없는 갈래/);
 console.log('PASS 조립부: 부품 ' + B.AXES.map(a => Object.keys(P.parts[a]).length).join('·') + ' · 조합 ' + Object.keys(R.recipes).length + ' · 말 되는 조합 ' + cs.length + ' · 캐릭터 ' + SL.subjects.length + ' · 지시문 ' + n);

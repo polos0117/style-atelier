@@ -3,6 +3,12 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 부품 v2 — 축 담당 범위대로 문장 정리, 방향 둘 내리고 둘 더함, 짝은 추천 · 모순으로
+- 사용자 v2 표 → 「classical, fantasy_paint는 내리자. 그리고 kr_game_keyart 추가해주고. jp_light_novel 을 키로 Japanese light novel cover artwork. 일본 라이트노벨 표지 추가해줘」
+- `data/parts.json` — 방향 10 · 얼굴 8 · 렌더링 12 · 조명 6 부품에 v2(표현 방식은 렌더링·채색으로, 나이 · 크기 · 생김새는 캐릭터로, 부정 말은 avoid 로), 판마다 ko. 방향 classical · fantasy_paint 내림(조합 semi_oil_classic · semi_impasto 도), 새 방향 kr_game_keyart · jp_light_novel, 이펙트 off(없음 — avoid 억제), only → pairs(추천) · requires(모순)
+- `lib/build.js` — clashes 는 requires 만, untested(추천 짝 밖 알림), recipeNameOf(판 무관 조합 이름). `index.html` 섞어보기에 검증 전 짝 · 조합 이름 찾기. `tools/make-job.cjs` 일감 기록에 pairs · requires · untested
+- `tests/build.cjs` — 담당 범위 검사(방향에 재료 · 표현 방식 · 수식어, 얼굴에 나이 · 크기 · 생김새, 조명에 재료 · 표면, 부정 말 없음), 이펙트 없음, 모순 · 추천 짝. 말 되는 조합 78,840
+
 ## 2026-11-10 · claude · 검토안 1 · 2 · 5단계 — 문앙 공통 문구 · 축 담당 범위 · 기록 보완
 - 사용자 검토안(docs/AXIS_REVIEW.md) → 「1. 크고 둥근 눈으로. 2. 삼국지 설계표도 다 수정해줘. 3. 그 순서로 진행해줘」
 - `data/subjects/sam.wenyang.json` — sam-atelier 89ab31a(눈 모순 고친 설계표)에서 다시 가져옴. `sam.wenyang.overrides.json` — 머리말 character image · 얼굴 비율 줄 in this style 빼기(원본은 original 에). `tools/import-subject.cjs` 덮어쓰기 칸

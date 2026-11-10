@@ -29,8 +29,8 @@ try:
     assert json.loads((img / 'jobs/j0004/slots.json').read_text())['round'] == 2
     assert s3['slots'][0]['n'] == 2, s3['slots'][0]
     # 축 바꾸기 — 짝 안 맞는 3D 는 빠진다
-    out = run('--base', 'semi_smooth', '--vary', 'face', '--subject', 'el.fe', '--world', 'fantasy', '--dry', '--off-focus')
-    assert 'stylised3d' in out and '건너뜀' in out and 'el.fe__fantasy-world' in out
+    out = run('--base', 'semi_smooth', '--vary', 'direction', '--subject', 'el.fe', '--world', 'fantasy', '--dry', '--off-focus')
+    assert 'photo_still' in out and '건너뜀' in out and 'el.fe__fantasy-world' in out and 'jl1-' in out, out   # 실사 영화 + 디지털 페인팅은 모순(requires)
 
     nxt = (img / 'jobs/NEXT.md').read_text()
     assert 'j0001-t' in nxt and '0 / 4' in nxt
@@ -54,7 +54,7 @@ try:
     assert ra['generation']['usage']['output_tokens'] == 1132 and ra['note'] is None
     rb = json.loads((img / 'rec' / (b + '.json')).read_text())
     assert rb['generation'] is None
-    assert rb['resized_from'] == [1000, 1500] and rb['note'] == '얼굴이 둥글다' and rb['recipe']['id'] == 'km1-il1-pr1-cs1-xf1' and rb['job'] == 'j0001-t'
+    assert rb['resized_from'] == [1000, 1500] and rb['note'] == '얼굴이 둥글다' and rb['recipe']['name'] == 'illus_23d' and rb['recipe']['parts'][1]['ko'] and rb['job'] == 'j0001-t'
     assert (img / 'rec/blocked' / (c + '.json')).exists()
     left = sorted(p.name for p in inbox.iterdir())
     assert left == ['nobody__chatgpt__1.png'], left
@@ -62,7 +62,7 @@ try:
     assert len(ix['rows']) == 2 and ix['cols'][7] == 'recipe'
     row = dict(zip(ix['cols'], ix['rows'][0]))
     assert row['round'] == 1
-    assert row['face'].endswith('@v1') and row['subject'] == 'sam.wenyang'
+    assert row['face'].endswith('@v2') and row['subject'] == 'sam.wenyang'
     pend = json.loads((img / 'index/pending.json').read_text())
     assert s1['slots'][3]['file'] in pend and a not in pend and c not in pend, pend
     pr = json.loads((img / 'index/problems.json').read_text())
@@ -125,7 +125,7 @@ try:
     # 찾기 · 빈 칸
     f = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--face', 'semi_soft'], check=True, capture_output=True, text=True).stdout
     assert a in f and '1장' in f, f
-    g = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--gaps', '--base', 'semi_smooth', '--vary', 'paint', '--subject', 'sam.wenyang', '--world', 'samguk'], check=True, capture_output=True, text=True).stdout
+    g = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--gaps', '--base', 'semi_smooth', '--vary', 'direction', '--subject', 'sam.wenyang', '--world', 'samguk'], check=True, capture_output=True, text=True).stdout
     assert '있음' in g and '비었음' in g and '짝 안 맞음' in g, g
     print('PASS 수거: 초점(문앙 무협) · 보류 · 내린 조합 거절 · 크게 다시 묶기 · 예약(예약 중 · 만료 · 차례) · REQUEST 다시 쓰기 · API 생성 정보 · 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
 finally:

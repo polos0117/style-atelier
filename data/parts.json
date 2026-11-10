@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "화풍 부품 — 축마다 부품, 부품마다 판(v). 화풍 문단 = direction + face + paint(이 차례로 한 문단), 빛 줄 = 'Light: ' + light + fx. 부품을 고치면 그 부품 versions 에 새 판을 더하고 current 를 올린다 — 옛 판은 지우지 않는다(옛 그림 기록이 그 판을 가리킨다). code 는 조합 이름에 들어가는 짧은 코드(축 안에서 겹치지 않게). only = 이 부품과 같이 쓸 수 있는 다른 축 부품(없으면 아무거나). avoid = 5칸 제약에 합쳐지는 피할 것(영어, 마침표 없이). models.<모델> · worlds.<세계> = 그 모델 · 세계에서만 바꿔 쓰는 글. 축마다 담당 범위(axes[].rule)는 검토안(2026-11-10 「style-atelier 화풍 조립 축 개편 검토안」 → 사용자 「그 순서로 진행해줘」)대로 — 한 가지 사실은 한 축에만, 부정 지시는 avoid 로, 한글 이름과 문장이 맞게, 바꾸면 판을 올린다. 처음 판(v1)은 삼국지 공방 새 화풍 열(2026-11-10)을 축별로 끊은 것 — 담당 범위를 정하기 전이라 축을 넘는 말이 섞여 있다(v2 에서 정리).",
+ "note": "화풍 부품 — 축마다 부품, 부품마다 판(v). 화풍 문단 = direction + face + paint(이 차례로 한 문단), 빛 줄 = 'Light: ' + light + fx. 부품을 고치면 그 부품 versions 에 새 판을 더하고 current 를 올린다 — 옛 판은 지우지 않는다(옛 그림 기록이 그 판을 가리킨다). code 는 조합 이름에 들어가는 짧은 코드(축 안에서 겹치지 않게). only = 이 부품과 같이 쓸 수 있는 다른 축 부품(없으면 아무거나). avoid = 5칸 제약에 합쳐지는 피할 것(영어, 마침표 없이). models.<모델> · worlds.<세계> = 그 모델 · 세계에서만 바꿔 쓰는 글. 축마다 담당 범위(axes[].rule)는 검토안(2026-11-10 「style-atelier 화풍 조립 축 개편 검토안」 → 사용자 「그 순서로 진행해줘」)대로 — 한 가지 사실은 한 축에만, 부정 지시는 avoid 로, 한글 이름과 문장이 맞게, 바꾸면 판을 올린다. 처음 판(v1)은 삼국지 공방 새 화풍 열(2026-11-10)을 축별로 끊은 것 — 담당 범위를 정하기 전이라 축을 넘는 말이 섞여 있다(v2 에서 정리). pairs = 추천 짝(표시만, 막지 않음 — 검토안 6.1 「검증 전」), requires = 진짜 모순이라 막는 것(지금은 실사 영화 → 사진 · 포토리얼 CGI 렌더링만).",
  "axes": [
   {
    "key": "direction",
@@ -38,14 +38,21 @@
    "kr_mmorpg": {
     "code": "km",
     "ko": "한국 MMORPG",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Korean MMORPG character illustration."
+      "text": "Korean MMORPG character illustration.",
+      "ko": "한국 MMORPG"
+     },
+     {
+      "v": "v2",
+      "text": "Korean MMORPG character artwork.",
+      "ko": "한국 MMORPG",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
-    "only": {
+    "pairs": {
      "face": [
       "semi_soft",
       "semi_paint",
@@ -62,10 +69,11 @@
     "versions": [
      {
       "v": "v1",
-      "text": "Korean MMORPG promotional key art."
+      "text": "Korean MMORPG promotional key art.",
+      "ko": "한국 MMORPG 프로모"
      }
     ],
-    "only": {
+    "pairs": {
      "face": [
       "semi_soft",
       "semi_paint",
@@ -75,17 +83,37 @@
      ]
     }
    },
-   "jp_game_paint": {
-    "code": "jg",
-    "ko": "일본 게임 페인팅",
+   "kr_game_keyart": {
+    "code": "kk",
+    "ko": "한국 판타지 게임 키아트",
     "current": "v1",
     "versions": [
      {
       "v": "v1",
-      "text": "Japanese painterly fantasy game character illustration, a finished promotional key visual."
+      "text": "Korean fantasy game key art.",
+      "ko": "한국 판타지 게임 키아트"
      }
     ],
-    "only": {
+    "note": "사용자 2026-11-10 「kr_game_keyart 추가해주고. jp_light_novel 을 키로 Japanese light novel cover artwork. 일본 라이트노벨 표지 추가해줘」 — 일본 판타지 게임 키아트(jp_game_paint)의 짝"
+   },
+   "jp_game_paint": {
+    "code": "jg",
+    "ko": "일본 판타지 게임 키아트",
+    "current": "v2",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Japanese painterly fantasy game character illustration, a finished promotional key visual.",
+      "ko": "일본 게임 페인팅"
+     },
+     {
+      "v": "v2",
+      "text": "Japanese fantasy game key art.",
+      "ko": "일본 판타지 게임 키아트",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     }
+    ],
+    "pairs": {
      "face": [
       "semi_paint",
       "semi_soft",
@@ -94,6 +122,19 @@
       "anime_adult"
      ]
     }
+   },
+   "jp_light_novel": {
+    "code": "jl",
+    "ko": "일본 라이트노벨 표지",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Japanese light novel cover artwork.",
+      "ko": "일본 라이트노벨 표지"
+     }
+    ],
+    "note": "사용자 2026-11-10 「kr_game_keyart 추가해주고. jp_light_novel 을 키로 Japanese light novel cover artwork. 일본 라이트노벨 표지 추가해줘」"
    },
    "anime": {
     "code": "an",
@@ -102,31 +143,39 @@
     "versions": [
      {
       "v": "v1",
-      "text": "Anime character illustration."
+      "text": "Anime character illustration.",
+      "ko": "애니(나라 말 없음 · 비교 기준)"
      }
     ],
     "note": "나라 말이 없으면 서양 카툰 쪽으로 기운다(2026-11-10)",
-    "only": {
+    "retired": "2026-11-10",
+    "retired_why": "사용자 2026-11-10 「애니 나라없음은 빼자」 — 일본 · 한국 애니로 나눴다. 이미 받은 그림이 가리켜서 지우지 않고 내렸다",
+    "pairs": {
      "face": [
       "anime_adult",
       "anime_gacha"
      ]
-    },
-    "retired": "2026-11-10",
-    "retired_why": "사용자 2026-11-10 「애니 나라없음은 빼자」 — 일본 · 한국 애니로 나눴다. 이미 받은 그림이 가리켜서 지우지 않고 내렸다"
+    }
    },
    "jp_anime": {
     "code": "jn",
     "ko": "일본 애니",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Japanese anime character illustration."
+      "text": "Japanese anime character illustration.",
+      "ko": "일본 애니"
+     },
+     {
+      "v": "v2",
+      "text": "Japanese anime character artwork.",
+      "ko": "일본 애니",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
     "note": "애니 나라 구분(사용자 2026-11-10 「애니도 jp애니, kr애니 따로 구분해줘」) — 나라 이름 시험(같은 날)의 Japanese 판",
-    "only": {
+    "pairs": {
      "face": [
       "anime_adult",
       "anime_gacha"
@@ -136,15 +185,22 @@
    "kr_anime": {
     "code": "kn",
     "ko": "한국 애니",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Korean anime-style character illustration."
+      "text": "Korean anime-style character illustration.",
+      "ko": "한국 애니"
+     },
+     {
+      "v": "v2",
+      "text": "Korean anime-style character artwork.",
+      "ko": "한국 애니",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
     "note": "애니 나라 구분(사용자 2026-11-10 「애니도 jp애니, kr애니 따로 구분해줘」) — 나라 이름 시험의 Korean 판(얼굴이 더 둥글고 부드럽게, 반실사 쪽)",
-    "only": {
+    "pairs": {
      "face": [
       "anime_adult",
       "anime_gacha"
@@ -153,15 +209,22 @@
    },
    "jp_gacha": {
     "code": "ja",
-    "ko": "일본 가챠 애니",
-    "current": "v1",
+    "ko": "일본 가챠",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Polished Japanese anime gacha character illustration in clean 2D."
+      "text": "Polished Japanese anime gacha character illustration in clean 2D.",
+      "ko": "일본 가챠 애니"
+     },
+     {
+      "v": "v2",
+      "text": "Japanese gacha game character artwork.",
+      "ko": "일본 가챠",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
-    "only": {
+    "pairs": {
      "face": [
       "anime_gacha",
       "anime_adult"
@@ -175,16 +238,23 @@
    },
    "kr_gacha": {
     "code": "kg",
-    "ko": "한국 가챠 애니",
-    "current": "v1",
+    "ko": "한국 가챠",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Polished Korean mobile-game anime character illustration in clean 2D."
+      "text": "Polished Korean mobile-game anime character illustration in clean 2D.",
+      "ko": "한국 가챠 애니"
+     },
+     {
+      "v": "v2",
+      "text": "Korean mobile gacha game character artwork.",
+      "ko": "한국 가챠",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
     "note": "애니 나라 구분(사용자 2026-11-10 「애니도 jp애니, kr애니 따로 구분해줘」) — 일본 가챠 애니(jp_gacha)의 한국 짝",
-    "only": {
+    "pairs": {
      "face": [
       "anime_gacha",
       "anime_adult"
@@ -196,6 +266,146 @@
      ]
     }
    },
+   "film3d": {
+    "code": "f3",
+    "ko": "3D 애니메이션(나라 말 없음)",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Stylised 3D animated-film character render.",
+      "ko": "3D 애니메이션(나라 말 없음)"
+     }
+    ],
+    "retired": "2026-11-10",
+    "retired_why": "사용자 2026-11-10 「3d 애니메이션도 지정을 일본,한국 나눠서 해줘. 지금 없음값 내려주고」 — 이미 받은 그림이 가리켜서 지우지 않고 내렸다",
+    "pairs": {
+     "face": [
+      "stylised3d"
+     ],
+     "paint": [
+      "render3d"
+     ]
+    }
+   },
+   "jp_film3d": {
+    "code": "j3",
+    "ko": "일본 애니메이션 영화",
+    "current": "v2",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Japanese stylised 3D animated-film character render.",
+      "ko": "일본 3D 애니메이션"
+     },
+     {
+      "v": "v2",
+      "text": "Japanese animated feature film character.",
+      "ko": "일본 애니메이션 영화",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     }
+    ],
+    "note": "3D 애니메이션 나라 구분(사용자 2026-11-10)",
+    "pairs": {
+     "face": [
+      "stylised3d"
+     ],
+     "paint": [
+      "render3d"
+     ]
+    }
+   },
+   "kr_film3d": {
+    "code": "k3",
+    "ko": "한국 애니메이션 영화",
+    "current": "v2",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Korean stylised 3D animated-film character render.",
+      "ko": "한국 3D 애니메이션"
+     },
+     {
+      "v": "v2",
+      "text": "Korean animated feature film character.",
+      "ko": "한국 애니메이션 영화",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     }
+    ],
+    "note": "3D 애니메이션 나라 구분(사용자 2026-11-10)",
+    "pairs": {
+     "face": [
+      "stylised3d"
+     ],
+     "paint": [
+      "render3d"
+     ]
+    }
+   },
+   "cinematic_cgi": {
+    "code": "cc",
+    "ko": "시네마틱 게임 트레일러",
+    "current": "v2",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "High-end cinematic character CGI.",
+      "ko": "시네마틱 CGI"
+     },
+     {
+      "v": "v2",
+      "text": "Cinematic game trailer character.",
+      "ko": "시네마틱 게임 트레일러",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     }
+    ],
+    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」) — 삼국지 kv_cgi_hikey 에서",
+    "pairs": {
+     "face": [
+      "cgi_ideal",
+      "real_natural",
+      "semi_soft"
+     ],
+     "paint": [
+      "photoreal_cgi",
+      "smooth"
+     ]
+    }
+   },
+   "photo_still": {
+    "code": "ps",
+    "ko": "실사 판타지 영화",
+    "current": "v2",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "A photorealistic cinematic film still of a costumed character, as if shot on a full-frame camera.",
+      "ko": "실사 사진(영화 스틸)"
+     },
+     {
+      "v": "v2",
+      "text": "Live-action fantasy film still.",
+      "ko": "실사 판타지 영화",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     }
+    ],
+    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」)",
+    "pairs": {
+     "face": [
+      "real_natural",
+      "cgi_ideal"
+     ],
+     "paint": [
+      "photo"
+     ]
+    },
+    "requires": {
+     "paint": [
+      "photo",
+      "photoreal_cgi"
+     ]
+    }
+   },
    "classical": {
     "code": "cl",
     "ko": "고전 초상",
@@ -203,10 +413,13 @@
     "versions": [
      {
       "v": "v1",
-      "text": "Fantasy character portrait in a classical oil-painting manner."
+      "text": "Fantasy character portrait in a classical oil-painting manner.",
+      "ko": "고전 초상"
      }
     ],
-    "only": {
+    "retired": "2026-11-10",
+    "retired_why": "사용자 2026-11-10 「classical, fantasy_paint는 내리자」",
+    "pairs": {
      "face": [
       "semi_soft",
       "semi_paint",
@@ -228,10 +441,13 @@
     "versions": [
      {
       "v": "v1",
-      "text": "Painterly fantasy character illustration."
+      "text": "Painterly fantasy character illustration.",
+      "ko": "판타지 페인팅"
      }
     ],
-    "only": {
+    "retired": "2026-11-10",
+    "retired_why": "사용자 2026-11-10 「classical, fantasy_paint는 내리자」",
+    "pairs": {
      "face": [
       "semi_soft",
       "semi_paint",
@@ -240,125 +456,27 @@
       "anime_adult"
      ]
     }
-   },
-   "film3d": {
-    "code": "f3",
-    "ko": "3D 애니메이션(나라 말 없음)",
-    "current": "v1",
-    "versions": [
-     {
-      "v": "v1",
-      "text": "Stylised 3D animated-film character render."
-     }
-    ],
-    "only": {
-     "face": [
-      "stylised3d"
-     ],
-     "paint": [
-      "render3d"
-     ]
-    },
-    "retired": "2026-11-10",
-    "retired_why": "사용자 2026-11-10 「3d 애니메이션도 지정을 일본,한국 나눠서 해줘. 지금 없음값 내려주고」 — 이미 받은 그림이 가리켜서 지우지 않고 내렸다"
-   },
-   "jp_film3d": {
-    "code": "j3",
-    "ko": "일본 3D 애니메이션",
-    "current": "v1",
-    "versions": [
-     {
-      "v": "v1",
-      "text": "Japanese stylised 3D animated-film character render."
-     }
-    ],
-    "note": "3D 애니메이션 나라 구분(사용자 2026-11-10)",
-    "only": {
-     "face": [
-      "stylised3d"
-     ],
-     "paint": [
-      "render3d"
-     ]
-    }
-   },
-   "kr_film3d": {
-    "code": "k3",
-    "ko": "한국 3D 애니메이션",
-    "current": "v1",
-    "versions": [
-     {
-      "v": "v1",
-      "text": "Korean stylised 3D animated-film character render."
-     }
-    ],
-    "note": "3D 애니메이션 나라 구분(사용자 2026-11-10)",
-    "only": {
-     "face": [
-      "stylised3d"
-     ],
-     "paint": [
-      "render3d"
-     ]
-    }
-   },
-   "cinematic_cgi": {
-    "code": "cc",
-    "ko": "시네마틱 CGI",
-    "current": "v1",
-    "versions": [
-     {
-      "v": "v1",
-      "text": "High-end cinematic character CGI."
-     }
-    ],
-    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」) — 삼국지 kv_cgi_hikey 에서",
-    "only": {
-     "face": [
-      "cgi_ideal",
-      "real_natural",
-      "semi_soft"
-     ],
-     "paint": [
-      "photoreal_cgi",
-      "smooth"
-     ]
-    }
-   },
-   "photo_still": {
-    "code": "ps",
-    "ko": "실사 사진(영화 스틸)",
-    "current": "v1",
-    "versions": [
-     {
-      "v": "v1",
-      "text": "A photorealistic cinematic film still of a costumed character, as if shot on a full-frame camera."
-     }
-    ],
-    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」)",
-    "only": {
-     "face": [
-      "real_natural",
-      "cgi_ideal"
-     ],
-     "paint": [
-      "photo"
-     ]
-    }
    }
   },
   "face": {
    "semi_soft": {
     "code": "ss",
-    "ko": "반실사 · 작고 부드러운 얼굴",
-    "current": "v1",
+    "ko": "반실사 · 이상화 · 섬세",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "A mature, idealised semi-realistic beauty with a small, soft face and delicate features."
+      "text": "A mature, idealised semi-realistic beauty with a small, soft face and delicate features.",
+      "ko": "반실사 · 작고 부드러운 얼굴"
+     },
+     {
+      "v": "v2",
+      "text": "An idealised face with semi-realistic structure and delicate features.",
+      "ko": "반실사 · 이상화 · 섬세",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
-    "only": {
+    "pairs": {
      "paint": [
       "smooth",
       "painted_refined",
@@ -373,15 +491,22 @@
    },
    "semi_paint": {
     "code": "sp",
-    "ko": "반실사 · 그린 얼굴",
-    "current": "v1",
+    "ko": "반실사 · 가볍게 이상화",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "An elegant adult semi-realistic face, finely painted."
+      "text": "An elegant adult semi-realistic face, finely painted.",
+      "ko": "반실사 · 그린 얼굴"
+     },
+     {
+      "v": "v2",
+      "text": "A semi-realistic face with natural structure, only lightly idealised.",
+      "ko": "반실사 · 가볍게 이상화",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
-    "only": {
+    "pairs": {
      "paint": [
       "smooth",
       "painted_refined",
@@ -400,10 +525,11 @@
     "versions": [
      {
       "v": "v1",
-      "text": "An idealised semi-realistic face."
+      "text": "An idealised semi-realistic face.",
+      "ko": "반실사 · 이상화"
      }
     ],
-    "only": {
+    "pairs": {
      "paint": [
       "smooth",
       "painted_refined",
@@ -417,15 +543,22 @@
    },
    "illustrated": {
     "code": "il",
-    "ko": "일러스트형(2.3D)",
-    "current": "v1",
+    "ko": "그린 얼굴 · 가볍게 단순화",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "An elegant illustrated face that stays recognisably drawn, with softly dimensional modelling — about 2.3D, between a flat illustration and a 3D render."
+      "text": "An elegant illustrated face that stays recognisably drawn, with softly dimensional modelling — about 2.3D, between a flat illustration and a 3D render.",
+      "ko": "일러스트형(2.3D)"
+     },
+     {
+      "v": "v2",
+      "text": "A recognisably drawn face with gently simplified anatomical structure.",
+      "ko": "그린 얼굴 · 가볍게 단순화",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
-    "only": {
+    "pairs": {
      "paint": [
       "smooth",
       "painted_refined",
@@ -437,15 +570,22 @@
    },
    "anime_adult": {
     "code": "aa",
-    "ko": "성인 애니",
-    "current": "v1",
+    "ko": "애니 · 단순화",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "An elegant adult anime face with large expressive eyes."
+      "text": "An elegant adult anime face with large expressive eyes.",
+      "ko": "성인 애니"
+     },
+     {
+      "v": "v2",
+      "text": "An anime face with simplified anatomical structure.",
+      "ko": "애니 · 단순화",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
-    "only": {
+    "pairs": {
      "paint": [
       "brush_anime",
       "cel_gradient",
@@ -457,15 +597,22 @@
    },
    "anime_gacha": {
     "code": "ag",
-    "ko": "가챠 애니 · 큰 눈 · 홍조",
-    "current": "v1",
+    "ko": "가챠 애니 · 강하게 단순화",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "An elegant adult anime face with large, finely detailed eyes with layered highlights and a soft blush."
+      "text": "An elegant adult anime face with large, finely detailed eyes with layered highlights and a soft blush.",
+      "ko": "가챠 애니 · 큰 눈 · 홍조"
+     },
+     {
+      "v": "v2",
+      "text": "A polished anime face with strongly simplified, stylised structure.",
+      "ko": "가챠 애니 · 강하게 단순화",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
-    "only": {
+    "pairs": {
      "paint": [
       "brush_anime",
       "cel_gradient",
@@ -477,15 +624,22 @@
    },
    "stylised3d": {
     "code": "s3",
-    "ko": "스타일라이즈드 3D",
-    "current": "v1",
+    "ko": "3D 조형 · 단순화",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "A simplified, sculpted face with large clear eyes and hair modelled in clean, chunky shapes."
+      "text": "A simplified, sculpted face with large clear eyes and hair modelled in clean, chunky shapes.",
+      "ko": "스타일라이즈드 3D"
+     },
+     {
+      "v": "v2",
+      "text": "A simplified, sculpted face with appealing rounded forms.",
+      "ko": "3D 조형 · 단순화",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
-    "only": {
+    "pairs": {
      "paint": [
       "render3d"
      ]
@@ -493,16 +647,23 @@
    },
    "cgi_ideal": {
     "code": "ci",
-    "ko": "CGI 이상화 얼굴",
-    "current": "v1",
+    "ko": "실사 구조 · 이상화",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "An idealised East Asian game-character face with delicately sculpted anatomy, softly rounded facial planes and subtle asymmetry — a refined, designed beauty."
+      "text": "An idealised East Asian game-character face with delicately sculpted anatomy, softly rounded facial planes and subtle asymmetry — a refined, designed beauty.",
+      "ko": "CGI 이상화 얼굴"
+     },
+     {
+      "v": "v2",
+      "text": "An idealised face with realistic anatomical structure — a refined, designed beauty.",
+      "ko": "실사 구조 · 이상화",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
     "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」) — kv_cgi_hikey 에서",
-    "only": {
+    "pairs": {
      "paint": [
       "photoreal_cgi",
       "photo",
@@ -512,16 +673,23 @@
    },
    "real_natural": {
     "code": "rn",
-    "ko": "실제 사람 얼굴",
-    "current": "v1",
+    "ko": "실사 구조 · 자연스러움",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "A natural, real-looking adult woman's face with true-to-life proportions — beautiful, but not stylised or doll-like."
+      "text": "A natural, real-looking adult woman's face with true-to-life proportions — beautiful, but not stylised or doll-like.",
+      "ko": "실제 사람 얼굴"
+     },
+     {
+      "v": "v2",
+      "text": "A face with realistic structure and natural proportions, not stylised.",
+      "ko": "실사 구조 · 자연스러움",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ],
     "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」)",
-    "only": {
+    "pairs": {
      "paint": [
       "photo",
       "photoreal_cgi"
@@ -532,114 +700,194 @@
   "paint": {
    "smooth": {
     "code": "sm",
-    "ko": "매끄러운 디지털 페인팅",
-    "current": "v1",
+    "ko": "디지털 페인팅 · 매끄러움",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Smooth digital painting — softly blended dimensional shading, rich clear midtones and barely visible brushwork; silk, metal and leather are told apart by their finish."
+      "text": "Smooth digital painting — softly blended dimensional shading, rich clear midtones and barely visible brushwork; silk, metal and leather are told apart by their finish.",
+      "ko": "매끄러운 디지털 페인팅"
+     },
+     {
+      "v": "v2",
+      "text": "Digital painting: softly modelled volumes, blended shading, rich clear midtones and barely visible brushwork, with silk, metal and leather told apart by their surface finish.",
+      "ko": "디지털 페인팅 · 매끄러움",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ]
    },
    "painted_refined": {
     "code": "pr",
-    "ko": "정돈된 페인팅 · 재질 묘사",
-    "current": "v1",
+    "ko": "디지털 일러스트 · 가벼운 입체(2.3D)",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Refined painted shading, smooth skin and precise material rendering of metal, embroidered fabric and flowing hair."
+      "text": "Refined painted shading, smooth skin and precise material rendering of metal, embroidered fabric and flowing hair.",
+      "ko": "정돈된 페인팅 · 재질 묘사"
+     },
+     {
+      "v": "v2",
+      "text": "Digital illustration with light dimensional modelling: refined painted shading, smooth skin and precise rendering of metal, embroidered fabric and flowing hair.",
+      "ko": "디지털 일러스트 · 가벼운 입체(2.3D)",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ]
    },
    "brush_layered": {
     "code": "bl",
-    "ko": "보이는 붓질 · 겹친 색",
-    "current": "v1",
+    "ko": "페인터리 디지털 · 보이는 붓질",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Richly layered painterly colour with subtle visible brushwork, delicate edge control and crisp focal detail on the face and ornaments; skin, hair, metal and fabric are all painted, never rendered or photographic."
+      "text": "Richly layered painterly colour with subtle visible brushwork, delicate edge control and crisp focal detail on the face and ornaments; skin, hair, metal and fabric are all painted, never rendered or photographic.",
+      "ko": "보이는 붓질 · 겹친 색"
+     },
+     {
+      "v": "v2",
+      "text": "Painterly digital painting: richly layered colour, subtle visible brushwork, delicate edge control and crisp focal detail on the face and ornaments.",
+      "ko": "페인터리 디지털 · 보이는 붓질",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표",
+      "avoid": [
+       "photographic rendering"
+      ]
      }
     ]
    },
    "brush_anime": {
     "code": "ba",
-    "ko": "애니 붓질 · 색 선",
-    "current": "v1",
+    "ko": "2D 애니 붓질 · 색 선",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Painted with visible brushwork: layered strokes of colour, soft broken edges and a few crisp accents on the face and costume, with thin coloured linework."
+      "text": "Painted with visible brushwork: layered strokes of colour, soft broken edges and a few crisp accents on the face and costume, with thin coloured linework.",
+      "ko": "애니 붓질 · 색 선"
+     },
+     {
+      "v": "v2",
+      "text": "2D anime painting with visible brushwork: layered strokes of colour, soft broken edges, thin coloured linework and a few crisp accents on the face and costume.",
+      "ko": "2D 애니 붓질 · 색 선",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ]
    },
    "oil_glaze": {
     "code": "og",
-    "ko": "유화 글레이즈(고전)",
-    "current": "v1",
+    "ko": "고전 유화 글레이즈",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Smooth oil glazes with deep layered colour, soft lost-and-found edges and fine detail kept for the face and the ornaments."
+      "text": "Smooth oil glazes with deep layered colour, soft lost-and-found edges and fine detail kept for the face and the ornaments.",
+      "ko": "유화 글레이즈(고전)"
+     },
+     {
+      "v": "v2",
+      "text": "Classical oil painting: smooth oil glazes, deep layered colour, soft lost-and-found edges and fine detail kept for the face and ornaments.",
+      "ko": "고전 유화 글레이즈",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ]
    },
    "oil_brush": {
     "code": "ob",
     "ko": "유화 붓질 · 글레이즈",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Delicate oil brushwork and layered glazes of colour, soft edges, refined detail kept for the face and costume, and silk and metal each with their own painterly texture."
+      "text": "Delicate oil brushwork and layered glazes of colour, soft edges, refined detail kept for the face and costume, and silk and metal each with their own painterly texture.",
+      "ko": "유화 붓질 · 글레이즈"
+     },
+     {
+      "v": "v2",
+      "text": "Oil painting with delicate brushwork: layered glazes of colour, soft edges, refined detail on the face and costume, and silk and metal each with their own painterly texture.",
+      "ko": "유화 붓질 · 글레이즈",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ]
    },
    "impasto": {
     "code": "im",
-    "ko": "두꺼운 붓질",
-    "current": "v1",
+    "ko": "임파스토 · 두꺼운 붓질",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Bold brushwork: thick confident strokes, forms built from large shapes of colour, and detail spent only on the face and a few focal ornaments."
+      "text": "Bold brushwork: thick confident strokes, forms built from large shapes of colour, and detail spent only on the face and a few focal ornaments.",
+      "ko": "두꺼운 붓질"
+     },
+     {
+      "v": "v2",
+      "text": "Impasto painting: thick confident strokes, forms built from large shapes of colour, a matte paint surface, and detail spent only on the face and a few focal ornaments.",
+      "ko": "임파스토 · 두꺼운 붓질",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ]
    },
    "cel_gradient": {
     "code": "cg",
-    "ko": "선화 + 셀~그라데이션",
-    "current": "v1",
+    "ko": "2D 셀~그라데이션 · 선화",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Crisp thin dark linework, hair drawn as many fine strands with light along every lock, and soft airy cel-to-gradient shading; the face and body stay visibly illustrated in 2D, never a 3D render."
+      "text": "Crisp thin dark linework, hair drawn as many fine strands with light along every lock, and soft airy cel-to-gradient shading; the face and body stay visibly illustrated in 2D, never a 3D render.",
+      "ko": "선화 + 셀~그라데이션"
+     },
+     {
+      "v": "v2",
+      "text": "Clean 2D cel-to-gradient shading: crisp thin dark linework, hair drawn as many fine strands, and soft airy gradients.",
+      "ko": "2D 셀~그라데이션 · 선화",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표",
+      "avoid": [
+       "3D rendering",
+       "photographic skin texture"
+      ]
      }
     ]
    },
    "matte_soft": {
     "code": "ms",
-    "ko": "무광 소프트",
-    "current": "v1",
+    "ko": "2D 무광 소프트",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Soft matte painting: smooth soft shading with gentle gradients and quiet, powdery surfaces."
+      "text": "Soft matte painting: smooth soft shading with gentle gradients and quiet, powdery surfaces.",
+      "ko": "무광 소프트"
+     },
+     {
+      "v": "v2",
+      "text": "2D soft matte painting: smooth gentle gradients and quiet, powdery surfaces.",
+      "ko": "2D 무광 소프트",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ]
    },
    "render3d": {
     "code": "r3",
-    "ko": "3D 렌더(단순한 재질)",
-    "current": "v1",
+    "ko": "스타일라이즈드 3D 렌더",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Smooth appealing forms, soft subsurface skin and simplified, readable materials rather than photoreal detail."
+      "text": "Smooth appealing forms, soft subsurface skin and simplified, readable materials rather than photoreal detail.",
+      "ko": "3D 렌더(단순한 재질)"
+     },
+     {
+      "v": "v2",
+      "text": "Stylised 3D rendering: smooth appealing forms, hair modelled in clean chunky shapes, soft subsurface skin and simplified, readable materials.",
+      "ko": "스타일라이즈드 3D 렌더",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표",
+      "avoid": [
+       "photoreal skin detail"
+      ]
      }
     ],
-    "only": {
+    "pairs": {
      "face": [
       "stylised3d"
      ]
@@ -647,16 +895,29 @@
    },
    "photoreal_cgi": {
     "code": "pc",
-    "ko": "포토리얼 CGI 표면",
-    "current": "v1",
+    "ko": "포토리얼 CGI",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Photorealistic surface rendering: lifelike translucent skin with subtle subsurface scattering, delicate microtexture and small localised specular highlights; individually resolved fine hair strands; silk, lacquer, leather, metal and gems each with physically convincing roughness and reflections. No outlines, cel shading or broad brushwork; no waxy or uniformly glossy skin."
+      "text": "Photorealistic surface rendering: lifelike translucent skin with subtle subsurface scattering, delicate microtexture and small localised specular highlights; individually resolved fine hair strands; silk, lacquer, leather, metal and gems each with physically convincing roughness and reflections. No outlines, cel shading or broad brushwork; no waxy or uniformly glossy skin.",
+      "ko": "포토리얼 CGI 표면"
+     },
+     {
+      "v": "v2",
+      "text": "Photorealistic CGI rendering: lifelike translucent skin with subtle subsurface scattering and microtexture, individually resolved hair strands, and silk, lacquer, leather, metal and gems with physically convincing roughness and reflections.",
+      "ko": "포토리얼 CGI",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표",
+      "avoid": [
+       "outlines",
+       "cel shading",
+       "broad brushwork",
+       "waxy or uniformly glossy skin"
+      ]
      }
     ],
     "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」) — kv_cgi_hikey 에서",
-    "only": {
+    "pairs": {
      "face": [
       "cgi_ideal",
       "real_natural",
@@ -666,16 +927,28 @@
    },
    "photo": {
     "code": "pp",
-    "ko": "사진",
-    "current": "v1",
+    "ko": "사진적 렌더링",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "Photographic capture: real skin texture, natural hair, real fabric and metal, a shallow depth of field and true lens rendering; no illustration, painting or CGI look."
+      "text": "Photographic capture: real skin texture, natural hair, real fabric and metal, a shallow depth of field and true lens rendering; no illustration, painting or CGI look.",
+      "ko": "사진"
+     },
+     {
+      "v": "v2",
+      "text": "Photographic rendering: real skin texture, natural hair, real fabric and metal, a shallow depth of field and true lens rendering.",
+      "ko": "사진적 렌더링",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표",
+      "avoid": [
+       "illustration",
+       "painting",
+       "CGI look"
+      ]
      }
     ],
     "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」)",
-    "only": {
+    "pairs": {
      "face": [
       "real_natural",
       "cgi_ideal"
@@ -694,7 +967,8 @@
     "versions": [
      {
       "v": "v1",
-      "text": "soft, even key light on her face; a muted, slightly desaturated palette with deep soft shadows and small restrained highlights."
+      "text": "soft, even key light on her face; a muted, slightly desaturated palette with deep soft shadows and small restrained highlights.",
+      "ko": "차분 · 낮은 채도 · 깊은 그림자"
      }
     ]
    },
@@ -705,40 +979,62 @@
     "versions": [
      {
       "v": "v1",
-      "text": "a clean, soft key light with carefully controlled highlights; rich, clear colour and gentle shadows."
+      "text": "a clean, soft key light with carefully controlled highlights; rich, clear colour and gentle shadows.",
+      "ko": "깨끗한 부드러운 빛 · 절제된 하이라이트"
      }
     ]
    },
    "modelled_deep": {
     "code": "md",
     "ko": "또렷한 키 라이트 · 깊은 명암",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "beautifully modelled light and shadow — a clear key light with deep, soft shadows; luminous, rich colour with cinematic depth; matte painted surfaces with small painted highlights."
+      "text": "beautifully modelled light and shadow — a clear key light with deep, soft shadows; luminous, rich colour with cinematic depth; matte painted surfaces with small painted highlights.",
+      "ko": "또렷한 키 라이트 · 깊은 명암"
+     },
+     {
+      "v": "v2",
+      "text": "beautifully modelled light and shadow — a clear key light with deep, soft shadows; luminous, rich colour with cinematic depth; small highlights.",
+      "ko": "또렷한 키 라이트 · 깊은 명암",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ]
    },
    "warm_side": {
     "code": "ws",
     "ko": "한쪽 따뜻한 빛 · 어두운 배경",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "a single warm light from one side, deep umber shadows and a dark, quiet background; rich but restrained colour, soft satin highlights."
+      "text": "a single warm light from one side, deep umber shadows and a dark, quiet background; rich but restrained colour, soft satin highlights.",
+      "ko": "한쪽 따뜻한 빛 · 어두운 배경"
+     },
+     {
+      "v": "v2",
+      "text": "a single warm light from one side, deep umber shadows and a dark, quiet background; rich but restrained colour, soft, restrained highlights.",
+      "ko": "한쪽 따뜻한 빛 · 어두운 배경",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ]
    },
    "daylight": {
     "code": "dl",
-    "ko": "밝은 자연광 · 무광",
-    "current": "v1",
+    "ko": "밝은 자연광",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "bright natural daylight, clear luminous colour, matte painted surfaces with only small highlights."
+      "text": "bright natural daylight, clear luminous colour, matte painted surfaces with only small highlights.",
+      "ko": "밝은 자연광 · 무광"
+     },
+     {
+      "v": "v2",
+      "text": "bright natural daylight, clear luminous colour and only small highlights.",
+      "ko": "밝은 자연광",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ]
    },
@@ -749,18 +1045,26 @@
     "versions": [
      {
       "v": "v1",
-      "text": "soft overcast light, calm colour, reflections held back to a faint sheen."
+      "text": "soft overcast light, calm colour, reflections held back to a faint sheen.",
+      "ko": "흐린 빛 · 차분한 색"
      }
     ]
    },
    "directional": {
     "code": "dr",
     "ko": "강한 방향광",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "strong directional light with clear light and shadow shapes; rich colour, matte paint texture."
+      "text": "strong directional light with clear light and shadow shapes; rich colour, matte paint texture.",
+      "ko": "강한 방향광"
+     },
+     {
+      "v": "v2",
+      "text": "strong directional light with clear light and shadow shapes; rich colour.",
+      "ko": "강한 방향광",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
      }
     ]
    },
@@ -771,7 +1075,8 @@
     "versions": [
      {
       "v": "v1",
-      "text": "soft global illumination with a gentle rim light, clean saturated colour and broad soft highlights."
+      "text": "soft global illumination with a gentle rim light, clean saturated colour and broad soft highlights.",
+      "ko": "전역광 · 림 라이트 · 맑은 채도"
      }
     ]
    },
@@ -782,29 +1087,51 @@
     "versions": [
      {
       "v": "v1",
-      "text": "soft, rich, bright natural light with gentle, subtle shadows; luminous, clear skin and vivid, full-bodied midtones that never wash out; small, soft highlights."
+      "text": "soft, rich, bright natural light with gentle, subtle shadows; luminous, clear skin and vivid, full-bodied midtones that never wash out; small, soft highlights.",
+      "ko": "하이키 자연광"
      }
     ]
    },
    "hikey_pastel": {
     "code": "hp",
     "ko": "하이키 파스텔 · 햇빛 광택",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "bright, high-key outdoor daylight; her costume colours lifted toward soft pastel tints while the darkest accents stay deep and clean; a broad, soft sunlit sheen on skin, hair and armour, never wet, oily or plastic."
+      "text": "bright, high-key outdoor daylight; her costume colours lifted toward soft pastel tints while the darkest accents stay deep and clean; a broad, soft sunlit sheen on skin, hair and armour, never wet, oily or plastic.",
+      "ko": "하이키 파스텔 · 햇빛 광택"
+     },
+     {
+      "v": "v2",
+      "text": "bright, high-key outdoor daylight; costume colours lifted toward soft pastel tints while the darkest accents stay deep and clean; broad, soft sunlit highlights on skin, hair and armour.",
+      "ko": "하이키 파스텔 · 햇빛 광택",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표",
+      "avoid": [
+       "wet, oily or plastic-looking skin"
+      ]
      }
     ]
    },
    "cine_hikey": {
     "code": "ch",
     "ko": "시네마틱 하이키 · 앞쪽 보조광",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
-      "text": "a bright, elegant high-key cinematic grade — soft frontal fill keeps her face and skin bright and translucent with open, colour-clean shadows, and the scene's own light comes from behind as a restrained rim; no strong colour cast on her skin and no crushed contrast."
+      "text": "a bright, elegant high-key cinematic grade — soft frontal fill keeps her face and skin bright and translucent with open, colour-clean shadows, and the scene's own light comes from behind as a restrained rim; no strong colour cast on her skin and no crushed contrast.",
+      "ko": "시네마틱 하이키 · 앞쪽 보조광"
+     },
+     {
+      "v": "v2",
+      "text": "a bright, elegant high-key cinematic grade — soft frontal fill keeps her face bright and translucent with open, colour-clean shadows, and the scene's own light comes from behind as a restrained rim.",
+      "ko": "시네마틱 하이키 · 앞쪽 보조광",
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표",
+      "avoid": [
+       "a strong colour cast on her skin",
+       "crushed contrast"
+      ]
      }
     ],
     "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」) — kv_cgi_hikey 조명 칸에서"
@@ -816,7 +1143,8 @@
     "versions": [
      {
       "v": "v1",
-      "text": "cinematic low-key lighting — a single motivated key light, deep natural shadows and a restrained colour grade."
+      "text": "cinematic low-key lighting — a single motivated key light, deep natural shadows and a restrained colour grade.",
+      "ko": "시네마틱 로키 · 한 줄기 빛"
      }
     ],
     "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」)"
@@ -825,14 +1153,16 @@
   "fx": {
    "none": {
     "code": "x0",
-    "ko": "없음",
+    "ko": "미지정",
     "current": "v1",
     "versions": [
      {
       "v": "v1",
-      "text": ""
+      "text": "",
+      "ko": "미지정"
      }
-    ]
+    ],
+    "note": "미지정 — 이펙트를 따로 지시하지 않는다(검토안 3.1). 「없음」 은 off"
    },
    "faint": {
     "code": "xf",
@@ -841,7 +1171,8 @@
     "versions": [
      {
       "v": "v1",
-      "text": "Any glowing details stay thin, sparse and pale, lighting only their own edges."
+      "text": "Any glowing details stay thin, sparse and pale, lighting only their own edges.",
+      "ko": "옅게(발광은 가늘고 적게)"
      }
     ]
    },
@@ -852,7 +1183,8 @@
     "versions": [
      {
       "v": "v1",
-      "text": "Gentle bloom and a few small sparkles in the air."
+      "text": "Gentle bloom and a few small sparkles in the air.",
+      "ko": "부드럽게(블룸 · 작은 반짝임)"
      }
     ]
    },
@@ -863,10 +1195,30 @@
     "versions": [
      {
       "v": "v1",
-      "text": "A soft bloom, drifting light particles and glowing light lines along the armour and ornaments."
+      "text": "A soft bloom, drifting light particles and glowing light lines along the armour and ornaments.",
+      "ko": "강하게(블룸 · 입자 · 발광선)"
      }
     ],
     "note": "옛 화풍의 메카 Mood 줄 · mmorpg_cg 빛 줄에서 — 2.6 에서 판을 밝고 파랗게 만들었다(2026-11-10 색 시험)"
+   },
+   "off": {
+    "code": "xn",
+    "ko": "없음(억제)",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "",
+      "ko": "없음(억제)",
+      "avoid": [
+       "bloom",
+       "sparkles",
+       "floating light particles",
+       "halos"
+      ]
+     }
+    ],
+    "note": "없음 — 장식 효과를 avoid 로 억제(검토안 3.1). 비교할 때만 쓴다(그 말이 오히려 떠올리게 할 수 있다)"
    }
   }
  }

@@ -21,7 +21,9 @@
     "paint": "oil_glaze",
     "light": "warm_side",
     "fx": "none"
-   }
+   },
+   "retired": "2026-11-10",
+   "retired_why": "방향 classical 를 내렸다(사용자 「classical, fantasy_paint는 내리자」)"
   },
   "anime_brush": {
    "from": "sam:anime_brush@v1",
@@ -133,7 +135,9 @@
     "paint": "impasto",
     "light": "directional",
     "fx": "none"
-   }
+   },
+   "retired": "2026-11-10",
+   "retired_why": "방향 fantasy_paint 를 내렸다(사용자 「classical, fantasy_paint는 내리자」)"
   },
   "semi_paint_jp": {
    "from": "sam:semi_paint_jp@v1",

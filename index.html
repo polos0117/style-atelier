@@ -141,7 +141,7 @@ const thumb = id => { const r = rows.find(x => x.id === id); return IMG + 'thumb
 const full = r => IMG + 'img/' + r.subject + '/' + r.world + '/' + r.id + '.webp';
 
 const koOf = sid => (SL.subjects.find(s => s.id === sid) || {}).ko || sid;
-const nameOf = rs => Object.keys(R.recipes).find(k => B.resolve(P, R, k).id === rs.id) || null;
+const nameOf = rs => B.recipeNameOf(R, rs);   /* 판과 상관없이 부품 열쇠로 — 1차(v1) 그림도 제 이름 */
 const WORLD_KO = { samguk: '무협', fantasy: '판타지', mecha: '메카', steampunk: '스팀펑크' };
 
 /* 상세 — 그림 크게, 아래 조합표 · 그림 정보 · 지시문. 주소 #img=<그림> 으로 바로 열린다(뒤로 가기 = 목록) */
@@ -273,10 +273,11 @@ function mixRun() {
   const spec = {}; B.AXES.forEach(a => spec[a] = M[a]);
   const rs = B.resolve(P, R, spec), bad = B.clashes(rs);
   const r = B.build(P, R, SUB[M.subject], M.world, spec, { exposure: M.exposure || undefined, allowClash: true });
-  const named = Object.keys(R.recipes).find(k => B.resolve(P, R, k).id === rs.id);
+  const named = B.recipeNameOf(R, rs);
   $('mixMeta').innerHTML = '';
   $('mixMeta').append(el('div', {}, el('b', {}, B.displayName(rs))), el('div', {}, '조합 ' + rs.id + (named ? ' = ' + named : ' (등록 안 됨)') + ' · 칸 ' + r.slot),
-    el('div', { class: bad.length ? 'warn' : 'ok' }, bad.length ? '같이 못 쓰는 짝: ' + bad.join(' / ') : '짝 맞음 · 말 되는 조합 전체 ' + COMBOS + '개'));
+    el('div', { class: bad.length ? 'warn' : 'ok' }, bad.length ? '같이 못 쓰는 짝(모순): ' + bad.join(' / ') : '모순 없음 · 말 되는 조합 전체 ' + COMBOS + '개'),
+    B.untested(rs).length ? el('div', { class: 'meta' }, '검증 전 짝(막지 않음): ' + B.untested(rs).join(' / ')) : '');
   $('mixOut').textContent = r.text;
 }
 
