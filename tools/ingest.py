@@ -29,6 +29,8 @@ def load_jobs(img):
     jobs, by_file = [], {}
     for d in sorted((img / 'jobs').glob('j*/slots.json')):
         j = json.loads(d.read_text(encoding='utf-8'))
+        if j.get('retired'):   # 다른 일감으로 합쳐졌다(make-job --merge) — 칸은 새 일감에 있다
+            continue
         jobs.append(j)
         for s in j['slots']:
             by_file[s['file']] = (j, s)

@@ -10,7 +10,7 @@ try:
     img = d / 'img'
     img.mkdir()
     run = lambda *a: subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img)] + list(a), check=True, capture_output=True, text=True).stdout
-    out = run('--recipes', 'semi_smooth,illus_23d,oil_hikey,styl3d,anime_matte', '--subject', 'sam.wenyang', '--world', 'samguk', '--label', 't')
+    out = run('--recipes', 'semi_smooth,illus_23d,oil_hikey,styl3d,anime_matte', '--subject', 'sam.wenyang', '--world', 'samguk', '--label', 't', '--size', '4')
     jobs = sorted(p.name for p in (img / 'jobs').glob('j*'))
     assert jobs == ['j0001-t', 'j0002-t'], jobs
     s1 = json.loads((img / 'jobs/j0001-t/slots.json').read_text())
@@ -91,11 +91,30 @@ try:
     subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--rewrite', 'all'], check=True, capture_output=True)
     assert 'CLAIM.md' in (img / 'jobs/j0001-t/REQUEST.md').read_text()
 
+    # 크게 다시 묶기 — 예약 · 그림이 있는 일감은 그대로, 나머지는 캐릭터별로 고르게
+    run('--recipes', 'semi_paint_jp,anime_gloss_jp,cgi_hikey', '--subject', 'el.fe', '--world', 'fantasy', '--size', '2', '--round', '2')
+    before = sorted(p.name for p in (img / 'jobs').glob('j*'))
+    subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--merge', 'all', '--size', '10'], check=True, capture_output=True)
+    after = sorted(p.name for p in (img / 'jobs').glob('j*'))
+    new = [x for x in after if x not in before]
+    assert len(new) == 1, (before, after)
+    nj = json.loads((img / 'jobs' / new[0] / 'slots.json').read_text())
+    assert nj['round'] == 2 and len(nj['slots']) == 4 and set(nj['merged_from']) == {'j0004', 'j0005', 'j0006'}, nj
+    for o in ('j0004', 'j0005', 'j0006'):
+        oj = json.loads((img / 'jobs' / o / 'slots.json').read_text())
+        assert oj['retired'] and oj['merged_into'] == [new[0]] and '합쳐짐' in (img / 'jobs' / o / 'REQUEST.md').read_text()
+    for x in ('j0001-t', 'j0002-t', 'j0003'):
+        assert not json.loads((img / 'jobs' / x / 'slots.json').read_text()).get('retired'), x   # 그림 · 예약이 있다
+    nxt = (img / 'jobs/NEXT.md').read_text()
+    assert new[0] in nxt and '[j0005]' not in nxt, nxt
+    assert (img / nj['slots'][0]['prompt_file']).read_text().startswith('A full-body')
+    assert '새 칸이 없다' in run('--recipes', 'oil_hikey', '--subject', 'el.fe', '--world', 'fantasy', '--round', '2')   # 합친 칸은 새 일감에 있다
+
     # 찾기 · 빈 칸
     f = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--face', 'semi_soft'], check=True, capture_output=True, text=True).stdout
     assert a in f and '1장' in f, f
     g = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--gaps', '--base', 'semi_smooth', '--vary', 'paint', '--subject', 'sam.wenyang', '--world', 'samguk'], check=True, capture_output=True, text=True).stdout
     assert '있음' in g and '비었음' in g and '짝 안 맞음' in g, g
-    print('PASS 수거: 예약(예약 중 · 만료 · 차례) · REQUEST 다시 쓰기 · API 생성 정보 · 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
+    print('PASS 수거: 크게 다시 묶기 · 예약(예약 중 · 만료 · 차례) · REQUEST 다시 쓰기 · API 생성 정보 · 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
 finally:
     shutil.rmtree(d)

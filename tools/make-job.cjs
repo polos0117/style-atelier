@@ -9,8 +9,11 @@
      --subject sam.wenyang[,el.fe]  --world samguk[,fantasy]   (캐릭터마다 그 세계가 있어야 한다 — 없으면 건너뛴다)
      --model chatgpt(기본) | api26 | api25    --exposure moderate|low(기본은 캐릭터 기본값)
      --round N(차수 — 화면 「1차 › 문앙」 묶음. 기본은 가장 최근 일감의 차수, 처음이면 1)
-     --size 4(일감 하나에 칸 수)  --label <짧은 이름>  --repeat(이미 그린 칸도 다시 — 번호를 올린다)
+     --size 10(일감 하나에 칸 수 — 사용자 2026-11-10 「4장보다 한 번에 맡기는 양 더 늘려도 돼」, 처음엔 4)  --label <짧은 이름>  --repeat(이미 그린 칸도 다시 — 번호를 올린다)
      --img ../style-atelier-img     --dry(쓰지 않고 칸만 보인다)
+   아직 아무도 손대지 않은 일감을 크게 다시 묶기: --merge all | j0003,j0004 [--size 10]
+     예약(CLAIM.md) · 그림(rec · rec/blocked · inbox)이 하나도 없는 일감만. 차수 · 모델 · 캐릭터가 같은 칸끼리 차례대로 고르게 나눠 새 일감으로,
+     옛 일감은 지우지 않고 slots.json 에 retired · merged_into 를 적는다(NEXT.md · 수거 · 겹침 검사에서 빠진다). 칸 이름 · 지시문은 그대로.
    이미 만든 일감의 REQUEST.md 를 지금 꼴로 다시 쓰기: --rewrite all | j0001,j0002(칸 · 지시문은 그대로)
    이미 그린 칸(rec/)과 열린 일감에 들어 있는 칸은 --repeat 없이는 다시 넣지 않는다. */
 'use strict';
@@ -20,12 +23,13 @@ const ROOT = path.join(__dirname, '..');
 const args = process.argv.slice(2), has = k => args.includes('--' + k), flag = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
 const P = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/parts.json'), 'utf8')), R = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/recipes.json'), 'utf8'));
 const IMG = path.resolve(ROOT, flag('img', '../style-atelier-img'));
-const model = flag('model', 'chatgpt'), size = +flag('size', 4), label = flag('label', ''), exposure = flag('exposure', null);
+const model = flag('model', 'chatgpt'), size = +flag('size', 10), label = flag('label', ''), exposure = flag('exposure', null);
 if (B.MODELS.indexOf(model) < 0) die('모르는 모델: ' + model + ' (' + B.MODELS.join(' · ') + ')');
 if (label && !/^[a-z0-9-]{1,32}$/.test(label)) die('label 은 소문자 · 숫자 · - 로 32자까지');
 function die(m) { console.error(m); process.exit(1); }
 const sha = s => crypto.createHash('sha256').update(s).digest('hex');
 if (flag('rewrite')) { rewrite(flag('rewrite')); process.exit(0); }
+if (flag('merge')) { merge(flag('merge')); process.exit(0); }
 
 /* 조합 목록 */
 let recipes = [];
@@ -51,7 +55,7 @@ const bump = (base) => { const m = B.parseImage(base); if (!m) return; const k =
 for (const d of ['rec', 'rec/blocked']) { const p = path.join(IMG, d); if (fs.existsSync(p)) fs.readdirSync(p).filter(f => f.endsWith('.json')).forEach(f => bump(f.slice(0, -5))); }
 const jobsDir = path.join(IMG, 'jobs'); fs.mkdirSync(jobsDir, { recursive: true });
 const jobDirs = fs.readdirSync(jobsDir).filter(d => /^j\d{4}/.test(d)).sort();
-for (const d of jobDirs) { const s = path.join(jobsDir, d, 'slots.json'); if (fs.existsSync(s)) JSON.parse(fs.readFileSync(s, 'utf8')).slots.forEach(x => bump(x.file)); }
+for (const d of jobDirs) { const s = path.join(jobsDir, d, 'slots.json'); if (fs.existsSync(s)) { const J = JSON.parse(fs.readFileSync(s, 'utf8')); if (!J.retired) J.slots.forEach(x => bump(x.file)); } }
 
 const slots = [];
 for (const sid of subjects) {
@@ -97,11 +101,54 @@ cp.execFileSync('python3', [path.join(__dirname, 'ingest.py'), '--img', IMG, '--
 console.log('일감 ' + made.length + '개 · 칸 ' + slots.length + ' — ' + path.relative(process.cwd(), jobsDir));
 
 /* 이미 만든 일감의 REQUEST.md 를 지금 꼴로 다시 쓴다 — 칸 · 지시문(prompts/)은 그대로. --rewrite all | j0001,j0002 */
+/* 손대지 않은 일감을 크게 다시 묶는다 */
+function merge(which) {
+  const IMGR = path.resolve(ROOT, flag('img', '../style-atelier-img')), jd = path.join(IMGR, 'jobs'), sz = +flag('size', 10);
+  const all = fs.readdirSync(jd).filter(d => /^j\d{4}/.test(d)).sort();
+  const want = which === 'all' ? all : which.split(',');
+  const touched = f => ['rec/' + f + '.json', 'rec/blocked/' + f + '.json'].some(p => fs.existsSync(path.join(IMGR, p)))
+    || (fs.existsSync(path.join(IMGR, 'inbox')) && fs.readdirSync(path.join(IMGR, 'inbox')).some(x => x.startsWith(f + '.')));
+  const pick = [];
+  for (const jid of want) {
+    const J = JSON.parse(fs.readFileSync(path.join(jd, jid, 'slots.json'), 'utf8'));
+    if (J.retired) continue;
+    if (fs.existsSync(path.join(jd, jid, 'CLAIM.md')) || J.slots.some(s => touched(s.file))) { console.log('  그대로(예약 · 그림 있음) ' + jid); continue; }
+    pick.push(J);
+  }
+  if (!pick.length) { console.log('묶을 일감이 없다'); return; }
+  const groups = new Map();   /* 차수 · 모델 · 캐릭터 → 칸 */
+  pick.forEach(J => J.slots.forEach(s => { const k = (J.round || 1) + '|' + J.model + '|' + s.subject; if (!groups.has(k)) groups.set(k, { J, labels: [], slots: [] }); const g = groups.get(k); g.slots.push(Object.assign({}, s, { prompt: fs.readFileSync(path.join(IMGR, s.prompt_file), 'utf8').trim() })); if (J.label && !g.labels.includes(J.label)) g.labels.push(J.label); }));
+  let next = +all[all.length - 1].slice(1, 5) + 1;
+  const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10), made = {};
+  for (const [, g] of groups) {
+    const parts = Math.ceil(g.slots.length / sz), per = Math.ceil(g.slots.length / parts);   /* 고르게 나눈다 — 17 → 9 · 8 */
+    for (let i = 0; i < g.slots.length; i += per) {
+      const part = g.slots.slice(i, i + per), lb = g.labels.join('-').slice(0, 32), jid = 'j' + String(next++).padStart(4, '0') + (lb ? '-' + lb : '');
+      part.forEach(s => { if (sha(s.prompt) !== s.prompt_sha256) die(s.file + ' 지시문 해시가 다르다'); });
+      const dir = path.join(jd, jid); fs.mkdirSync(path.join(dir, 'prompts'), { recursive: true });
+      part.forEach(s => fs.writeFileSync(path.join(dir, 'prompts', s.file + '.txt'), s.prompt + '\n'));
+      fs.writeFileSync(path.join(dir, 'slots.json'), JSON.stringify({ job: jid, round: g.J.round || 1, created: today, model: g.J.model, label: lb, size: part.length,
+        merged_from: [...new Set(pick.filter(J => J.slots.some(x => part.some(p => p.file === x.file))).map(J => J.job))],
+        slots: part.map(s => { const o = Object.assign({}, s); delete o.prompt; o.prompt_file = 'jobs/' + jid + '/prompts/' + s.file + '.txt'; return o; }) }, null, 1) + '\n');
+      fs.writeFileSync(path.join(dir, 'REQUEST.md'), request(jid, part, g.J.model, g.J.round || 1));
+      part.forEach(s => { made[s.file] = jid; });
+      console.log(jid + ' — 칸 ' + part.length);
+    }
+  }
+  for (const J of pick) {
+    J.retired = today; J.merged_into = [...new Set(J.slots.map(s => made[s.file]))];
+    fs.writeFileSync(path.join(jd, J.job, 'slots.json'), JSON.stringify(J, null, 1) + '\n');
+    fs.writeFileSync(path.join(jd, J.job, 'REQUEST.md'), '# 일감 ' + J.job + ' — 합쳐짐\n\n이 일감은 ' + today + ' 에 ' + J.merged_into.join(' · ') + ' 로 합쳤다. 여기서는 그리지 않는다 — `jobs/NEXT.md` 에서 열린 일감을 고른다.\n');
+  }
+  cp.execFileSync('python3', [path.join(__dirname, 'ingest.py'), '--img', IMGR, '--refresh'], { stdio: 'inherit' });
+}
+
 function rewrite(which) {
   const IMGR = path.resolve(ROOT, flag('img', '../style-atelier-img')), jd = path.join(IMGR, 'jobs');
   const ids = which === 'all' ? fs.readdirSync(jd).filter(d => /^j\d{4}/.test(d)).sort() : which.split(',');
   for (const jid of ids) {
     const J = JSON.parse(fs.readFileSync(path.join(jd, jid, 'slots.json'), 'utf8'));
+    if (J.retired) continue;   /* 합쳐진 일감은 안내 한 줄 그대로 */
     const part = J.slots.map(s => Object.assign({}, s, { prompt: fs.readFileSync(path.join(IMGR, s.prompt_file), 'utf8').trim() }));
     part.forEach(s => { if (sha(s.prompt) !== s.prompt_sha256) die(jid + ' ' + s.file + ' 지시문 해시가 다르다'); });
     fs.writeFileSync(path.join(jd, jid, 'REQUEST.md'), request(jid, part, J.model, J.round || 1));

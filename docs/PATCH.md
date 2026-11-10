@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 일감을 크게 — 칸 10개까지, 손대지 않은 일감 다시 묶기
+- 사용자 「우선 지금 2번까지는 맡겨놨는데 4장보다 한 번에 맡기는 양 더 늘려도 돼」
+- `tools/make-job.cjs` — 기본 칸 수 4 → 10, `--merge all`(예약 · 그림이 없는 일감을 차수 · 모델 · 캐릭터별로 고르게 다시 묶고 옛 일감엔 retired · merged_into), 합쳐진 일감의 REQUEST.md 는 안내 한 줄
+- `tools/ingest.py` — retired 일감은 NEXT.md · 수거에서 뺀다. `tests/ingest.py` · `docs/STRUCTURE.md` 3절
+
 ## 2026-11-10 · claude · 수거 워크플로를 inbox 그림에만 — 예약 직후 main 을 밀어 세션이 멈췄다
 - 사용자 「두개다 멈춰있어. 그리고 여기 작업은 codex 세션이 아니라 일반 gpt chat 세션이야」 — 세션이 CLAIM.md 를 올리자 수거 워크플로(jobs/** 에도 돌았다)가 곧바로 NEXT.md 를 고쳐 main 을 밀었고, 세션의 다음 커밋(GitHub 앱)이 거절 → 재시도 → Too many requests 로 보인다(커밋 차례로 본 짐작). 원소 쪽 워크플로는 img/*.webp 에만 돈다
 - 그림 저장소 `.github/workflows/ingest.yml` — paths 를 inbox/** 만. `docs/STRUCTURE.md` 3절 — NEXT.md 예약 칸은 다음 수거 때 바뀐다, 진짜 잠금은 CLAIM.md
