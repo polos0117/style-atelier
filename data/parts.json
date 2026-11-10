@@ -674,7 +674,7 @@
    "real_natural": {
     "code": "rn",
     "ko": "실사 구조 · 자연스러움",
-    "current": "v2",
+    "current": "v3",
     "versions": [
      {
       "v": "v1",
@@ -686,6 +686,15 @@
       "text": "A face with realistic structure and natural proportions, not stylised.",
       "ko": "실사 구조 · 자연스러움",
       "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     },
+     {
+      "v": "v3",
+      "text": "A face with realistic structure and natural proportions.",
+      "ko": "실사 구조 · 자연스러움",
+      "by": "재검토안(2026-11-10 c432626) 3절 — 담당 범위 · 부정 말 정리",
+      "avoid": [
+       "stylised facial features"
+      ]
      }
     ],
     "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」)",
@@ -770,8 +779,8 @@
    },
    "brush_anime": {
     "code": "ba",
-    "ko": "2D 애니 붓질 · 색 선",
-    "current": "v2",
+    "ko": "2D 붓질 · 색 선",
+    "current": "v3",
     "versions": [
      {
       "v": "v1",
@@ -783,13 +792,19 @@
       "text": "2D anime painting with visible brushwork: layered strokes of colour, soft broken edges, thin coloured linework and a few crisp accents on the face and costume.",
       "ko": "2D 애니 붓질 · 색 선",
       "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     },
+     {
+      "v": "v3",
+      "text": "2D painting with visible brushwork: layered strokes of colour, soft broken edges, thin coloured linework and a few crisp accents on the face and costume.",
+      "ko": "2D 붓질 · 색 선",
+      "by": "재검토안(2026-11-10 c432626) 3절 — 담당 범위 · 부정 말 정리"
      }
     ]
    },
    "oil_glaze": {
     "code": "og",
-    "ko": "고전 유화 글레이즈",
-    "current": "v2",
+    "ko": "유화 글레이즈",
+    "current": "v3",
     "versions": [
      {
       "v": "v1",
@@ -801,6 +816,12 @@
       "text": "Classical oil painting: smooth oil glazes, deep layered colour, soft lost-and-found edges and fine detail kept for the face and ornaments.",
       "ko": "고전 유화 글레이즈",
       "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     },
+     {
+      "v": "v3",
+      "text": "Oil painting with smooth glazes: deep layered colour, soft lost-and-found edges and fine detail kept for the face and ornaments.",
+      "ko": "유화 글레이즈",
+      "by": "재검토안(2026-11-10 c432626) 3절 — 담당 범위 · 부정 말 정리"
      }
     ]
    },
@@ -1122,12 +1143,21 @@
    "hikey_natural": {
     "code": "hn",
     "ko": "하이키 자연광",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
       "text": "soft, rich, bright natural light with gentle, subtle shadows; luminous, clear skin and vivid, full-bodied midtones that never wash out; small, soft highlights.",
       "ko": "하이키 자연광"
+     },
+     {
+      "v": "v2",
+      "text": "soft, rich, bright natural light with gentle, subtle shadows; luminous, clear skin and vivid, full-bodied midtones; small, soft highlights.",
+      "ko": "하이키 자연광",
+      "by": "재검토안(2026-11-10 c432626) 3절 — 담당 범위 · 부정 말 정리",
+      "avoid": [
+       "washed-out colour"
+      ]
      }
     ]
    },

@@ -124,11 +124,20 @@ try:
     assert hj['hold'] == '시험' and new[0] not in (img / 'jobs/NEXT.md').read_text() and '보류' in (img / 'jobs' / new[0] / 'REQUEST.md').read_text()
     assert '지금은 **sam.wenyang · samguk 만**' in (img / 'jobs/NEXT.md').read_text()
 
+    # 보류한 일감은 빈 칸 조회에서 「일감에 있음」 이 아니다(재검토안 c432626 R3)
+    run('--recipes', 'styl3d_kr', '--round', '3', '--label', 'g')
+    gj = sorted(p.name for p in (img / 'jobs').glob('j*-g'))[-1]
+    gq = ['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--gaps', '--base', 'styl3d_kr', '--vary', 'fx=none', '--subject', 'sam.wenyang', '--world', 'samguk']
+    assert '일감에 있음' in subprocess.run(gq, check=True, capture_output=True, text=True).stdout
+    subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--hold', gj, '--why', '시험'], check=True, capture_output=True)
+    g2 = subprocess.run(gq, check=True, capture_output=True, text=True).stdout
+    assert '비었음' in g2 and '일감에 있음' not in g2, g2
+
     # 찾기 · 빈 칸
     f = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--face', 'semi_soft'], check=True, capture_output=True, text=True).stdout
     assert a in f and '1장' in f, f
     g = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--gaps', '--base', 'semi_smooth', '--vary', 'direction', '--subject', 'sam.wenyang', '--world', 'samguk'], check=True, capture_output=True, text=True).stdout
     assert '있음' in g and '비었음' in g and '짝 안 맞음' in g, g
-    print('PASS 수거: 초점(문앙 무협) · 보류 · 내린 조합 거절 · 크게 다시 묶기 · 예약(예약 중 · 만료 · 차례) · REQUEST 다시 쓰기 · API 생성 정보 · 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
+    print('PASS 수거: 초점(문앙 무협) · 보류(빈 칸 조회에서도) · 내린 조합 거절 · 크게 다시 묶기 · 예약(예약 중 · 만료 · 차례) · REQUEST 다시 쓰기 · API 생성 정보 · 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
 finally:
     shutil.rmtree(d)

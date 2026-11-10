@@ -171,6 +171,18 @@ async function loadEvals() {
   EV = (fresh && fresh.evals) || {};
 }
 /* 저장 — 파일을 새로 읽어 그 칸만 바꿔 커밋(부딪치면 한 번 더) */
+/* 업로드는 한 번에 하나씩(차례로) — 끝나면 보낸 값과 지금 대기값이 같은 것만 대기에서 지운다(그사이 고친 값 · 새로 쌓인 값은 남는다).
+   재검토안 R2(2026-11-10): 대기분 올리기가 끝나면 대기 전체를 비워, 올리는 중에 저장했다 실패한 평가가 사라졌다 */
+let evQueue = Promise.resolve();
+function sendEvals(entries) {
+  const sent = JSON.parse(JSON.stringify(entries));
+  const run = () => pushEvals(sent).then(() => {
+    const pd = evPending();
+    Object.keys(sent).forEach(id => { if (pd[id] && JSON.stringify(pd[id]) === JSON.stringify(sent[id])) delete pd[id]; });
+    setEvPending(pd);
+  });
+  const p = evQueue.then(run, run); evQueue = p.catch(() => {}); return p;
+}
 async function pushEvals(entries) {
   const tok = ls.get(TOK_KEY); if (!tok) throw new Error('토큰 없음');
   const api = 'https://api.github.com/repos/' + CODE + '/contents/data/evals.json', h = { Authorization: 'Bearer ' + tok, Accept: 'application/vnd.github+json' };
@@ -216,7 +228,7 @@ function evalForm(r) {
     const pd = evPending(); pd[r.id] = e; setEvPending(pd); refreshBadges();
     if (!ls.get(TOK_KEY)) return evalStatus('이 기기에 저장');
     evalStatus('올리는 중…');
-    try { await pushEvals({ [r.id]: e }); const p2 = evPending(); delete p2[r.id]; setEvPending(p2); evalStatus('저장됨'); }
+    try { await sendEvals({ [r.id]: e }); evalStatus('저장됨'); }
     catch (err) { evalStatus('이 기기에 저장(올리기 실패: ' + err.message + ')'); }
   } } }, '저장');
   const conn = el('button', { class: 'b', type: 'button', on: { click: () => {
@@ -226,7 +238,7 @@ function evalForm(r) {
   } } }, 'GitHub 연결');
   const flush = el('button', { class: 'b', type: 'button', id: 'evFlush', hidden: '', on: { click: async () => {
     evalStatus('올리는 중…');
-    try { const pd = evPending(); await pushEvals(pd); setEvPending({}); evalStatus('대기분 올림'); } catch (err) { evalStatus('올리기 실패: ' + err.message); }
+    try { await sendEvals(evPending()); evalStatus('대기분 올림'); } catch (err) { evalStatus('올리기 실패: ' + err.message); }
   } } }, '대기분 올리기');
   box.append(el('div', { class: 'evbar' }, save, conn, flush, el('span', { class: 'evstat', id: 'evStat' })));
   evalStatus(cur.at ? '마지막 평가 ' + cur.at.replace('T', ' ').replace('Z', ' UTC') : '');
@@ -360,15 +372,17 @@ function mixUI() {
   bar.append(sel('불러오기', 'mr', [['', '— 조합 —']].concat(B.liveRecipes(R).map(k => [k, k])), '', e => { if (e.target.value) { Object.assign(M, R.recipes[e.target.value].parts); mixUI(); } }));
   bar.append(sel('캐릭터', 'ms', SL.subjects.map(x => [x.id, x.ko]), M.subject, e => { M.subject = e.target.value; mixUI(); }));
   bar.append(sel('세계', 'mw', s.worlds.map(w => [w, w]), M.world, e => { M.world = e.target.value; mixRun(); }));
-  bar.append(sel('노출', 'mx', [['none', 'none(노출 줄 없음)'], ['bold', 'bold'], ['moderate', 'moderate'], ['low', 'low']], M.exposure || FOCUS_EX || sd.defaultExposure, e => { M.exposure = e.target.value; mixRun(); }));
+  bar.append(sel('노출', 'mx', [['none', 'none(노출 줄 없음)'], ['bold', 'bold'], ['moderate', 'moderate'], ['low', 'low']], mixExposure(), e => { M.exposure = e.target.value; mixRun(); }));
   B.AXES.forEach(a => bar.append(sel(P.axes.find(x => x.key === a).ko, 'm_' + a, partOpts(a), String(M[a]).split('@')[0], e => { M[a] = e.target.value; mixRun(); })));
   bar.append(el('button', { class: 'b', on: { click: () => navigator.clipboard.writeText($('mixOut').textContent) } }, '지시문 복사'));
   mixRun();
 }
+/* 섞어보기 노출 — 고른 값 → 초점(focus.json) → 캐릭터 기본값. 선택창과 조립에 같은 값(재검토안 R1 — 선택창은 low, 조립은 bold 였다) */
+function mixExposure() { return M.exposure || FOCUS_EX || SUB[M.subject].defaultExposure; }
 function mixRun() {
   const spec = {}; B.AXES.forEach(a => spec[a] = M[a]);
   const rs = B.resolve(P, R, spec), bad = B.clashes(rs);
-  const r = B.build(P, R, SUB[M.subject], M.world, spec, { exposure: M.exposure || undefined, allowClash: true });
+  const r = B.build(P, R, SUB[M.subject], M.world, spec, { exposure: mixExposure(), allowClash: true });
   const named = B.recipeNameOf(R, rs);
   $('mixMeta').innerHTML = '';
   $('mixMeta').append(el('div', {}, el('b', {}, B.displayName(rs))), el('div', {}, '조합 ' + rs.id + (named ? ' = ' + named : ' (등록 안 됨)') + ' · 칸 ' + r.slot),

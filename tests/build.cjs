@@ -23,9 +23,11 @@ for (const a of B.AXES) {
     for (const f of ['pairs', 'requires']) for (const [oa, list] of Object.entries(r[f] || {})) list.forEach(x => assert(P.parts[oa][x], a + '/' + k + ' ' + f + ' 가 없는 부품 ' + oa + '/' + x));
     r.versions.forEach(v => assert(v.ko, a + '/' + k + '@' + v.v + ' 판의 한글 이름'));
     /* 담당 범위 — 축을 넘는 말 · 부정 말이 지금 판 문장에 없다(검토안 2 · 3절) */
-    if (r.current !== 'v1' || ['kr_game_keyart', 'jp_light_novel', 'off', 'semi_ideal'].includes(k) || r.retired) {
+    /* 살아 있는 부품의 지금 판 전부(첫 판 v1 도) — 내린 부품 · 옛 판은 기록이라 보지 않는다(재검토안 c432626 4절) */
+    if (!r.retired) {
       const t = B.part(P, a, k).text;
-      if (!r.retired) assert(!/\b(never|no|not)\b/i.test(t.replace(/not stylised/, '')), a + '/' + k + ' 부정 말은 avoid 로: ' + t);
+      assert(!/\b(never|no|not)\b/i.test(t), a + '/' + k + ' 부정 말은 avoid 로: ' + t);
+      if (a === 'paint') assert(!/\b(anime|Korean|Japanese|classical|Western|European)\b/i.test(t), a + '/' + k + ' 렌더링·채색에 문화권 · 장르: ' + t);
       if (a === 'direction' && !r.retired) assert(!/\b(oil|painterly|2D|3D|CGI|render|illustration|clean|finished|premium)\b/i.test(t), a + '/' + k + ' 방향에 표현 방식 · 재료 · 수식어: ' + t);
       if (a === 'face' && !r.retired) assert(!/\b(adult|mature|small|large|eyes|blush|East Asian|2\.3D)\b/i.test(t), a + '/' + k + ' 얼굴 표현에 나이 · 크기 · 생김새: ' + t);
       if (a === 'light' && !r.retired) assert(!/\b(paint|painted|matte)\b/i.test(t), a + '/' + k + ' 조명에 재료 · 표면: ' + t);

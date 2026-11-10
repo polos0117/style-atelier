@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 재검토안(c432626) 반영 — 섞어보기 노출 · 평가 대기 보존 · 보류 일감 빈 칸 · 문장 넷 · 검사 범위
+- 사용자 재검토안 「style-atelier 구조 개편 재검토안」(검토 기준 c432626) → 「이 내용 봐줄래? 다 안되어 있나?」 — 지적 셋(R1~R3) · 문장 넷 · 검사 범위가 다 맞았다
+- R1 `index.html` 섞어보기 — 선택창과 조립에 같은 노출(고른 값 → focus → 캐릭터 기본값, 전엔 선택창 low · 지시문 bold). R2 — 평가 업로드를 차례로, 끝나면 보낸 값과 같은 대기만 지운다(전엔 대기 전체를 비워 올리는 중 저장 · 실패한 평가가 사라졌다). R3 `tools/find.cjs` --gaps 가 보류 · 합쳐진 일감을 세지 않는다
+- `data/parts.json` — oil_glaze v3(Oil painting with smooth glazes), brush_anime v3(2D painting …), real_natural v3(not stylised → avoid), hikey_natural v2(never wash out → avoid). `tests/build.cjs` 담당 범위 검사를 살아 있는 부품의 지금 판 전부에(v1 도, 예외 없이), `tests/ingest.py` R3
+
 ## 2026-11-10 · claude · 평가 칸 — 그림 상세에서 다섯 항목 · 판정 · 메모, 코드 저장소 data/evals.json 에
 - 사용자 「응 평가 칸 붙여줘」 — 검토안 7.5 의 다섯 항목(취향 · 의도 반영 · 캐릭터 유지 · 다른 특징 변화 · 반복 유지) + 판정(후보 · 고칠 것 · 축 사이 · 내리기) · 메모
 - `lib/evals.js`(항목 · 검사 · 짧은 표시) · `data/evals.json` · `index.html` 상세 「평가」(GitHub 토큰이면 바로 커밋, 없으면 이 기기 대기 → 대기분 올리기), 카드 · 축 비교 칸 밑 표시

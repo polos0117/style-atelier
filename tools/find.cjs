@@ -25,7 +25,7 @@ if (has('gaps')) {
   const blocked = new Set(fs.existsSync(path.join(IMG, 'rec/blocked')) ? fs.readdirSync(path.join(IMG, 'rec/blocked')).map(f => B.parseImage(f.slice(0, -5))).filter(Boolean).map(m => m.slot + '__' + m.model) : []);
   const pending = new Set();
   const jd = path.join(IMG, 'jobs');
-  if (fs.existsSync(jd)) fs.readdirSync(jd).filter(d => /^j\d{4}/.test(d)).forEach(d => { const s = path.join(jd, d, 'slots.json'); if (fs.existsSync(s)) JSON.parse(fs.readFileSync(s, 'utf8')).slots.forEach(x => pending.add(x.slot + '__' + x.model)); });
+  if (fs.existsSync(jd)) fs.readdirSync(jd).filter(d => /^j\d{4}/.test(d)).forEach(d => { const s = path.join(jd, d, 'slots.json'); if (fs.existsSync(s)) { const J = JSON.parse(fs.readFileSync(s, 'utf8')); if (!J.retired) J.slots.forEach(x => pending.add(x.slot + '__' + x.model)); } });   /* 보류 · 합쳐진 일감은 빼고(재검토안 R3) */
   const drawn = new Set(rows.map(r => r.id.replace(/__\d+$/, '')));
   const keys = list ? list.split(',') : B.live(P, axis);
   for (const sid of flag('subject', '').split(',').filter(Boolean)) for (const w of flag('world', '').split(',').filter(Boolean)) {
