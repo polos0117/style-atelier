@@ -632,6 +632,12 @@
    "verdict": "keep",
    "at": "2026-11-10T21:23Z",
    "by": "user"
+  },
+  "kp1-ss2-ob2-hn2-x01__sam.wenyang__samguk-world-slit__chatgpt__1": {
+   "taste": 2,
+   "note": "실사쪽으로만 가면 얼굴을 넓게 그리는듯. 2.6모델  넘어오면서 동양인 표현을 이렇게 하는것 같음. 이상함.",
+   "at": "2026-11-10T23:21Z",
+   "by": "user"
   }
  }
 }
