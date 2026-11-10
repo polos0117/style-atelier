@@ -89,6 +89,16 @@ dl.facts dd { margin:0; word-break:break-all; }
 .conf .worlds figcaption { font-size:13px; color:var(--sub); text-align:center; margin-top:4px; }
 .conf .worlds .none { aspect-ratio:2/3; display:grid; place-items:center; border:1px dashed var(--line); border-radius:8px; color:var(--sub); font-size:13px; }
 .conf .stat { font-size:13px; color:var(--sub); margin-top:10px; }
+.conf.cand { border-style:dashed; }
+.conf .tag { display:inline-block; font-size:12px; font-weight:600; padding:1px 8px; border-radius:999px; margin-right:6px; vertical-align:middle; background:var(--acc); color:var(--panel); }
+.conf.cand .tag { background:var(--acc2); color:var(--acc); }
+table.scope { border-collapse:collapse; font-size:13px; background:var(--bg); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+table.scope th, table.scope td { padding:6px 10px; border-bottom:1px solid var(--line); text-align:center; white-space:nowrap; }
+table.scope th { color:var(--sub); font-weight:500; }
+table.scope th:first-child, table.scope td:first-child { text-align:left; }
+table.scope td.y { color:var(--ok); font-weight:600; } table.scope td.n { color:var(--sub); }
+.scopewrap { overflow-x:auto; }
+h2.part { font-size:16px; margin:26px 0 10px; color:var(--sub); font-weight:600; }
 </style>
 </head>
 <body>
@@ -381,12 +391,20 @@ function axisRun() {
 
 /* 확정 화풍 — data/confirmed.json. 열쇠 · 화풍 이름 · 조합 이름(판 고정) · 세계별 대표 그림 · 부품표 · 화풍 문장(복사) · 평가 요약 */
 let CONF = null;
-function confRun() {
-  const box = $('confOut'); box.innerHTML = '';
-  const list = (CONF && CONF.styles) || [];
-  if (!list.length) return box.append(el('div', { class: 'empty-note' }, '아직 확정한 화풍이 없다.'));
-  list.forEach(c => {
-    let rs; try { rs = B.resolve(P, R, c.id); } catch (e) { return box.append(el('div', { class: 'conf warn' }, c.key + ' — 조합을 못 읽었다: ' + e.message)); }
+/* 범위 — 이 조합(판까지)으로 그린 그림을 캐릭터 · 세계마다 센다(그림 색인에서, 따로 적지 않는다) */
+function scopeTable(rid) {
+  const t = el('table', { class: 'scope' }), ORD = Object.keys(WORLD_KO), worlds = [...new Set(SL.subjects.flatMap(s => s.worlds))].sort((a, b) => (ORD.indexOf(a) + 1 || 99) - (ORD.indexOf(b) + 1 || 99));
+  t.append(el('tr', {}, el('th', {}, '캐릭터'), worlds.map(w => el('th', {}, WORLD_KO[w] || w))));
+  let tried = 0, cells = 0;
+  SL.subjects.slice().sort((a, b) => (b.id === A.subject) - (a.id === A.subject)).forEach(s => t.append(el('tr', {}, el('td', {}, koOf(s.id)), worlds.map(w => {
+    if (!s.worlds.includes(w)) return el('td', { class: 'n' }, '');
+    cells++; const n = rows.filter(r => r.subject === s.id && r.world === w && r.id.startsWith(rid + '__')).length; if (n) tried++;
+    return el('td', { class: n ? 'y' : 'n' }, n ? '✓ ' + n + '장' : '—');
+  }))));
+  return [el('div', { class: 'scopewrap' }, t), el('div', { class: 'stat' }, '그려 본 칸 ' + tried + ' / ' + cells + ' — 빈 칸은 아직 이 화풍으로 안 그려 봤다')];
+}
+function confCard(c, cand) {
+    let rs; try { rs = B.resolve(P, R, c.id); } catch (e) { return el('div', { class: 'conf warn' }, c.key + ' — 조합을 못 읽었다: ' + e.message); }
     const imgs = Object.entries(c.images || {}), all = rows.filter(r => r.id.startsWith(c.id + '__'));
     const worlds = el('div', { class: 'worlds' });
     imgs.forEach(([w, id]) => {
@@ -399,16 +417,23 @@ function confRun() {
     const avoid = [...new Set(rs.parts.flatMap(p => p.avoid))];
     const styleText = B.paragraph(rs) + '\n' + B.lightLine(rs) + (avoid.length ? '\nAvoid: ' + avoid.join(', ') + '.' : '');
     const ev = all.map(r => evOf(r.id)).filter(Boolean), avg = k => { const v = ev.map(e => e[k]).filter(x => typeof x === 'number'); return v.length ? (v.reduce((a, b) => a + b, 0) / v.length).toFixed(1) + ' (' + v.length + ')' : '—'; };
-    box.append(el('div', { class: 'conf' },
-      el('h2', {}, c.ko),
-      el('div', { class: 'keys' }, '열쇠 ', el('code', {}, c.key), ' · 조합 ', el('code', {}, c.id), ' · 확정 ' + c.confirmed),
+    const copy = el('button', { class: 'b', type: 'button', on: { click: e => navigator.clipboard.writeText(styleText).then(() => { e.target.textContent = '복사함'; }) } }, '화풍 문장 복사');
+    const detail = [el('h3', {}, '조합표'), t, el('h3', {}, '화풍 문장'), el('pre', {}, styleText), copy];
+    return el('div', { class: 'conf' + (cand ? ' cand' : '') },
+      el('h2', {}, el('span', { class: 'tag' }, cand ? '후보' : '확정'), c.ko),
+      el('div', { class: 'keys' }, '열쇠 ', el('code', {}, c.key), ' · 조합 ', el('code', {}, c.id), cand ? ' · 후보 ' + (c.since || '') : ' · 확정 ' + c.confirmed),
       el('div', { class: 'why' }, c.why || ''),
       worlds,
-      el('h3', {}, '조합표'), t,
-      el('h3', {}, '화풍 문장'), el('pre', {}, styleText),
-      el('button', { class: 'b', type: 'button', on: { click: e => navigator.clipboard.writeText(styleText).then(() => { e.target.textContent = '복사함'; }) } }, '화풍 문장 복사'),
-      el('div', { class: 'stat' }, '이 조합 그림 ' + all.length + '장 · 평가 ' + ev.length + '장 — 취향 ' + avg('taste') + ' · 캐릭터 유지 ' + avg('keep') + ' · 반복 유지 ' + avg('repeat'))));
-  });
+      el('div', { class: 'stat' }, '이 조합 그림 ' + all.length + '장 · 평가 ' + ev.length + '장 — 취향 ' + avg('taste') + ' · 캐릭터 유지 ' + avg('keep') + ' · 반복 유지 ' + avg('repeat')),
+      el('h3', {}, '범위'), scopeTable(c.id),
+      cand ? el('details', {}, el('summary', { class: 'meta', style: 'cursor:pointer' }, '조합표 · 화풍 문장'), detail) : detail);
+}
+function confRun() {
+  const box = $('confOut'); box.innerHTML = '';
+  const list = (CONF && CONF.styles) || [], cands = (CONF && CONF.candidates) || [];
+  if (!list.length) box.append(el('div', { class: 'empty-note' }, '아직 확정한 화풍이 없다.'));
+  list.forEach(c => box.append(confCard(c, false)));
+  if (cands.length) { box.append(el('h2', { class: 'part' }, '후보 — 확정 바로 전 (' + cands.length + ')')); cands.forEach(c => box.append(confCard(c, true))); }
 }
 
 /* 섞어보기 */
