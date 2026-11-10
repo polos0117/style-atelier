@@ -15,6 +15,7 @@ try:
     assert jobs == ['j0001-t', 'j0002-t'], jobs
     s1 = json.loads((img / 'jobs/j0001-t/slots.json').read_text())
     assert s1['round'] == 1, s1.get('round')
+    assert all(s['file'].endswith('-none__chatgpt__1') and s['exposure'] == 'none' for s in s1['slots']), s1['slots'][0]['file']   # 초점의 노출 none
     assert len(s1['slots']) == 4 and s1['slots'][0]['file'].endswith('__chatgpt__1')
     assert len(json.loads((img / 'jobs/j0002-t/slots.json').read_text())['slots']) == 4   # 고르게 — 8칸을 6 · 2 가 아니라 4 · 4
     req = (img / 'jobs/j0001-t/REQUEST.md').read_text()

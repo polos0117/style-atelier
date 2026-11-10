@@ -32,7 +32,8 @@ if (has('gaps')) {
       const spec = {}; base.parts.forEach(p => { spec[p.axis] = p.key + '@' + p.v; }); spec[axis] = k;
       const rs = B.resolve(P, R, spec);
       if (B.clashes(rs).length) { console.log('짝 안 맞음  ' + axis + '/' + k); continue; }
-      const slot = B.slotName(rs.id, sid, w, 'world', flag('exposure', subj.defaultExposure), subj), key = slot + '__' + model;
+      const FOCUS = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/focus.json'), 'utf8'));
+      const slot = B.slotName(rs.id, sid, w, 'world', flag('exposure', FOCUS.exposure || subj.defaultExposure), subj), key = slot + '__' + model;
       const st = drawn.has(key) ? '있음' : blocked.has(key) ? '막힘' : pending.has(key) ? '일감에 있음' : '비었음';
       console.log(st.padEnd(6) + '  ' + axis + '/' + k.padEnd(16) + ' ' + slot);
     }

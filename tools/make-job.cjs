@@ -8,7 +8,7 @@
    그 밖:
      --subject sam.wenyang[,el.fe]  --world samguk[,fantasy]   (캐릭터마다 그 세계가 있어야 한다 — 없으면 건너뛴다)
        비우면 data/focus.json(지금은 문앙 · 무협 — 화풍 비교는 캐릭터 하나로). 그 밖의 캐릭터 · 세계는 --off-focus 를 붙일 때만(사용자가 정할 때).
-     --model chatgpt(기본) | api26 | api25    --exposure moderate|low(기본은 캐릭터 기본값)
+     --model chatgpt(기본) | api26 | api25    --exposure none|bold|moderate|low(기본은 data/focus.json — 지금 none, 노출 줄 없이)
      --round N(차수 — 화면 「1차 › 문앙」 묶음. 기본은 가장 최근 일감의 차수, 처음이면 1)
      --size 10(일감 하나에 칸 수 — 사용자 2026-11-10 「4장보다 한 번에 맡기는 양 더 늘려도 돼」, 처음엔 4)  --label <짧은 이름>  --repeat(이미 그린 칸도 다시 — 번호를 올린다)
      --img ../style-atelier-img     --dry(쓰지 않고 칸만 보인다)
@@ -25,7 +25,8 @@ const ROOT = path.join(__dirname, '..');
 const args = process.argv.slice(2), has = k => args.includes('--' + k), flag = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
 const P = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/parts.json'), 'utf8')), R = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/recipes.json'), 'utf8'));
 const IMG = path.resolve(ROOT, flag('img', '../style-atelier-img'));
-const model = flag('model', 'chatgpt'), size = +flag('size', 10), label = flag('label', ''), exposure = flag('exposure', null);
+const model = flag('model', 'chatgpt'), size = +flag('size', 10), label = flag('label', '');
+let exposure = flag('exposure', null);   /* 비우면 data/focus.json 의 exposure(지금은 none — 노출 줄 없이) */
 if (B.MODELS.indexOf(model) < 0) die('모르는 모델: ' + model + ' (' + B.MODELS.join(' · ') + ')');
 if (label && !/^[a-z0-9-]{1,32}$/.test(label)) die('label 은 소문자 · 숫자 · - 로 32자까지');
 function die(m) { console.error(m); process.exit(1); }
@@ -50,6 +51,7 @@ else if (flag('base') && flag('vary')) {
 } else die('--recipes 또는 --base + --vary 가 있어야 한다');
 
 const FOCUS = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/focus.json'), 'utf8'));
+if (!exposure && FOCUS.exposure) exposure = FOCUS.exposure;
 const subjects = flag('subject', FOCUS.subject).split(',').filter(Boolean), worlds = flag('world', FOCUS.world).split(',').filter(Boolean);
 if (!has('off-focus') && (subjects.some(s => s !== FOCUS.subject) || worlds.some(w => w !== FOCUS.world)))
   die('지금은 ' + FOCUS.subject + ' · ' + FOCUS.world + ' 만 그린다(data/focus.json — ' + FOCUS.why.slice(0, 60) + '…). 사용자가 정했으면 --off-focus');

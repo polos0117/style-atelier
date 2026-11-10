@@ -96,6 +96,8 @@ for (const s of SL.subjects) {
       assert(t.includes(B.paragraph(b.recipe)), '화풍 문단');
       n++;
     }
+    const no = B.build(P, R, subj, w, 'semi_smooth', { exposure: 'none' });
+    assert(!/^Exposure \(/m.test(no.text) && /-none$/.test(no.slot), '노출 none — 노출 줄 없이(화풍 비교 기본)');
     const lo = B.build(P, R, subj, w, 'semi_smooth', { exposure: 'low' });
     assert(/^Exposure \(low\)/m.test(lo.text) && /-low$/.test(lo.slot), '노출 낮추기');
   }
@@ -104,7 +106,8 @@ for (const s of SL.subjects) {
   assert(!/illustration/.test(W.head) && /character image/.test(W.head), '문앙 머리말은 매체를 박지 않는다(덮어쓰기)');
   assert(!/in this style/.test(W.faceFrame) && W.original && /in this style/.test(W.original.faceFrame), '얼굴 비율 줄 덮어쓰기 · 원본 보존');
   assert(!/smaller, narrower eyes/.test(W.character.join(' ')) && /large round eyes/.test(W.character.join(' ')), '문앙 무협은 크고 둥근 눈 하나로(삼국지 설계표 고침)');
-  assert(P.axes.every(a => a.ko && a.rule), '축마다 한글 이름 · 담당 범위'); }
+  assert(P.axes.every(a => a.ko && a.rule), '축마다 한글 이름 · 담당 범위');
+  assert.equal(J('data/focus.json').exposure, 'none', '화풍 비교는 노출 줄 없이(사용자 「bold 를 화풍비교에선 빼자」)'); }
 assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', { direction: 'photo_still', face: 'real_natural', paint: 'smooth', light: 'muted', fx: 'none' }), /같이 못 쓰는 짝/);
 assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'semi_smooth', { kind: 'casual' }), /아직 없는 갈래/);
 console.log('PASS 조립부: 부품 ' + B.AXES.map(a => Object.keys(P.parts[a]).length).join('·') + ' · 조합 ' + Object.keys(R.recipes).length + ' · 말 되는 조합 ' + cs.length + ' · 캐릭터 ' + SL.subjects.length + ' · 지시문 ' + n);
