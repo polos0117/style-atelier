@@ -6,7 +6,7 @@
   "atelier": "sam",
   "key": "문앙",
   "repo": "polos0117/sam-atelier",
-  "commit": "4bc7624",
+  "commit": "89ab31a",
   "date": "2026-11-10",
   "builder": "lib/prompt-sam.js build (칸 꼴 · 화풍 game_keyart — 화풍 말은 뺐다)",
   "faceWorld": "samguk"
@@ -19,11 +19,11 @@
     "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
    },
    "genre": "THREE KINGDOMS",
-   "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
-   "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
+   "head": "A full-body character image, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
+   "faceFrame": "Her face is small and soft: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
    "character": [
     "Age: late twenties — a graceful grown-up face with soft, smooth contours.",
-    "Face — her own, recognisably this character, a woman's face with no beard or facial hair: a fierce, wild ferocity; fair skin; heart-shaped face; smaller, narrower eyes than usual anime proportion — large round eyes, outer eye corners drooping downward; thin arched brows; small button nose; full wide lips; ice-blue eyes; sharp winged eyeliner.",
+    "Face — her own, recognisably this character, a woman's face with no beard or facial hair: a fierce, wild ferocity; fair skin; heart-shaped face; large eyes — large round eyes, outer eye corners drooping downward; thin arched brows; small button nose; full wide lips; ice-blue eyes; sharp winged eyeliner.",
     "Body and hair: tall and statuesque with long legs and a full, curvaceous figure — full bust and hips, narrow waist build; a bob with long bangs falling over one eye; glossy jet-black hair.",
     "Expression: a composed, self-assured look, subtle and relaxed.",
     "Legend, carried in her design and bearing: peerless solo courage, a steel whip-sword.",
@@ -42,7 +42,11 @@
    ],
    "constraints": [
     "One figure only — no second character, horse or other creature. No readable text or numbers, except that a banner, seal or emblem may carry the single character 魏 or 文. No logo, watermark, speech bubble or frame border. Three Kingdoms-era Chinese dress, architecture and materials only."
-   ]
+   ],
+   "original": {
+    "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
+    "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it."
+   }
   },
   "fantasy": {
    "exposure": {
@@ -51,11 +55,11 @@
     "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
    },
    "genre": "MEDIEVAL FANTASY",
-   "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
-   "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
+   "head": "A full-body character image, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
+   "faceFrame": "Her face is small and soft: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
    "character": [
     "Age: late twenties — a graceful grown-up face with soft, smooth contours.",
-    "Face — her own, recognisably this character, a woman's face with no beard or facial hair: a fierce, wild ferocity; fair skin; heart-shaped face; smaller, narrower eyes than usual anime proportion — large round eyes, outer eye corners drooping downward; thin arched brows; small button nose; full wide lips; ice-blue eyes; sharp winged eyeliner.",
+    "Face — her own, recognisably this character, a woman's face with no beard or facial hair: a fierce, wild ferocity; fair skin; heart-shaped face; large eyes — large round eyes, outer eye corners drooping downward; thin arched brows; small button nose; full wide lips; ice-blue eyes; sharp winged eyeliner.",
     "Body and hair: tall and statuesque with long legs and a full, curvaceous figure — full bust and hips, narrow waist build; a bob with long bangs falling over one eye; glossy jet-black hair.",
     "Expression: a composed, self-assured look, subtle and relaxed.",
     "Legend, carried in her design and bearing: peerless solo courage, a steel whip-sword.",
@@ -74,7 +78,11 @@
    ],
    "constraints": [
     "One figure only — no second character, horse or other creature. No readable text or numbers — banners and shields carry only heraldic devices (a beast or a crest), never letters or Chinese characters. No logo, watermark, speech bubble or frame border. A Western medieval setting and dress only — stone castles, Romanesque or Gothic architecture — with no Chinese architecture, robes or hanzi."
-   ]
+   ],
+   "original": {
+    "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
+    "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it."
+   }
   },
   "mecha": {
    "exposure": {
@@ -83,11 +91,11 @@
     "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
    },
    "genre": "MECHA",
-   "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
-   "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
+   "head": "A full-body character image, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
+   "faceFrame": "Her face is small and soft: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
    "character": [
     "Age: late twenties — a graceful grown-up face with soft, smooth contours.",
-    "Face — her own, recognisably this character, a woman's face with no beard or facial hair: a fierce, wild ferocity; fair skin; heart-shaped face; smaller, narrower eyes than usual anime proportion — large round eyes, outer eye corners drooping downward; thin arched brows; small button nose; full wide lips; ice-blue eyes; sharp winged eyeliner.",
+    "Face — her own, recognisably this character, a woman's face with no beard or facial hair: a fierce, wild ferocity; fair skin; heart-shaped face; large eyes — large round eyes, outer eye corners drooping downward; thin arched brows; small button nose; full wide lips; ice-blue eyes; sharp winged eyeliner.",
     "Body and hair: tall and statuesque with long legs and a full, curvaceous figure — full bust and hips, narrow waist build; a bob with long bangs falling over one eye; glossy jet-black hair.",
     "Expression: a composed, self-assured look, subtle and relaxed.",
     "Legend, carried in her design and bearing: peerless solo courage, a steel whip-sword.",
@@ -106,7 +114,25 @@
    ],
    "constraints": [
     "One figure only — no second character, horse or other creature. No readable text or numbers — emblems are abstract insignia shapes only, never letters or Chinese characters. No logo, watermark, speech bubble or frame border. A far-future setting only — space stations, starships and high-tech structures — with no traditional East-Asian architecture."
-   ]
+   ],
+   "original": {
+    "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
+    "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it."
+   }
   }
- }
+ },
+ "overrides": [
+  {
+   "field": "head",
+   "from": "character card illustration",
+   "to": "character image",
+   "why": "머리말이 매체를 「illustration」 으로 박아 실사 사진 · CGI 시험과 부딪친다 — 표현 방식은 렌더링·채색 축이 정한다"
+  },
+  {
+   "field": "faceFrame",
+   "from": " in this style",
+   "to": "",
+   "why": "얼굴 크기 · 턱 · 비율은 캐릭터 설계(고정 조건) — 화풍 따라 바뀌는 말처럼 읽히지 않게"
+  }
+ ]
 }

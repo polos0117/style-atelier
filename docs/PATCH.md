@@ -3,6 +3,12 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 검토안 1 · 2 · 5단계 — 문앙 공통 문구 · 축 담당 범위 · 기록 보완
+- 사용자 검토안(docs/AXIS_REVIEW.md) → 「1. 크고 둥근 눈으로. 2. 삼국지 설계표도 다 수정해줘. 3. 그 순서로 진행해줘」
+- `data/subjects/sam.wenyang.json` — sam-atelier 89ab31a(눈 모순 고친 설계표)에서 다시 가져옴. `sam.wenyang.overrides.json` — 머리말 character image · 얼굴 비율 줄 in this style 빼기(원본은 original 에). `tools/import-subject.cjs` 덮어쓰기 칸
+- `data/parts.json` axes — 방향 · 얼굴 표현 · 렌더링·채색 · 조명·색조 · 이펙트와 담당 범위(rule). `tools/make-job.cjs` — 일감 기록에 부품의 그 판 한글 이름 · 짝 규칙 · 캐릭터 덮어쓰기
+- `docs/AXIS_REVIEW.md`(검토안 원문) · `docs/STRUCTURE.md` 0.1절 · `tests/build.cjs`
+
 ## 2026-11-10 · claude · 나라 말 없는 애니 · 3D 애니메이션을 내리고 3D 도 일본 · 한국으로
 - 사용자 「애니 나라없음은 빼자」 → 「아 3d 애니메이션도 지정을 일본,한국 나눠서 해줘. 지금 없음값 내려주고」
 - `data/parts.json` — 방향 anime · film3d 에 retired(이미 받은 그림이 가리켜 지우지 않는다), 새 방향 jp_film3d(일본 3D 애니메이션) · kr_film3d(한국 3D 애니메이션)

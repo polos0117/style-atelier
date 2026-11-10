@@ -76,7 +76,8 @@ for (const sid of subjects) {
       if (taken[k] && !has('repeat')) { console.log('  있음(건너뜀) ' + b.slot); continue; }
       const n = (taken[k] || 0) + 1; taken[k] = n;
       slots.push({ slot: b.slot, file: B.imageName(b.slot, model, n), subject: sid, subject_commit: subj.source.commit, world: w, kind: b.kind, exposure: b.exposure, model, n,
-        recipe: { id: b.recipe.id, name: b.recipe.name, display: B.displayName(b.recipe), parts: b.recipe.parts.map(p => ({ axis: p.axis, key: p.key, v: p.v, code: p.code })) },
+        recipe: { id: b.recipe.id, name: b.recipe.name, display: B.displayName(b.recipe), parts: b.recipe.parts.map(p => ({ axis: p.axis, key: p.key, v: p.v, code: p.code, ko: p.ko, only: p.only || null })) },   /* 그 판의 한글 이름 · 짝 규칙을 박아 둔다(검토안 6.2 — 나중에 이름 · 규칙이 바뀌어도 옛 그림 기록은 그대로) */
+        subject_overrides: (subj.overrides || []).map(o => o.field + ': ' + o.from + ' → ' + o.to),
         prompt: b.text, prompt_sha256: sha(b.text) });
     }
   }

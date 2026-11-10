@@ -5,7 +5,9 @@
 
    node tools/import-subject.cjs sam <장수 열쇠> --id sam.<이름> [--worlds samguk,fantasy,mecha] [--from ../sam-atelier] [--style <칸 꼴 화풍>]
    node tools/import-subject.cjs element <원소 열쇠> --id el.<이름> [--worlds fantasy,steampunk,mecha] [--from ../element-atelier]
-   이미 있는 복사본은 덮지 않는다 — 새 판으로 다시 가져오려면 --replace(옛 그림 기록은 source.commit 으로 옛 판을 가리킨다). */
+   이미 있는 복사본은 덮지 않는다 — 새 판으로 다시 가져오려면 --replace(옛 그림 기록은 source.commit 으로 옛 판을 가리킨다).
+   덮어쓰기: data/subjects/<id>.overrides.json 의 replace[{field, from, to, why}] 를 가져온 뒤 세계마다 적용한다 —
+   원본 줄은 worlds.<세계>.original.<칸> 에 남긴다. from 이 원본에 없으면 멈춘다(원본이 바뀌었다는 뜻). */
 'use strict';
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), cp = require('node:child_process');
 const ROOT = path.join(__dirname, '..');
@@ -99,6 +101,23 @@ const subj = {
   worlds: {}
 };
 for (const w of worlds) subj.worlds[w] = atelier === 'sam' ? samWorld(w, style) : elWorld(w);
+const ovF = path.join(ROOT, 'data/subjects', id + '.overrides.json');
+if (fs.existsSync(ovF)) {
+  const OV = JSON.parse(fs.readFileSync(ovF, 'utf8'));
+  for (const w of worlds) {
+    const W = subj.worlds[w];
+    for (const r of OV.replace || []) {
+      const cur = W[r.field], arr = Array.isArray(cur);
+      const txt = arr ? cur.join('\n') : cur;
+      if (typeof txt !== 'string' || txt.indexOf(r.from) < 0) { console.error(w + ' ' + r.field + ' 에 「' + r.from + '」 가 없다 — 원본이 바뀌었다. overrides 를 고친다'); process.exit(1); }
+      W.original = W.original || {};
+      if (!(r.field in W.original)) W.original[r.field] = cur;
+      const nt = txt.split(r.from).join(r.to);
+      W[r.field] = arr ? nt.split('\n') : nt;
+    }
+  }
+  subj.overrides = (OV.replace || []).map(r => ({ field: r.field, from: r.from, to: r.to, why: r.why }));
+}
 fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.writeFileSync(out, JSON.stringify(subj, null, 1) + '\n');
 /* 목록(data/subjects/index.json) — 화면이 읽는다 */

@@ -1,0 +1,9 @@
+{
+ "note": "문앙 복사본에서만 바꾸는 공통 문구 — 원본(삼국지 공방)은 그대로. 사용자 2026-11-10 검토안 5절(캐릭터 · 공통 프롬프트 점검) → 「그 순서로 진행해줘」",
+ "replace": [
+  { "field": "head", "from": "character card illustration", "to": "character image",
+    "why": "머리말이 매체를 「illustration」 으로 박아 실사 사진 · CGI 시험과 부딪친다 — 표현 방식은 렌더링·채색 축이 정한다" },
+  { "field": "faceFrame", "from": " in this style", "to": "",
+    "why": "얼굴 크기 · 턱 · 비율은 캐릭터 설계(고정 조건) — 화풍 따라 바뀌는 말처럼 읽히지 않게" }
+ ]
+}
