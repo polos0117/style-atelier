@@ -118,6 +118,15 @@ for (const s of SL.subjects) {
   for (const [id, e] of Object.entries(E.evals || {})) { assert(B.parseImage(id), '평가 열쇠는 그림 이름: ' + id); assert.deepEqual(V.check(e), [], id + ' 평가 칸'); }
   assert.deepEqual(V.check({ taste: 6 }), ['taste 는 1~5']); assert.deepEqual(V.check({ verdict: 'meh' }).length, 1); assert.deepEqual(V.check({ foo: 1 }), ['모르는 칸 foo']);
   assert.equal(V.badge({ taste: 4, verdict: 'fix', side: '조금' }), '★4 · 고칠 것 · 변화 조금'); assert.equal(V.badge({}), ''); }
+/* 확정 화풍 — data/confirmed.json: 조합 이름에 판이 다 박혀 있고(부품 새 판에 안 흔들림) 살아 있는 부품 · 대표 그림 이름은 그 조합 */
+{ const C = J('data/confirmed.json'), keys = new Set();
+  for (const c of C.styles) {
+    assert(c.key && c.ko && c.confirmed && c.why, '확정 화풍 칸: ' + JSON.stringify(c).slice(0, 80)); assert(!keys.has(c.key), '확정 화풍 열쇠 겹침 ' + c.key); keys.add(c.key);
+    const rs = B.resolve(P, R, c.id); assert.equal(rs.id, c.id, c.key + ' 조합 이름은 판까지');
+    assert.deepEqual(B.retiredIn(rs), [], c.key + ' 에 내린 부품'); assert.deepEqual(B.clashes(rs), [], c.key + ' 모순 짝');
+    if (R.recipes[c.key]) assert.equal(B.recipeNameOf(R, rs), c.key, c.key + ' 은 등록한 조합과 같은 부품');
+    for (const [w, id] of Object.entries(c.images || {})) { const m = B.parseImage(id); assert(m && id.startsWith(c.id + '__') && m.slot.includes('__' + w + '-'), c.key + ' 대표 그림 ' + w + ': ' + id); }
+  } }
 assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', { direction: 'photo_still', face: 'real_natural', paint: 'smooth', light: 'muted', fx: 'none' }), /같이 못 쓰는 짝/);
 assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'semi_smooth', { kind: 'casual' }), /아직 없는 갈래/);
 console.log('PASS 조립부: 부품 ' + B.AXES.map(a => Object.keys(P.parts[a]).length).join('·') + ' · 조합 ' + Object.keys(R.recipes).length + ' · 말 되는 조합 ' + cs.length + ' · 캐릭터 ' + SL.subjects.length + ' · 지시문 ' + n);

@@ -77,6 +77,18 @@ table.recipe .txt { display:block; margin-top:4px; color:var(--sub); font-size:1
 dl.facts { display:grid; grid-template-columns:auto 1fr; gap:4px 14px; margin:0; font-size:14px; }
 dl.facts dt { color:var(--sub); }
 dl.facts dd { margin:0; word-break:break-all; }
+/* 확정 화풍 */
+.conf { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px; margin-bottom:18px; }
+.conf h2 { margin:0; font-size:19px; }
+.conf .keys { color:var(--sub); font-size:13px; margin:4px 0 2px; word-break:break-all; }
+.conf .keys code { color:var(--ink); }
+.conf .why { color:var(--sub); font-size:13px; margin:6px 0 12px; }
+.conf .worlds { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:10px; }
+.conf .worlds figure { margin:0; }
+.conf .worlds img { width:100%; aspect-ratio:2/3; object-fit:cover; border-radius:8px; background:var(--line); cursor:pointer; display:block; }
+.conf .worlds figcaption { font-size:13px; color:var(--sub); text-align:center; margin-top:4px; }
+.conf .worlds .none { aspect-ratio:2/3; display:grid; place-items:center; border:1px dashed var(--line); border-radius:8px; color:var(--sub); font-size:13px; }
+.conf .stat { font-size:13px; color:var(--sub); margin-top:10px; }
 </style>
 </head>
 <body>
@@ -89,9 +101,14 @@ dl.facts dd { margin:0; word-break:break-all; }
     <button role="tab" data-t="axis">축 비교</button>
     <button role="tab" data-t="mix">섞어보기</button>
     <button role="tab" data-t="jobs">일감</button>
+    <button role="tab" data-t="confirmed">확정 화풍</button>
   </nav>
 </header>
 <main>
+  <section id="confirmed" hidden>
+    <div class="meta">사용자가 「이걸로」 고른 화풍 — 조합 이름에 판이 박혀 있어 부품에 새 판이 생겨도 이 문장은 그대로다(data/confirmed.json).</div>
+    <div id="confOut"></div>
+  </section>
   <section id="find">
     <div class="meta">검색 조건</div>
     <div class="groups" id="groups"></div>
@@ -362,6 +379,38 @@ function axisRun() {
   $('axisMeta').textContent = '기준 ' + A.base + ' (' + base.id + ')에서 ' + P.axes.find(a => a.key === A.axis).ko + '만 바꿈 — 그림 있는 칸 ' + n + ' · 빈 칸 ' + empty + '. 빈 칸 채우기: node tools/make-job.cjs --base ' + A.base + ' --vary ' + A.axis + ' --subject ' + A.subject + ' --world ' + A.world;
 }
 
+/* 확정 화풍 — data/confirmed.json. 열쇠 · 화풍 이름 · 조합 이름(판 고정) · 세계별 대표 그림 · 부품표 · 화풍 문장(복사) · 평가 요약 */
+let CONF = null;
+function confRun() {
+  const box = $('confOut'); box.innerHTML = '';
+  const list = (CONF && CONF.styles) || [];
+  if (!list.length) return box.append(el('div', { class: 'empty-note' }, '아직 확정한 화풍이 없다.'));
+  list.forEach(c => {
+    let rs; try { rs = B.resolve(P, R, c.id); } catch (e) { return box.append(el('div', { class: 'conf warn' }, c.key + ' — 조합을 못 읽었다: ' + e.message)); }
+    const imgs = Object.entries(c.images || {}), all = rows.filter(r => r.id.startsWith(c.id + '__'));
+    const worlds = el('div', { class: 'worlds' });
+    imgs.forEach(([w, id]) => {
+      const r = rows.find(x => x.id === id);
+      worlds.append(el('figure', {}, r ? el('img', { src: thumb(id), loading: 'lazy', alt: c.ko + ' — ' + (WORLD_KO[w] || w), on: { click: () => openImg(r, imgs.map(([, i]) => rows.find(x => x.id === i)).filter(Boolean)) } }) : el('div', { class: 'none' }, '그림 없음'), el('figcaption', {}, WORLD_KO[w] || w)));
+    });
+    const t = el('table', { class: 'recipe' });
+    rs.parts.forEach(p => t.append(el('tr', {}, el('th', {}, P.axes.find(a => a.key === p.axis).ko),
+      el('td', {}, el('b', {}, p.ko), el('span', { class: 'k' }, p.key + ' @' + p.v + (p.v !== P.parts[p.axis][p.key].current ? ' · 지금 판은 ' + P.parts[p.axis][p.key].current : '')), el('span', { class: 'txt' }, p.text || '(없음)')))));
+    const avoid = [...new Set(rs.parts.flatMap(p => p.avoid))];
+    const styleText = B.paragraph(rs) + '\n' + B.lightLine(rs) + (avoid.length ? '\nAvoid: ' + avoid.join(', ') + '.' : '');
+    const ev = all.map(r => evOf(r.id)).filter(Boolean), avg = k => { const v = ev.map(e => e[k]).filter(x => typeof x === 'number'); return v.length ? (v.reduce((a, b) => a + b, 0) / v.length).toFixed(1) + ' (' + v.length + ')' : '—'; };
+    box.append(el('div', { class: 'conf' },
+      el('h2', {}, c.ko),
+      el('div', { class: 'keys' }, '열쇠 ', el('code', {}, c.key), ' · 조합 ', el('code', {}, c.id), ' · 확정 ' + c.confirmed),
+      el('div', { class: 'why' }, c.why || ''),
+      worlds,
+      el('h3', {}, '조합표'), t,
+      el('h3', {}, '화풍 문장'), el('pre', {}, styleText),
+      el('button', { class: 'b', type: 'button', on: { click: e => navigator.clipboard.writeText(styleText).then(() => { e.target.textContent = '복사함'; }) } }, '화풍 문장 복사'),
+      el('div', { class: 'stat' }, '이 조합 그림 ' + all.length + '장 · 평가 ' + ev.length + '장 — 취향 ' + avg('taste') + ' · 캐릭터 유지 ' + avg('keep') + ' · 반복 유지 ' + avg('repeat'))));
+  });
+}
+
 /* 섞어보기 */
 const M = { subject: '', world: '', exposure: '' };
 function mixUI() {
@@ -393,7 +442,7 @@ function mixRun() {
 
 let COMBOS = 0, FOCUS_EX = '';
 (async () => {
-  let FO; [P, R, SL, FO] = await Promise.all([getJ('data/parts.json'), getJ('data/recipes.json'), getJ('data/subjects/index.json'), getJ('data/focus.json')]);
+  let FO; [P, R, SL, FO, CONF] = await Promise.all([getJ('data/parts.json'), getJ('data/recipes.json'), getJ('data/subjects/index.json'), getJ('data/focus.json'), getJ('data/confirmed.json')]);
   if (FO) { A.subject = M.subject = FO.subject; A.world = M.world = FO.world; FOCUS_EX = FO.exposure || ''; }   /* 지금 시험하는 캐릭터 · 세계(data/focus.json)부터 */
   for (const s of SL.subjects) SUB[s.id] = await getJ('data/subjects/' + s.id + '.json');
   COMBOS = B.combos(P).length;
@@ -401,7 +450,7 @@ let COMBOS = 0, FOCUS_EX = '';
   pending = pd || [];
   if (ix) rows = ix.rows.map(r => Object.fromEntries(ix.cols.map((c, i) => [c, r[i]])));
   blocked = bl || [];
-  groupsUI(); findUI(); findRun(); axisUI(); mixUI(); route();
+  groupsUI(); findUI(); findRun(); axisUI(); mixUI(); confRun(); route();
   const nx = await getT(IMG + 'jobs/NEXT.md'); $('jobsOut').textContent = nx || '(일감 목록을 못 읽었다)';
 })();
 document.querySelectorAll('nav button').forEach(b => b.addEventListener('click', () => {

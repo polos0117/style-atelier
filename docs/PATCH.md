@@ -3,6 +3,10 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · 확정 화풍 — kr_drawn_brush_rim · 탭
+- 사용자 「kr_drawn_brush_rim 으로 하고. 메뉴하나 더 만들어서 '확정화풍' 이라고 해서 키값,화풍명, 이미지 보이게」 — data/confirmed.json 첫 항목: kr_drawn_brush_rim = km2-il2-ba3-rg2-x01(판 고정), 대표 그림 무협 5차 #1 · 판타지 · 메카 11차 #1
+- 화면 「확정 화풍」 탭 — 열쇠 · 화풍 이름 · 조합 이름 · 대표 그림 셋(누르면 상세) · 조합표 · 화풍 문장 복사 · 평가 평균. 검사에 확정 화풍 칸(판 고정 · 내린 부품 · 모순 · 대표 그림 이름) 더함
+
 ## 2026-11-11 · claude · 11차 — 등록한 화풍 넷을 문앙 판타지 · 메카로
 - 사용자 「1번은 패스하고 2번부터 보자」 → 「응」 — 1단계 j0076-r11-worlds: ln_drawn_oil · kr_anime_brush · kr_drawn_brush_rim · kr_semi_oil_rim × 문앙 판타지 · 메카(노출 slit) 한 장씩 8장
 - 문앙 복사본 판타지 의상 「a plumed helm or circlet」 → 「a circlet with a single white plume」(머리 장식 고정, 무협과 같은 까닭)
