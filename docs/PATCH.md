@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · 시간 말 빼기 · 그린 얼굴 v2 로 되돌림
+- 8차 평가 — il3 「얼굴 느낌이 너무 이상해졌어」(취향 1) → il current v2, v3 은 dropped 로 기록만. 대조군 애니 붓이 하늘만 바뀌었는데 「얼굴 마다 느낌이 달라져서 애매함」 — 하늘 · 시간대가 그림 전체 톤을 바꿔 화풍 차이처럼 보였다
+- 사용자 「시간 말은 빼긴 해야하는데」 — 문앙 무협 장면의 시간대 덮어쓰기를 지웠다(1~6차와 같은 조건). 머리 장식 고정은 그대로
+- 앞으로 한 차수에 한 가지만 바꾸고 대조군(애니 붓) 한 장을 같이 그린다
+
 ## 2026-11-10 · claude · 얼굴 · 유화 부품 새 판 · 8차 일감
 - 7차 둘째 평가 — 하늘은 맞았는데 얼굴이 「2d로 간 얼굴」 · 「2d-3d 왔다갔다」. 캐릭터 잡음을 걷어 낸 뒤라 원인은 부품 문장 — 유화가 얼굴 말(fine detail kept for the face)로 얼굴 축과 줄다리기, 얼굴 문장은 추상적. 사용자 「응 그렇게 해줘」
 - 유화 og v4 — 얼굴 말 빼고 장신구만. 반실사 sp v3 — realistic proportions · softly modelled volume · refined slightly beyond life, avoid photographic skin texture · flat anime-style features. 그린 얼굴 il v3 — features reduced to clean, readable shapes · soft painted shading(눈 · 코 · 입 말은 얼굴 축 범위 검사에 걸려 뺐다 — 생김새는 캐릭터 몫)

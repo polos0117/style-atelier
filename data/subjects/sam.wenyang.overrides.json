@@ -21,15 +21,6 @@
    "from": "a plumed helmet or a war headband",
    "to": "a war headband with a single white plume",
    "why": "머리 장식을 하나로 고정 — 「투구 또는 머리띠」 둘 중 하나라 그릴 때마다 깃털 · 머리 윤곽이 달라져 화풍 비교를 흐렸다(6차 반복 평가 「머리스타일」). 사용자 2026-11-10 「응 A 먼저 해줘」"
-  },
-  {
-   "field": "scene",
-   "worlds": [
-    "samguk"
-   ],
-   "from": "bronze ritual vessels and lacquered halls.",
-   "to": "bronze ritual vessels and lacquered halls, seen in soft hazy daylight under a pale, lightly clouded sky.",
-   "why": "시간대 고정 — 장면에 시간 · 하늘 말이 없어 그릴 때마다 낮 하늘 · 노을빛이 섞였다(7차 평가 「색감(노을지는 듯한 뒷배경색 차이인듯)」). 조명 부품은 인물에 떨어지는 빛만 말한다 — 배경 하늘색이 남는 색 잡음이었다. 사용자 2026-11-10 A2 「응」. 어두운 조명(cine_lowkey 등)을 시험할 땐 부딪칠 수 있다 — 그때 조명 부품이 시간대를 맡게 넘긴다 · 사용자 「오일쪽은 쨍한 오전보다는 5번 그림같은 분위기가 나은듯」 → 맑은 낮 대신 흐린 듯 부드러운 낮(첫 판 「clear daytime under a pale blue sky」 은 j0065 그림 기록에 남는다)"
   }
  ],
  "exposure": {

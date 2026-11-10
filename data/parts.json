@@ -557,8 +557,8 @@
    },
    "illustrated": {
     "code": "il",
-    "ko": "그린 얼굴 · 깔끔한 형태 단순화",
-    "current": "v3",
+    "ko": "그린 얼굴 · 가볍게 단순화",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
@@ -575,7 +575,8 @@
       "v": "v3",
       "text": "A drawn face with gently simplified structure: features reduced to clean, readable shapes, with soft painted shading across the planes of the face.",
       "ko": "그린 얼굴 · 깔끔한 형태 단순화",
-      "by": "사용자 2026-11-10 7차 반복 평가 「2d로 간 얼굴」 · 「반실사의 한계인듯. 2d-3d 왔다갔다」 → 수정안 「응 그렇게 해줘」"
+      "by": "사용자 2026-11-10 7차 반복 평가 「2d로 간 얼굴」 · 「반실사의 한계인듯. 2d-3d 왔다갔다」 → 수정안 「응 그렇게 해줘」",
+      "dropped": "2026-11-10 8차 「얼굴 느낌이 너무 이상해졌어」(취향 1) — v2 로 되돌렸다. 기록으로 남김"
      }
     ],
     "pairs": {
