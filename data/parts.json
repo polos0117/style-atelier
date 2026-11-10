@@ -198,6 +198,50 @@
       "render3d"
      ]
     }
+   },
+   "cinematic_cgi": {
+    "code": "cc",
+    "ko": "시네마틱 CGI",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "High-end cinematic character CGI."
+     }
+    ],
+    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」) — 삼국지 kv_cgi_hikey 에서",
+    "only": {
+     "face": [
+      "cgi_ideal",
+      "real_natural",
+      "semi_soft"
+     ],
+     "paint": [
+      "photoreal_cgi",
+      "smooth"
+     ]
+    }
+   },
+   "photo_still": {
+    "code": "ps",
+    "ko": "실사 사진(영화 스틸)",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "A photorealistic cinematic film still of a costumed character, as if shot on a full-frame camera."
+     }
+    ],
+    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」)",
+    "only": {
+     "face": [
+      "real_natural",
+      "cgi_ideal"
+     ],
+     "paint": [
+      "photo"
+     ]
+    }
    }
   },
   "face": {
@@ -219,7 +263,8 @@
       "oil_glaze",
       "oil_brush",
       "impasto",
-      "matte_soft"
+      "matte_soft",
+      "photoreal_cgi"
      ]
     }
    },
@@ -342,6 +387,43 @@
       "render3d"
      ]
     }
+   },
+   "cgi_ideal": {
+    "code": "ci",
+    "ko": "CGI 이상화 얼굴",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "An idealised East Asian game-character face with delicately sculpted anatomy, softly rounded facial planes and subtle asymmetry — a refined, designed beauty."
+     }
+    ],
+    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」) — kv_cgi_hikey 에서",
+    "only": {
+     "paint": [
+      "photoreal_cgi",
+      "photo",
+      "smooth"
+     ]
+    }
+   },
+   "real_natural": {
+    "code": "rn",
+    "ko": "실제 사람 얼굴",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "A natural, real-looking adult woman's face with true-to-life proportions — beautiful, but not stylised or doll-like."
+     }
+    ],
+    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」)",
+    "only": {
+     "paint": [
+      "photo",
+      "photoreal_cgi"
+     ]
+    }
    }
   },
   "paint": {
@@ -459,6 +541,46 @@
       "stylised3d"
      ]
     }
+   },
+   "photoreal_cgi": {
+    "code": "pc",
+    "ko": "포토리얼 CGI 표면",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Photorealistic surface rendering: lifelike translucent skin with subtle subsurface scattering, delicate microtexture and small localised specular highlights; individually resolved fine hair strands; silk, lacquer, leather, metal and gems each with physically convincing roughness and reflections. No outlines, cel shading or broad brushwork; no waxy or uniformly glossy skin."
+     }
+    ],
+    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」) — kv_cgi_hikey 에서",
+    "only": {
+     "face": [
+      "cgi_ideal",
+      "real_natural",
+      "semi_soft"
+     ]
+    }
+   },
+   "photo": {
+    "code": "pp",
+    "ko": "사진",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Photographic capture: real skin texture, natural hair, real fabric and metal, a shallow depth of field and true lens rendering; no illustration, painting or CGI look."
+     }
+    ],
+    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」)",
+    "only": {
+     "face": [
+      "real_natural",
+      "cgi_ideal"
+     ],
+     "direction": [
+      "photo_still"
+     ]
+    }
    }
   },
   "light": {
@@ -571,6 +693,30 @@
       "text": "bright, high-key outdoor daylight; her costume colours lifted toward soft pastel tints while the darkest accents stay deep and clean; a broad, soft sunlit sheen on skin, hair and armour, never wet, oily or plastic."
      }
     ]
+   },
+   "cine_hikey": {
+    "code": "ch",
+    "ko": "시네마틱 하이키 · 앞쪽 보조광",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "a bright, elegant high-key cinematic grade — soft frontal fill keeps her face and skin bright and translucent with open, colour-clean shadows, and the scene's own light comes from behind as a restrained rim; no strong colour cast on her skin and no crushed contrast."
+     }
+    ],
+    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」) — kv_cgi_hikey 조명 칸에서"
+   },
+   "cine_lowkey": {
+    "code": "cl",
+    "ko": "시네마틱 로키 · 한 줄기 빛",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "cinematic low-key lighting — a single motivated key light, deep natural shadows and a restrained colour grade."
+     }
+    ],
+    "note": "실사 축(사용자 2026-11-10 「방향이나 갈래에 실사축은 아예 없네」)"
    }
   },
   "fx": {
