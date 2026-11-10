@@ -14,9 +14,9 @@
  "worlds": {
   "samguk": {
    "exposure": {
-    "bold": "Skin shown: shoulders, arms, a deep cross-collar neckline with natural cleavage, and one thigh through a high slit in the skirt panels.",
-    "moderate": "Skin shown: collarbones, arms and lower legs.",
-    "low": "Skin shown: face, neck and hands only."
+    "bold": "Exposure (bold): her robes open to show skin — the cross collar opened into a deep neckline with natural cleavage, bare shoulders and arms where the outer robe is cut away by design, a high slit in the skirt panels showing the thigh; armor pieces stay on and symmetrical. Intimate areas covered; keep the costume material and palette.",
+    "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; intimate areas covered.",
+    "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
    },
    "genre": "THREE KINGDOMS",
    "head": "A full-body character image, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
@@ -45,20 +45,14 @@
    ],
    "original": {
     "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
-    "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
-    "exposure": {
-     "bold": "Exposure (bold): her robes open to show skin — the cross collar opened into a deep neckline with natural cleavage, bare shoulders and arms where the outer robe is cut away by design, a high slit in the skirt panels showing the thigh; armor pieces stay on and symmetrical. Intimate areas covered; keep the costume material and palette.",
-     "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; intimate areas covered.",
-     "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
-    }
-   },
-   "exposureConstraint": "Intimate areas stay covered; armour pieces stay on and symmetrical; the costume keeps its material and palette."
+    "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it."
+   }
   },
   "fantasy": {
    "exposure": {
-    "bold": "Skin shown: shoulders and arms between pauldron and bracer, a deep neckline under the gorget with natural cleavage, and one thigh through a high slit in the tabard or gown.",
-    "moderate": "Skin shown: collarbones, arms and lower legs.",
-    "low": "Skin shown: face, neck and hands only."
+    "bold": "Exposure (bold): her regalia opens to show skin — bare shoulders and arms between pauldron and bracer, a deep open neckline under the gorget with natural cleavage, a high slit in the tabard or gown showing the thigh; armor pieces stay on and symmetrical. Intimate areas covered; no corset; keep the costume material and palette.",
+    "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; intimate areas covered.",
+    "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
    },
    "genre": "MEDIEVAL FANTASY",
    "head": "A full-body character image, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
@@ -87,20 +81,14 @@
    ],
    "original": {
     "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
-    "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
-    "exposure": {
-     "bold": "Exposure (bold): her regalia opens to show skin — bare shoulders and arms between pauldron and bracer, a deep open neckline under the gorget with natural cleavage, a high slit in the tabard or gown showing the thigh; armor pieces stay on and symmetrical. Intimate areas covered; no corset; keep the costume material and palette.",
-     "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; intimate areas covered.",
-     "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
-    }
-   },
-   "exposureConstraint": "Intimate areas stay covered; armour pieces stay on and symmetrical; no corset; the costume keeps its material and palette."
+    "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it."
+   }
   },
   "mecha": {
    "exposure": {
-    "bold": "Skin shown: shoulders and upper arms between pauldron and gauntlet, and upper thighs between the hip armour and thigh-high leg plates; everything else is plated.",
-    "moderate": "Skin shown: collarbones, arms and lower legs.",
-    "low": "Skin shown: face, neck and hands only."
+    "bold": "Exposure (bold): her mecha frame is cut open by design in only these places — bare shoulders and upper arms between pauldron and gauntlet, and bare upper thighs between the hip armor and thigh-high leg plates; everywhere else she stays fully plated. The plates stay on, fitted and symmetrical, with skin clearly showing in each opening. Intimate areas covered; keep the plate material and palette.",
+    "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; intimate areas covered.",
+    "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
    },
    "genre": "MECHA",
    "head": "A full-body character image, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
@@ -129,14 +117,8 @@
    ],
    "original": {
     "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
-    "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
-    "exposure": {
-     "bold": "Exposure (bold): her mecha frame is cut open by design in only these places — bare shoulders and upper arms between pauldron and gauntlet, and bare upper thighs between the hip armor and thigh-high leg plates; everywhere else she stays fully plated. The plates stay on, fitted and symmetrical, with skin clearly showing in each opening. Intimate areas covered; keep the plate material and palette.",
-     "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; intimate areas covered.",
-     "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
-    }
-   },
-   "exposureConstraint": "Intimate areas stay covered; the plates stay on, fitted and symmetrical; the costume keeps its plate material and palette."
+    "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it."
+   }
   }
  },
  "overrides": [
@@ -151,21 +133,6 @@
    "from": " in this style",
    "to": "",
    "why": "얼굴 크기 · 턱 · 비율은 캐릭터 설계(고정 조건) — 화풍 따라 바뀌는 말처럼 읽히지 않게"
-  },
-  {
-   "field": "exposure",
-   "world": "samguk",
-   "why": "사용자 2026-11-10 「Skin shown: 이 지금 용도에 잘 맞습니다 … Skin shown: shoulders, arms, upper chest, and one thigh through a side slit. 이런식으로 쓰자」 — 「Exposure」 는 사진 노출(밝기)로도 읽힌다. 드러나는 부위만 나열하고, 지킴 말은 5칸 제약으로"
-  },
-  {
-   "field": "exposure",
-   "world": "fantasy",
-   "why": "사용자 2026-11-10 「Skin shown: 이 지금 용도에 잘 맞습니다 … Skin shown: shoulders, arms, upper chest, and one thigh through a side slit. 이런식으로 쓰자」 — 「Exposure」 는 사진 노출(밝기)로도 읽힌다. 드러나는 부위만 나열하고, 지킴 말은 5칸 제약으로"
-  },
-  {
-   "field": "exposure",
-   "world": "mecha",
-   "why": "사용자 2026-11-10 「Skin shown: 이 지금 용도에 잘 맞습니다 … Skin shown: shoulders, arms, upper chest, and one thigh through a side slit. 이런식으로 쓰자」 — 「Exposure」 는 사진 노출(밝기)로도 읽힌다. 드러나는 부위만 나열하고, 지킴 말은 5칸 제약으로"
   }
  ]
 }

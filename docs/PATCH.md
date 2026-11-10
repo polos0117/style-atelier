@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 노출 줄은 원래 Exposure 꼴로 되돌리고, 화풍 비교 노출은 low
+- 사용자 「화풍쪽에는 바로 바꿔달라는게 아니라 이런 형식으로 쓰면 어떨까 물어본거였어 … 화풍공방쪽은 skin shown low 로 낮춰줘」 → 「아 잠깐만 미안. 그냥 exposure 로 쓰자」
+- `data/subjects/sam.wenyang.overrides.json` — Skin shown 노출 덮어쓰기를 뺐다(문앙 노출 줄은 원래 Exposure (bold|moderate|low) 그대로). 조립부의 exposureConstraint 칸은 남겨 둔다(쓰는 복사본 없음)
+- `data/focus.json` exposure none → low. 2차 일감(none)을 보류하고 low 로 다시. 삼국지 · 원소의 노출 줄은 바꾸지 않았다(고치던 것을 되돌림)
+
 ## 2026-11-10 · claude · 노출 줄을 「Skin shown:」 꼴로 — 드러나는 부위만, 지킴 말은 제약으로
 - 사용자 「Skin shown: 이 지금 용도에 잘 맞습니다 … Skin shown: shoulders, arms, upper chest, and one thigh through a side slit. 이런식으로 쓰자」 — 「Exposure (bold)」 이름표는 사진 노출(밝기)로도 읽힌다
 - `data/subjects/sam.wenyang.overrides.json` exposure · exposureConstraint — 문앙 세 세계 bold · moderate · low 를 부위 나열로, 「중요 부위 가림 · 갑옷 그대로 · 재질 · 색 그대로」 는 노출을 넣을 때만 5칸에(원본은 original.exposure)

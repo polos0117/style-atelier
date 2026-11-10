@@ -13,29 +13,5 @@
    "to": "",
    "why": "얼굴 크기 · 턱 · 비율은 캐릭터 설계(고정 조건) — 화풍 따라 바뀌는 말처럼 읽히지 않게"
   }
- ],
- "exposure": {
-  "why": "사용자 2026-11-10 「Skin shown: 이 지금 용도에 잘 맞습니다 … Skin shown: shoulders, arms, upper chest, and one thigh through a side slit. 이런식으로 쓰자」 — 「Exposure」 는 사진 노출(밝기)로도 읽힌다. 드러나는 부위만 나열하고, 지킴 말은 5칸 제약으로",
-  "samguk": {
-   "bold": "Skin shown: shoulders, arms, a deep cross-collar neckline with natural cleavage, and one thigh through a high slit in the skirt panels.",
-   "moderate": "Skin shown: collarbones, arms and lower legs.",
-   "low": "Skin shown: face, neck and hands only."
-  },
-  "fantasy": {
-   "bold": "Skin shown: shoulders and arms between pauldron and bracer, a deep neckline under the gorget with natural cleavage, and one thigh through a high slit in the tabard or gown.",
-   "moderate": "Skin shown: collarbones, arms and lower legs.",
-   "low": "Skin shown: face, neck and hands only."
-  },
-  "mecha": {
-   "bold": "Skin shown: shoulders and upper arms between pauldron and gauntlet, and upper thighs between the hip armour and thigh-high leg plates; everything else is plated.",
-   "moderate": "Skin shown: collarbones, arms and lower legs.",
-   "low": "Skin shown: face, neck and hands only."
-  }
- },
- "exposureConstraint": {
-  "why": "원래 노출 줄 끝에 있던 지킴 말 — 노출 줄을 넣을 때만 5칸 제약에 붙는다",
-  "samguk": "Intimate areas stay covered; armour pieces stay on and symmetrical; the costume keeps its material and palette.",
-  "fantasy": "Intimate areas stay covered; armour pieces stay on and symmetrical; no corset; the costume keeps its material and palette.",
-  "mecha": "Intimate areas stay covered; the plates stay on, fitted and symmetrical; the costume keeps its plate material and palette."
- }
+ ]
 }

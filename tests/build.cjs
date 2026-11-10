@@ -82,8 +82,7 @@ for (const s of SL.subjects) {
     for (const k of ['genre', 'head', 'faceFrame']) assert(W[k], s.id + ' ' + w + ' ' + k);
     for (const k of ['character', 'costume', 'scene', 'constraints']) assert(Array.isArray(W[k]) && W[k].length, s.id + ' ' + w + ' ' + k);
     for (const e of ['bold', 'moderate', 'low']) assert(/^(Exposure \(|Skin shown: )/.test(W.exposure[e]), s.id + ' ' + w + ' 노출 ' + e);
-    if (s.id === 'sam.wenyang') { assert(/^Skin shown: /.test(W.exposure.bold) && W.exposureConstraint && /Intimate areas stay covered/.test(W.exposureConstraint), '문앙 노출 줄은 「Skin shown:」 꼴 · 지킴 말은 제약으로');
-      assert(!/\b(Exposure|bold)\b/.test(W.exposure.bold), '노출 줄에 Exposure · bold 이름표가 없다'); }
+    if (s.id === 'sam.wenyang') assert(/^Exposure \(bold\)/.test(W.exposure.bold) && !W.exposureConstraint, '문앙 노출 줄은 원래 꼴(사용자 「그냥 exposure 로 쓰자」)');
     const flat = [W.head, W.faceFrame].concat(W.character, W.costume, W.scene, W.constraints).join('\n');
     assert(!/^(Style|Light|Mood):/m.test(flat) && !/\bLIGHT:/.test(flat), s.id + ' ' + w + ' 에 화풍 말이 남았다');
     assert(W.scene.some(l => /^Composition:/.test(l)), s.id + ' ' + w + ' 구도 줄');
@@ -111,7 +110,7 @@ for (const s of SL.subjects) {
   assert(!/in this style/.test(W.faceFrame) && W.original && /in this style/.test(W.original.faceFrame), '얼굴 비율 줄 덮어쓰기 · 원본 보존');
   assert(!/smaller, narrower eyes/.test(W.character.join(' ')) && /large round eyes/.test(W.character.join(' ')), '문앙 무협은 크고 둥근 눈 하나로(삼국지 설계표 고침)');
   assert(P.axes.every(a => a.ko && a.rule), '축마다 한글 이름 · 담당 범위');
-  assert.equal(J('data/focus.json').exposure, 'none', '화풍 비교는 노출 줄 없이(사용자 「bold 를 화풍비교에선 빼자」)'); }
+  assert.equal(J('data/focus.json').exposure, 'low', '화풍 비교는 노출 low(사용자 「bold 를 화풍비교에선 빼자」 → 「skin shown low 로 낮춰줘」 → 「그냥 exposure 로 쓰자」)'); }
 assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', { direction: 'photo_still', face: 'real_natural', paint: 'smooth', light: 'muted', fx: 'none' }), /같이 못 쓰는 짝/);
 assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'semi_smooth', { kind: 'casual' }), /아직 없는 갈래/);
 console.log('PASS 조립부: 부품 ' + B.AXES.map(a => Object.keys(P.parts[a]).length).join('·') + ' · 조합 ' + Object.keys(R.recipes).length + ' · 말 되는 조합 ' + cs.length + ' · 캐릭터 ' + SL.subjects.length + ' · 지시문 ' + n);
