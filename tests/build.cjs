@@ -75,7 +75,7 @@ assert.equal(B.slotName('km1-ss1-sm1-mu1-xf1', 'sam.wenyang', 'samguk', 'world',
 assert.equal(B.parseSlot(s0 + '-low~cr1').bg, 'cr1'); assert.equal(B.parseImage(s0 + '~cr1__api26__2').bg, 'cr1');
 { const BG = J('data/backgrounds.json');
   for (const [k, r] of Object.entries(BG.backgrounds)) { const g = B.background(BG, k); assert(/^[a-z]+\d+$/.test(g.code) && /^[a-z]/.test(g.text) && /\.$/.test(g.text), '배경 ' + k + ' 은 소문자 시작 · 마침표 끝'); assert(!/\b(never|no|not)\b/i.test(g.text), '배경 ' + k + ' 부정 말은 avoid 로'); }
-  const b = B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit', bg: 'canvas_rough', BG });
+  const b = B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit', bg: 'canvas_rough@v1', BG });
   const L = b.text.split('\n'), li = L.findIndex(l => /^Light:/.test(l));
   assert(/^Background treatment: /.test(L[li + 1]) && /^Composition:/.test(L[li + 2]), '배경 처리 줄은 Light 와 Composition 사이');
   assert(b.slot.endsWith('-slit~cr1')); assert.equal(B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit' }).text.indexOf('Background treatment'), -1); }

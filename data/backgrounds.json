@@ -4,14 +4,20 @@
  "backgrounds": {
   "canvas_rough": {
    "code": "cr",
-   "ko": "거친 유화 붓질 캔버스",
-   "current": "v1",
+   "ko": "거친 유화 붓질 캔버스 · 배경은 덜 그림",
+   "current": "v2",
    "versions": [
     {
      "v": "v1",
      "text": "the setting behind her is painted with rough, loose oil brushstrokes over visible canvas weave, while she keeps the finish described in STYLE.",
      "ko": "거친 유화 붓질 캔버스",
      "by": "사용자 2026-11-10 「우리 확정한 화풍에 뒷 배경을 유화캔버스위에 붓질을 거칠게한 느낌으로 세계이미지 만들어줘. 2.6api로」"
+    },
+    {
+     "v": "v2",
+     "text": "the setting behind her is loosely blocked in with thick, rough oil brushstrokes and palette-knife marks, with the canvas weave showing through thin passages; the background stays less detailed than the figure.",
+     "ko": "거친 유화 붓질 캔버스 · 배경은 덜 그림",
+     "by": "v1 은 배경이 꼼꼼하게 그려져 효과가 약했다(판타지 · 메카) — 사용자 2026-11-10 v2 제안 「응 그려줘」"
     }
    ]
   }

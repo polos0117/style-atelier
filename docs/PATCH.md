@@ -3,6 +3,10 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · 배경 처리 canvas_rough v2 · 2.6 API 3장
+- v1 은 판타지 · 메카에서 배경이 꼼꼼하게 그려져 효과가 약했다 → v2 「loosely blocked in with thick, rough oil brushstrokes and palette-knife marks, canvas weave showing through thin passages; the background stays less detailed than the figure」(사용자 「응 그려줘」)
+- 13차 j0079-r13-canvas2 — 같은 세 장(~cr2), 출력 3,396. 하늘 · 행성 · 성벽에 두꺼운 붓 · 나이프 자국이 또렷, 인물 화풍은 그대로
+
 ## 2026-11-11 · claude · 배경 처리 층 · 확정 화풍 + 거친 유화 캔버스 배경(2.6 API 3장)
 - 사용자 「우리 확정한 화풍에 뒷 배경을 유화캔버스위에 붓질을 거칠게한 느낌으로 세계이미지 만들어줘. 2.6api로」 — data/backgrounds.json 첫 항목 canvas_rough(cr) v1, 장면 Light 줄 뒤 「Background treatment: …」. 이펙트 축은 발광 · 블룸만이라 따로 층으로
 - build.js background() · slotName/parseSlot 끝 ~cr1, make-job --bg, 기록 background · 색인 bg 열, 화면 상세 「배경 처리」 · 카드 표시, 검사 더함
