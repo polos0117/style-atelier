@@ -10,6 +10,7 @@
      --model chatgpt(기본) | api26 | api25    --exposure moderate|low(기본은 캐릭터 기본값)
      --size 4(일감 하나에 칸 수)  --label <짧은 이름>  --repeat(이미 그린 칸도 다시 — 번호를 올린다)
      --img ../style-atelier-img     --dry(쓰지 않고 칸만 보인다)
+   이미 만든 일감의 REQUEST.md 를 지금 꼴로 다시 쓰기: --rewrite all | j0001,j0002(칸 · 지시문은 그대로)
    이미 그린 칸(rec/)과 열린 일감에 들어 있는 칸은 --repeat 없이는 다시 넣지 않는다. */
 'use strict';
 const fs = require('node:fs'), path = require('node:path'), crypto = require('node:crypto'), cp = require('node:child_process');
@@ -23,6 +24,7 @@ if (B.MODELS.indexOf(model) < 0) die('모르는 모델: ' + model + ' (' + B.MOD
 if (label && !/^[a-z0-9-]{1,32}$/.test(label)) die('label 은 소문자 · 숫자 · - 로 32자까지');
 function die(m) { console.error(m); process.exit(1); }
 const sha = s => crypto.createHash('sha256').update(s).digest('hex');
+if (flag('rewrite')) { rewrite(flag('rewrite')); process.exit(0); }
 
 /* 조합 목록 */
 let recipes = [];
@@ -83,13 +85,26 @@ for (const [jid, part] of made) {
   part.forEach(s => fs.writeFileSync(path.join(dir, 'prompts', s.file + '.txt'), s.prompt + '\n'));
   fs.writeFileSync(path.join(dir, 'slots.json'), JSON.stringify({ job: jid, created: today, model, label, size: part.length,
     slots: part.map(s => { const o = Object.assign({}, s); delete o.prompt; o.prompt_file = 'jobs/' + jid + '/prompts/' + s.file + '.txt'; return o; }) }, null, 1) + '\n');
-  fs.writeFileSync(path.join(dir, 'REQUEST.md'), request(jid, part));
+  fs.writeFileSync(path.join(dir, 'REQUEST.md'), request(jid, part, model));
 }
 /* NEXT.md · 색인은 수거 도구가 다시 짓는다(파일만 보고) */
 cp.execFileSync('python3', [path.join(__dirname, 'ingest.py'), '--img', IMG, '--refresh'], { stdio: 'inherit' });
 console.log('일감 ' + made.length + '개 · 칸 ' + slots.length + ' — ' + path.relative(process.cwd(), jobsDir));
 
-function request(jid, part) {
+/* 이미 만든 일감의 REQUEST.md 를 지금 꼴로 다시 쓴다 — 칸 · 지시문(prompts/)은 그대로. --rewrite all | j0001,j0002 */
+function rewrite(which) {
+  const IMGR = path.resolve(ROOT, flag('img', '../style-atelier-img')), jd = path.join(IMGR, 'jobs');
+  const ids = which === 'all' ? fs.readdirSync(jd).filter(d => /^j\d{4}/.test(d)).sort() : which.split(',');
+  for (const jid of ids) {
+    const J = JSON.parse(fs.readFileSync(path.join(jd, jid, 'slots.json'), 'utf8'));
+    const part = J.slots.map(s => Object.assign({}, s, { prompt: fs.readFileSync(path.join(IMGR, s.prompt_file), 'utf8').trim() }));
+    part.forEach(s => { if (sha(s.prompt) !== s.prompt_sha256) die(jid + ' ' + s.file + ' 지시문 해시가 다르다'); });
+    fs.writeFileSync(path.join(jd, jid, 'REQUEST.md'), request(jid, part, J.model));
+    console.log('다시 씀 ' + jid + '/REQUEST.md');
+  }
+}
+
+function request(jid, part, model) {
   const how = model === 'chatgpt'
     ? 'ChatGPT 이미지 생성으로 그린다(세로 2:3, 1024×1536).'
     : '그림 API(' + model + ')로 그린다 — Claude 쪽 일감.';
@@ -98,13 +113,19 @@ function request(jid, part) {
     '',
     'polos0117/style-atelier-img 저장소의 일감이야. 아래 칸마다 그림 한 장씩 그려서 `inbox/` 폴더에 정해진 이름으로 올려줘(main 에 일반 push). ' + how,
     '',
+    '시작 전 — 예약(다른 세션과 겹치지 않게)',
+    '1. `jobs/' + jid + '/CLAIM.md` 를 **새 파일로** 만들어 올린다. 내용은 두 줄 — 이 세션을 알아볼 이름(대화 제목 같은 것) · 지금 시각.',
+    '2. 이미 `CLAIM.md` 가 있으면(새로 만들기가 실패하면) 다른 세션이 하는 중이다 — `jobs/NEXT.md` 로 돌아가 「예약」 칸이 — 인 다른 일감을 고른다.',
+    '   예외: 사용자가 이 일감을 콕 집어 이어서 하라고 했거나 NEXT.md 에 「예약 만료」 로 나오면, 그 파일 끝에 두 줄(이름 · 시각)을 더 적고 이어서 한다.',
+    '3. 예약했으면 `rec/` 에 기록이 없는 칸만 그린다.',
+    '',
     '규칙',
     '- 지시문(코드 블록 안 영어)은 **한 글자도 바꾸지 않고** 그대로 넣는다. 설명 · 앞말을 붙이지 않는다.',
     '- 파일 이름은 칸에 적힌 이름 그대로 + 확장자(.png · .webp · .jpg). 예: `inbox/' + part[0].file + '.png`',
     '- 막히면(정책 거절) 같은 지시문으로 한 번 더. 그래도 막히면 그림 대신 `inbox/<이름>.blocked.txt` 에 거절 문구 한 줄. 지시문은 고치지 않는다.',
     '- 그림을 보고 한 줄 남기고 싶으면 `inbox/<이름>.note.txt`(선택).',
     '- 다른 파일은 고치지 않는다. 이미 있는 이름은 덮지 않는다.',
-    '- 하다 끊기면 다음 세션은 이 파일을 다시 읽고, `rec/` 에 기록이 없는 칸만 그린다.',
+    '- 하다 끊기면 이어받는 세션은 위 예외대로 `CLAIM.md` 에 두 줄을 더 적고, `rec/` 에 기록이 없는 칸만 그린다.',
     '- 다 올리면 끝. 변환 · 썸네일 · 기록 · 목록은 워크플로가 한다.',
     ''
   ].concat(part.map((s, i) => [

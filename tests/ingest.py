@@ -16,7 +16,7 @@ try:
     s1 = json.loads((img / 'jobs/j0001-t/slots.json').read_text())
     assert len(s1['slots']) == 4 and s1['slots'][0]['file'].endswith('__chatgpt__1')
     req = (img / 'jobs/j0001-t/REQUEST.md').read_text()
-    assert req.count('```text') == 4 and s1['slots'][0]['file'] in req and 'inbox/' in req
+    assert req.count('```text') == 4 and s1['slots'][0]['file'] in req and 'inbox/' in req and 'jobs/j0001-t/CLAIM.md' in req
     for s in s1['slots']:
         assert (img / s['prompt_file']).read_text().startswith('A full-body')
     # 같은 칸은 다시 안 들어간다 — --repeat 면 번호를 올린다
@@ -71,11 +71,26 @@ try:
     assert (inbox / (a + '.png')).exists()
     assert any('덮지 않음' in x['why'] for x in json.loads((img / 'index/problems.json').read_text()))
 
+    # 예약 — 막 예약한 일감은 아래로(예약 중 · 이름), 오래된 예약은 「예약 만료」, REQUEST 다시 쓰기
+    (img / 'jobs/j0002-t/CLAIM.md').write_text('세션 B — 화풍 시험\n2026-11-10 14:05\n')
+    old = img / 'jobs/j0003/CLAIM.md'
+    old.write_text('세션 A\n2026-11-10 09:00\n')
+    t0 = os.path.getmtime(old) - 3 * 3600
+    os.utime(old, (t0, t0))
+    subprocess.run([sys.executable, str(ROOT / 'tools/ingest.py'), '--img', str(img), '--refresh'], check=True, capture_output=True)
+    nxt = (img / 'jobs/NEXT.md').read_text()
+    rows = [l for l in nxt.splitlines() if l.startswith('| [j')]
+    assert '예약 중 · 세션 B — 화풍 시험 · 0분 전' in rows[-1] and 'j0002-t' in rows[-1], rows
+    assert any('j0003' in r and '예약 만료' in r for r in rows) and any('j0001-t' in r and r.endswith('| — |') for r in rows), rows
+    (img / 'jobs/j0001-t/REQUEST.md').write_text('old')
+    subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--rewrite', 'all'], check=True, capture_output=True)
+    assert 'CLAIM.md' in (img / 'jobs/j0001-t/REQUEST.md').read_text()
+
     # 찾기 · 빈 칸
     f = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--face', 'semi_soft'], check=True, capture_output=True, text=True).stdout
     assert a in f and '1장' in f, f
     g = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--gaps', '--base', 'semi_smooth', '--vary', 'paint', '--subject', 'sam.wenyang', '--world', 'samguk'], check=True, capture_output=True, text=True).stdout
     assert '있음' in g and '비었음' in g and '짝 안 맞음' in g, g
-    print('PASS 수거: API 생성 정보 · 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
+    print('PASS 수거: 예약(예약 중 · 만료 · 차례) · REQUEST 다시 쓰기 · API 생성 정보 · 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
 finally:
     shutil.rmtree(d)

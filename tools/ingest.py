@@ -12,11 +12,12 @@
   inbox/<그림 이름>.note.txt               세션이 남긴 한 줄(선택)
   inbox/<그림 이름>.gen.json               API 로 그린 것의 생성 정보(tools/draw-api.cjs) → 기록의 generation
 모르는 이름 · 이미 있는 그림은 inbox 에 그대로 두고 index/problems.json 과 NEXT.md 에 적는다(덮지 않는다)."""
-import argparse, datetime, hashlib, json, os, re, sys
+import argparse, datetime, hashlib, json, os, re, subprocess, sys, time
 from pathlib import Path
 
 IMG_EXT = ('.png', '.webp', '.jpg', '.jpeg')
 W, H, THUMB = 1024, 1536, 512
+CLAIM_TTL_MIN = 120   # 예약이 이만큼 지나도록 그림이 안 오면 「예약 만료」 — 다른 세션이 가져가도 된다
 COLS = ['id', 'subject', 'world', 'kind', 'exposure', 'model', 'n', 'recipe', 'direction', 'face', 'paint', 'light', 'fx', 'job', 'added', 'rating']
 
 
@@ -145,10 +146,31 @@ def build_index(img):
     return {'version': 1, 'cols': COLS, 'rows': rows}, blocked
 
 
+def claim_of(img, jid, now=None):
+    """jobs/<일감>/CLAIM.md — 세션이 일감을 시작하며 새로 만든다(사용자 2026-11-10 「job 예약기능도 필요하겠다」).
+    시각은 그 파일의 마지막 커밋 시각(세션이 적은 시각은 믿지 않는다), git 이 아니면 파일 시각."""
+    p = img / 'jobs' / jid / 'CLAIM.md'
+    if not p.exists():
+        return None
+    lines = [l.strip().lstrip('#').strip() for l in p.read_text(encoding='utf-8', errors='replace').splitlines() if l.strip()]
+    names = [l for l in lines if not re.fullmatch(r'[\d\s:./T+\-Z년월일시분초(KSTUC오전후)]*', l)]   # 시각 줄은 빼고 마지막 이름(이어받으면 끝에 더 적는다)
+    who = (names[-1] if names else '?')[:40]
+    at = None
+    try:
+        out = subprocess.run(['git', 'log', '-1', '--format=%ct', '--', str(p.relative_to(img))], cwd=img, capture_output=True, text=True, timeout=10).stdout.strip()
+        at = int(out) if out else None
+    except Exception:
+        at = None
+    if at is None or (img / '.git').exists() and subprocess.run(['git', 'status', '--porcelain', '--', str(p.relative_to(img))], cwd=img, capture_output=True, text=True).stdout.strip():
+        at = int(p.stat().st_mtime)   # 아직 커밋 안 된 예약(손으로 돌릴 때)
+    age = max(0, int(((now or time.time()) - at) // 60))
+    return {'who': who, 'at': at, 'age_min': age, 'fresh': age < CLAIM_TTL_MIN}
+
+
 def build_next(img, jobs, problems):
     have = {p.stem for p in (img / 'rec').glob('*.json')}
     blk = {p.stem for p in (img / 'rec' / 'blocked').glob('*.json')}
-    open_rows, closed = [], 0
+    free_rows, held_rows, closed = [], [], 0
     for j in jobs:
         files = [s['file'] for s in j['slots']]
         d = sum(1 for f in files if f in have)
@@ -156,11 +178,14 @@ def build_next(img, jobs, problems):
         if d + b >= len(files):
             closed += 1
             continue
-        open_rows.append('| [%s](%s/REQUEST.md) | %s | %d / %d%s | %s |' % (j['job'], j['job'], j.get('label') or '', d, len(files), (' · 막힘 %d' % b) if b else '', j['model']))
+        c = claim_of(img, j['job'])
+        cell = '—' if not c else ('예약 중 · %s · %d분 전' % (c['who'], c['age_min']) if c['fresh'] else '예약 만료(%d분) — 가져가도 됨' % c['age_min'])
+        row = '| [%s](%s/REQUEST.md) | %s | %d / %d%s | %s | %s |' % (j['job'], j['job'], j.get('label') or '', d, len(files), (' · 막힘 %d' % b) if b else '', j['model'], cell)
+        (held_rows if c and c['fresh'] else free_rows).append(row)
     out = ['# 열린 일감', '',
-           'GPT 세션: 아래에서 모델이 **chatgpt** 인 일감 **하나**를 골라 그 `REQUEST.md` 만 읽고 그대로 해줘. 위에서부터 고르면 된다. api26 · api25 일감은 Claude 가 API 로 그린다. 이 파일은 워크플로가 다시 쓴다 — 고치지 않는다.', '']
-    if open_rows:
-        out += ['| 일감 | 이름 | 그린 칸 | 모델 |', '|---|---|---|---|'] + open_rows
+           'GPT 세션: 모델이 **chatgpt** 이고 「예약」 칸이 **—** 인 일감 하나를 위에서부터 골라, 먼저 `jobs/<일감>/CLAIM.md` 를 **새 파일로** 만들어 예약한 뒤 그 `REQUEST.md` 대로 해줘. `CLAIM.md` 가 이미 있으면 다른 세션이 하는 중이니 다른 일감으로. 「예약 만료」 는 가져가도 된다. api26 · api25 일감은 Claude 가 API 로 그린다. 이 파일은 워크플로가 다시 쓴다 — 고치지 않는다.', '']
+    if free_rows or held_rows:
+        out += ['| 일감 | 이름 | 그린 칸 | 모델 | 예약 |', '|---|---|---|---|---|'] + free_rows + held_rows
     else:
         out += ['열린 일감이 없다.']
     out += ['', '닫힌 일감 %d개.' % closed]
