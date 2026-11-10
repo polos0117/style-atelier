@@ -3,6 +3,9 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · 12차 펼치기 일감
+- 사용자 「10개정도는 만들까했지」 → 「응 일감 만들어줘」 — 확정 화풍 10개를 목표로, 서로 먼 대표 10개를 한 장씩(j0077-r12-spread): anime_gloss_jp · anime_matte_jp · semi_paint_jp · semi_smooth · illus_23d · oil_hikey · anime_brush_kr · kk1-si1-p31-cl1(새) · kg2-ag2-gd1-rg2-xs1(새) · km2-il2-ba3-cl1(확정 화풍 + 로우키, 5차 한 장 뒤 #2)
+
 ## 2026-11-11 · claude · 확정 화풍 탭 — 범위 · 후보
 - 사용자 「범위표시랑 후보칸 만들어줘」 — 카드마다 범위 표(캐릭터 × 세계, 그 조합 · 판 그림 수, 그림 색인에서 셈)
 - 후보 칸 — confirmed.json candidates: kr_semi_oil_rim(km2-sp3-og4-rg2) · ln_drawn_oil(jl1-il2-og4-gs1) · kr_anime_brush(km2-aa2-ba3-gs1), 마지막 넷 중 확정 아닌 셋. 조합표 · 문장은 접어 둠. 검사도 후보까지
