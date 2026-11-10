@@ -10,12 +10,13 @@ try:
     img = d / 'img'
     img.mkdir()
     run = lambda *a: subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img)] + list(a), check=True, capture_output=True, text=True).stdout
-    out = run('--recipes', 'semi_smooth,illus_23d,oil_hikey,styl3d_jp,anime_matte_jp', '--subject', 'sam.wenyang', '--world', 'samguk', '--label', 't', '--size', '4')
+    out = run('--recipes', 'semi_smooth,illus_23d,oil_hikey,styl3d_jp,anime_matte_jp,anime_brush_jp,anime_gloss_jp,cgi_hikey', '--subject', 'sam.wenyang', '--world', 'samguk', '--label', 't', '--size', '6')
     jobs = sorted(p.name for p in (img / 'jobs').glob('j*'))
     assert jobs == ['j0001-t', 'j0002-t'], jobs
     s1 = json.loads((img / 'jobs/j0001-t/slots.json').read_text())
     assert s1['round'] == 1, s1.get('round')
     assert len(s1['slots']) == 4 and s1['slots'][0]['file'].endswith('__chatgpt__1')
+    assert len(json.loads((img / 'jobs/j0002-t/slots.json').read_text())['slots']) == 4   # 고르게 — 8칸을 6 · 2 가 아니라 4 · 4
     req = (img / 'jobs/j0001-t/REQUEST.md').read_text()
     assert req.count('```text') == 4 and s1['slots'][0]['file'] in req and 'inbox/' in req and 'jobs/j0001-t/CLAIM.md' in req
     for s in s1['slots']:

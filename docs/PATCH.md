@@ -3,6 +3,10 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 일감 칸을 고르게 나눈다 · 2차 축 훑기 일감
+- `tools/make-job.cjs` — 칸이 --size 를 넘으면 고르게(12칸 → 6 · 6, 10 · 2 가 아니라). `tests/ingest.py`
+- 2차(새 문앙 공통 문구 · 부품 v2) 기준 semi_smooth 에서 축 하나씩 — 방향 12 · 얼굴 8 · 렌더링·채색 11 · 조명·색조 11 · 이펙트 4(기준 칸 1 포함 46칸, 일감 여덟). 실사 영화 방향은 기준 렌더링(디지털 페인팅)과 모순이라 빠졌다
+
 ## 2026-11-10 · claude · 부품 v2 — 축 담당 범위대로 문장 정리, 방향 둘 내리고 둘 더함, 짝은 추천 · 모순으로
 - 사용자 v2 표 → 「classical, fantasy_paint는 내리자. 그리고 kr_game_keyart 추가해주고. jp_light_novel 을 키로 Japanese light novel cover artwork. 일본 라이트노벨 표지 추가해줘」
 - `data/parts.json` — 방향 10 · 얼굴 8 · 렌더링 12 · 조명 6 부품에 v2(표현 방식은 렌더링·채색으로, 나이 · 크기 · 생김새는 캐릭터로, 부정 말은 avoid 로), 판마다 ko. 방향 classical · fantasy_paint 내림(조합 semi_oil_classic · semi_impasto 도), 새 방향 kr_game_keyart · jp_light_novel, 이펙트 off(없음 — avoid 억제), only → pairs(추천) · requires(모순)

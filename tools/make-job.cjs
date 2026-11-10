@@ -88,8 +88,9 @@ const lastRound = jobDirs.length ? (JSON.parse(fs.readFileSync(path.join(jobsDir
 const round = +flag('round', lastRound);
 if (!(round >= 1 && Number.isInteger(round))) die('--round 는 1 이상 정수');
 const made = [];
-for (let i = 0; i < slots.length; i += size) {
-  const part = slots.slice(i, i + size), jid = 'j' + String(next++).padStart(4, '0') + (label ? '-' + label : '');
+const per = Math.ceil(slots.length / Math.ceil(slots.length / size));   /* 고르게 — 12칸이면 10 · 2 가 아니라 6 · 6 */
+for (let i = 0; i < slots.length; i += per) {
+  const part = slots.slice(i, i + per), jid = 'j' + String(next++).padStart(4, '0') + (label ? '-' + label : '');
   made.push([jid, part]);
 }
 console.log(round + '차');
