@@ -10,7 +10,7 @@ try:
     img = d / 'img'
     img.mkdir()
     run = lambda *a: subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img)] + list(a), check=True, capture_output=True, text=True).stdout
-    out = run('--recipes', 'semi_smooth,illus_23d,oil_hikey,styl3d_jp,anime_matte_jp,anime_brush_jp,anime_gloss_jp,cgi_hikey', '--subject', 'sam.wenyang', '--world', 'samguk', '--label', 't', '--size', '6')
+    out = run('--recipes', 'semi_smooth,illus_23d,oil_hikey,anime_brush_kr,anime_matte_jp,anime_brush_jp,anime_gloss_jp,anime_gloss_kr', '--subject', 'sam.wenyang', '--world', 'samguk', '--label', 't', '--size', '6')
     jobs = sorted(p.name for p in (img / 'jobs').glob('j*'))
     assert jobs == ['j0001-t', 'j0002-t'], jobs
     s1 = json.loads((img / 'jobs/j0001-t/slots.json').read_text())
@@ -32,7 +32,7 @@ try:
     assert s3['slots'][0]['n'] == 2, s3['slots'][0]
     # 축 바꾸기 — 짝 안 맞는 3D 는 빠진다
     out = run('--base', 'semi_smooth', '--vary', 'direction', '--subject', 'el.fe', '--world', 'fantasy', '--dry', '--off-focus')
-    assert 'photo_still' in out and '건너뜀' in out and 'el.fe__fantasy-world' in out and 'jl1-' in out, out   # 실사 영화 + 디지털 페인팅은 모순(requires)
+    assert 'el.fe__fantasy-world' in out and 'jl1-' in out and 'ps1-' not in out and 'cc' not in out.split('jl1-')[0][-3:], out   # 내린 방향(실사 영화 · 시네마틱)은 빠진다
 
     nxt = (img / 'jobs/NEXT.md').read_text()
     assert 'j0001-t' in nxt and '0 / 4' in nxt
@@ -94,7 +94,7 @@ try:
     assert 'CLAIM.md' in (img / 'jobs/j0001-t/REQUEST.md').read_text()
 
     # 크게 다시 묶기 — 예약 · 그림이 있는 일감은 그대로, 나머지는 캐릭터별로 고르게
-    run('--recipes', 'semi_paint_jp,anime_gloss_jp,cgi_hikey', '--subject', 'el.fe', '--world', 'fantasy', '--size', '2', '--round', '2', '--off-focus')
+    run('--recipes', 'semi_paint_jp,anime_gloss_jp,anime_matte_kr', '--subject', 'el.fe', '--world', 'fantasy', '--size', '2', '--round', '2', '--off-focus')
     before = sorted(p.name for p in (img / 'jobs').glob('j*'))
     subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--merge', 'all', '--size', '10'], check=True, capture_output=True)
     after = sorted(p.name for p in (img / 'jobs').glob('j*'))
@@ -113,9 +113,9 @@ try:
     assert '새 칸이 없다' in run('--recipes', 'oil_hikey', '--subject', 'el.fe', '--world', 'fantasy', '--round', '2', '--off-focus')   # 합친 칸은 새 일감에 있다
 
     # 초점 — 문앙 무협 말고는 --off-focus 없이 안 만든다, 비우면 문앙 무협 · 보류
-    r = subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--recipes', 'styl3d_jp', '--subject', 'el.fe', '--world', 'fantasy', '--dry'], capture_output=True, text=True)
+    r = subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--recipes', 'anime_matte_kr', '--subject', 'el.fe', '--world', 'fantasy', '--dry'], capture_output=True, text=True)
     assert r.returncode == 1 and '지금은 sam.wenyang · samguk 만' in r.stderr, r.stderr
-    assert 'sam.wenyang__samguk-world' in run('--recipes', 'cgi_hikey', '--dry')
+    assert 'sam.wenyang__samguk-world' in run('--recipes', 'anime_matte_kr', '--dry')
     r = subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--recipes', 'anime_brush', '--dry'], capture_output=True, text=True)
     assert r.returncode == 1 and '내린 조합' in r.stderr, r.stderr   # 나라 말 없는 애니는 내렸다
     assert 'direction/anime ' not in run('--base', 'anime_brush_jp', '--vary', 'direction', '--dry')
@@ -125,9 +125,9 @@ try:
     assert '지금은 **sam.wenyang · samguk 만**' in (img / 'jobs/NEXT.md').read_text()
 
     # 보류한 일감은 빈 칸 조회에서 「일감에 있음」 이 아니다(재검토안 c432626 R3)
-    run('--recipes', 'styl3d_kr', '--round', '3', '--label', 'g')
+    run('--recipes', 'semi_paint_jp', '--round', '3', '--label', 'g')
     gj = sorted(p.name for p in (img / 'jobs').glob('j*-g'))[-1]
-    gq = ['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--gaps', '--base', 'styl3d_kr', '--vary', 'fx=none', '--subject', 'sam.wenyang', '--world', 'samguk']
+    gq = ['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--gaps', '--base', 'semi_paint_jp', '--vary', 'fx=none', '--subject', 'sam.wenyang', '--world', 'samguk']
     assert '일감에 있음' in subprocess.run(gq, check=True, capture_output=True, text=True).stdout
     subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--hold', gj, '--why', '시험'], check=True, capture_output=True)
     g2 = subprocess.run(gq, check=True, capture_output=True, text=True).stdout
@@ -137,7 +137,7 @@ try:
     f = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--face', 'semi_soft'], check=True, capture_output=True, text=True).stdout
     assert a in f and '1장' in f, f
     g = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--gaps', '--base', 'semi_smooth', '--vary', 'direction', '--subject', 'sam.wenyang', '--world', 'samguk'], check=True, capture_output=True, text=True).stdout
-    assert '있음' in g and '비었음' in g and '짝 안 맞음' in g, g
+    assert '있음' in g and '비었음' in g and 'photo_still' not in g, g
     print('PASS 수거: 초점(문앙 무협) · 보류(빈 칸 조회에서도) · 내린 조합 거절 · 크게 다시 묶기 · 예약(예약 중 · 만료 · 차례) · REQUEST 다시 쓰기 · API 생성 정보 · 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
 finally:
     shutil.rmtree(d)

@@ -80,7 +80,9 @@
     "paint": "render3d",
     "light": "global_soft",
     "fx": "none"
-   }
+   },
+   "retired": "2026-11-10",
+   "retired_why": "부품을 내렸다 — 사용자 2026-11-10 2차 평가 「내리기」(「우선 내릴것만 몇 개 체크해서 저장했어. 다음 일감 만들어줘」)"
   },
   "styl3d_kr": {
    "from": "sam:styl3d@v1",
@@ -91,7 +93,9 @@
     "paint": "render3d",
     "light": "global_soft",
     "fx": "none"
-   }
+   },
+   "retired": "2026-11-10",
+   "retired_why": "부품을 내렸다 — 사용자 2026-11-10 2차 평가 「내리기」(「우선 내릴것만 몇 개 체크해서 저장했어. 다음 일감 만들어줘」)"
   },
   "anime_matte": {
    "from": "sam:anime_matte@v1",
@@ -199,7 +203,9 @@
     "paint": "photoreal_cgi",
     "light": "cine_hikey",
     "fx": "none"
-   }
+   },
+   "retired": "2026-11-10",
+   "retired_why": "부품을 내렸다 — 사용자 2026-11-10 2차 평가 「내리기」(「우선 내릴것만 몇 개 체크해서 저장했어. 다음 일감 만들어줘」)"
   },
   "photo_real": {
    "note": "실사 축 — 영화 스틸 같은 사진",
@@ -209,7 +215,9 @@
     "paint": "photo",
     "light": "cine_hikey",
     "fx": "none"
-   }
+   },
+   "retired": "2026-11-10",
+   "retired_why": "부품을 내렸다 — 사용자 2026-11-10 2차 평가 「내리기」(「우선 내릴것만 몇 개 체크해서 저장했어. 다음 일감 만들어줘」)"
   }
  }
 }
