@@ -95,6 +95,60 @@
      ]
     }
    },
+   "anime": {
+    "code": "an",
+    "ko": "애니(나라 말 없음 · 비교 기준)",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Anime character illustration."
+     }
+    ],
+    "note": "나라 말이 없으면 서양 카툰 쪽으로 기운다(2026-11-10)",
+    "only": {
+     "face": [
+      "anime_adult",
+      "anime_gacha"
+     ]
+    }
+   },
+   "jp_anime": {
+    "code": "jn",
+    "ko": "일본 애니",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Japanese anime character illustration."
+     }
+    ],
+    "note": "애니 나라 구분(사용자 2026-11-10 「애니도 jp애니, kr애니 따로 구분해줘」) — 나라 이름 시험(같은 날)의 Japanese 판",
+    "only": {
+     "face": [
+      "anime_adult",
+      "anime_gacha"
+     ]
+    }
+   },
+   "kr_anime": {
+    "code": "kn",
+    "ko": "한국 애니",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Korean anime-style character illustration."
+     }
+    ],
+    "note": "애니 나라 구분(사용자 2026-11-10 「애니도 jp애니, kr애니 따로 구분해줘」) — 나라 이름 시험의 Korean 판(얼굴이 더 둥글고 부드럽게, 반실사 쪽)",
+    "only": {
+     "face": [
+      "anime_adult",
+      "anime_gacha"
+     ]
+    }
+   },
    "jp_gacha": {
     "code": "ja",
     "ko": "일본 가챠 애니",
@@ -117,21 +171,26 @@
      ]
     }
    },
-   "anime": {
-    "code": "an",
-    "ko": "애니(나라 말 없음)",
+   "kr_gacha": {
+    "code": "kg",
+    "ko": "한국 가챠 애니",
     "current": "v1",
     "versions": [
      {
       "v": "v1",
-      "text": "Anime character illustration."
+      "text": "Polished Korean mobile-game anime character illustration in clean 2D."
      }
     ],
-    "note": "나라 말이 없으면 서양 카툰 쪽으로 기운다(2026-11-10)",
+    "note": "애니 나라 구분(사용자 2026-11-10 「애니도 jp애니, kr애니 따로 구분해줘」) — 일본 가챠 애니(jp_gacha)의 한국 짝",
     "only": {
      "face": [
-      "anime_adult",
-      "anime_gacha"
+      "anime_gacha",
+      "anime_adult"
+     ],
+     "paint": [
+      "cel_gradient",
+      "matte_soft",
+      "brush_anime"
      ]
     }
    },

@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 애니 방향을 일본 · 한국으로 나눴다
+- 사용자 「애니도 jp애니, kr애니 따로 구분해줘」
+- `data/parts.json` — 방향 jp_anime(일본 애니) · kr_anime(한국 애니) · kr_gacha(한국 가챠 애니 — jp_gacha 의 짝). 옛 anime(나라 말 없음)은 비교 기준으로 남김(열린 일감이 쓴다). 방향 차례를 애니끼리 붙였다
+- `data/recipes.json` — anime_brush_jp · _kr, anime_matte_jp · _kr, anime_gloss_kr(방향만 바꾼 것). 말 되는 조합 9,264
+
 ## 2026-11-10 · claude · 실사 축 — 시네마틱 CGI · 실사 사진 부품과 조합 둘
 - 사용자 「방향이나 갈래에 실사축은 아예 없네」
 - `data/parts.json` — 방향 cinematic_cgi · photo_still, 얼굴 cgi_ideal · real_natural, 채색 photoreal_cgi · photo, 빛 cine_hikey · cine_lowkey(삼국지 kv_cgi_hikey 문장을 축별로 끊은 것 + 사진). 짝 규칙으로 실사끼리만, 반실사 부드러운 얼굴은 포토리얼 CGI 표면과도(사이 칸)
