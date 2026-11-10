@@ -218,6 +218,46 @@
    },
    "retired": "2026-11-10",
    "retired_why": "부품을 내렸다 — 사용자 2026-11-10 2차 평가 「내리기」(「우선 내릴것만 몇 개 체크해서 저장했어. 다음 일감 만들어줘」)"
+  },
+  "ln_drawn_oil": {
+   "note": "5차 평가(사용자 2026-11-10 「평가올렸어 그리고 이거 좋다. km2-il2-ba3-rg2-x01」) — 4차 후보 조합 × 조명에서 고른 것. 노출 slit · 문앙 무협으로 시험 — 조명은 네 조합 다 후보였던 전역광",
+   "parts": {
+    "direction": "jp_light_novel",
+    "face": "illustrated",
+    "paint": "oil_glaze",
+    "light": "global_soft",
+    "fx": "none"
+   }
+  },
+  "kr_anime_brush": {
+   "note": "5차 평가(사용자 2026-11-10 「평가올렸어 그리고 이거 좋다. km2-il2-ba3-rg2-x01」) — 4차 후보 조합 × 조명에서 고른 것. 노출 slit · 문앙 무협으로 시험 — 조명은 네 조합 다 후보였던 전역광",
+   "parts": {
+    "direction": "kr_mmorpg",
+    "face": "anime_adult",
+    "paint": "brush_anime",
+    "light": "global_soft",
+    "fx": "none"
+   }
+  },
+  "kr_drawn_brush_rim": {
+   "note": "5차 평가(사용자 2026-11-10 「평가올렸어 그리고 이거 좋다. km2-il2-ba3-rg2-x01」) — 4차 후보 조합 × 조명에서 고른 것. 노출 slit · 문앙 무협으로 시험 — 사용자가 「좋다」 고 짚은 그림(림 라이트 v2)",
+   "parts": {
+    "direction": "kr_mmorpg",
+    "face": "illustrated",
+    "paint": "brush_anime",
+    "light": "rim_gloss",
+    "fx": "none"
+   }
+  },
+  "kr_semi_oil_rim": {
+   "note": "5차 평가(사용자 2026-11-10 「평가올렸어 그리고 이거 좋다. km2-il2-ba3-rg2-x01」) — 4차 후보 조합 × 조명에서 고른 것. 노출 slit · 문앙 무협으로 시험 — 림 라이트 v2 후보",
+   "parts": {
+    "direction": "kr_mmorpg",
+    "face": "semi_paint",
+    "paint": "oil_glaze",
+    "light": "rim_gloss",
+    "fx": "none"
+   }
   }
  }
 }

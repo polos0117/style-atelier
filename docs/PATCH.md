@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 5차로 고른 화풍 넷 등록 · 6차는 반복(같은 문장 두 번 더)
+- 사용자 「지금 한것도 5차지? 평가올렸어 그리고 이거 좋다. km2-il2-ba3-rg2-x01」 — 조명 새 판(muted v2 · rim_gloss v2)에서 파란 자국이 사라졌다(rim_gloss v2 는 두 조합에서 후보), 전역광은 네 조합 다 후보
+- `data/recipes.json` — ln_drawn_oil(라이트노벨 · 그린 얼굴 · 유화 글레이즈 · 전역광) · kr_anime_brush(MMORPG · 애니 · 2D 붓질 · 전역광) · kr_drawn_brush_rim(MMORPG · 그린 얼굴 · 2D 붓질 · 림 라이트 — 사용자가 짚은 그림) · kr_semi_oil_rim(MMORPG · 반실사 · 유화 글레이즈 · 림 라이트)
+- 6차 — 넷을 같은 문장으로 두 번 더(2 · 3번째 장, 노출 slit) — 반복 유지 평가용
+
 ## 2026-11-10 · claude · 조명 muted · rim_gloss 새 판 — 눈가 파란 자국
 - 사용자 5차 평가 「고칠 것 — 눈 옆에 생긴 멍 같은 파란자국」 · 「이쁜데 얼굴 눈가에 생긴 파란색 색조」
 - `data/parts.json` light/muted v2 · rim_gloss v2 — 얼굴 그림자는 따뜻하고 중성적으로(muted), 피부는 깨끗한 따뜻한 윤기 · 반사는 금속 · 장신구에(rim_gloss), avoid 「a blue or bruise-like tint on the skin around the eyes」
