@@ -40,7 +40,7 @@ if (flag('recipes')) recipes = flag('recipes').split(',');
 else if (flag('base') && flag('vary')) {
   const [axis, list] = flag('vary').split('='), base = B.resolve(P, R, flag('base'));
   if (B.AXES.indexOf(axis) < 0) die('모르는 축: ' + axis);
-  const keys = list ? list.split(',') : Object.keys(P.parts[axis]);
+  const keys = list ? list.split(',') : B.live(P, axis);
   for (const k of keys) {
     const spec = {}; base.parts.forEach(p => { spec[p.axis] = p.key + '@' + p.v; }); spec[axis] = k;
     const rs = B.resolve(P, R, spec), bad = B.clashes(rs);
@@ -69,6 +69,8 @@ for (const sid of subjects) {
   for (const w of worlds) {
     if (!subj.worlds[w]) { console.log('  건너뜀 ' + sid + ' 에 세계 ' + w + ' 없음'); continue; }
     for (const rc of recipes) {
+      if (R.recipes[rc] && R.recipes[rc].retired) die('내린 조합: ' + rc + ' — ' + R.recipes[rc].retired_why);
+      const dead = B.retiredIn(B.resolve(P, R, rc)); if (dead.length) die('내린 부품이 들어 있다: ' + rc + ' — ' + dead.join(' · '));
       const b = B.build(P, R, subj, w, rc, { model, exposure });
       const k = b.slot + '__' + model;
       if (taken[k] && !has('repeat')) { console.log('  있음(건너뜀) ' + b.slot); continue; }

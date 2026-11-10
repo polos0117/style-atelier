@@ -41,6 +41,12 @@ assert.equal(B.part(P, 'face', 'semi_soft@v1').v, 'v1');
 const all = B.AXES.reduce((n, a) => n * Object.keys(P.parts[a]).length, 1), cs = B.combos(P);
 assert(cs.length > 0 && cs.length < all, '말 되는 조합 ' + cs.length + ' / ' + all);
 assert(cs.every(r => (r.parts[1].key === 'stylised3d') === (r.parts[2].key === 'render3d')), '3D 얼굴 ↔ 3D 렌더');
+/* 내린 것 — 말 되는 조합 · 살아 있는 조합에서 빠지고, 옛 그림을 위해 풀리기는 한다 */
+assert(!cs.some(r => r.parts.some(p => p.retired)), '내린 부품이 말 되는 조합에 있다');
+assert(B.live(P, 'direction').indexOf('anime') < 0 && P.parts.direction.anime.retired, '나라 말 없는 애니는 내렸다(2026-11-10)');
+assert(B.live(P, 'direction').indexOf('film3d') < 0 && B.live(P, 'direction').indexOf('jp_film3d') >= 0 && B.live(P, 'direction').indexOf('kr_film3d') >= 0, '3D 애니메이션도 일본 · 한국으로(2026-11-10)');
+assert(B.liveRecipes(R).indexOf('anime_brush') < 0 && B.resolve(P, R, 'anime_brush').id === 'an1-aa1-ba1-dl1-x01', '내린 조합도 옛 이름으로 풀린다');
+for (const k of B.liveRecipes(R)) assert.deepEqual(B.retiredIn(B.resolve(P, R, k)), [], k + ' 에 내린 부품');
 
 /* 이름 — 칸 · 그림 */
 const s0 = B.slotName('km1-ss1-sm1-mu1-xf1', 'sam.wenyang', 'samguk', 'world', 'bold', { defaultExposure: 'bold' });

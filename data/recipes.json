@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "이름 붙인 조합 — 등록한 것만. parts 의 값은 부품 열쇠(판을 박으려면 '열쇠@v2'). 이름은 비워 두면 부품 이름으로 짓는다. from = 처음 쪼갠 원본(삼국지 공방 화풍 열쇠@판) — 원본 문장과 글자가 같지는 않다(축별 문장으로 다시 끊었다).",
+ "note": "이름 붙인 조합 — 등록한 것만. parts 의 값은 부품 열쇠(판을 박으려면 '열쇠@v2'). 이름은 비워 두면 부품 이름으로 짓는다. from = 처음 쪼갠 원본(삼국지 공방 화풍 열쇠@판) — 원본 문장과 글자가 같지는 않다(축별 문장으로 다시 끊었다). retired = 내린 조합 — 옛 그림 이름표로만 남는다(일감 · 기준 조합 고르기에서 빠진다).",
  "recipes": {
   "semi_smooth": {
    "from": "sam:semi_smooth@v1",
@@ -31,7 +31,9 @@
     "paint": "brush_anime",
     "light": "daylight",
     "fx": "none"
-   }
+   },
+   "retired": "2026-11-10",
+   "retired_why": "사용자 2026-11-10 「애니 나라없음은 빼자」 — 일본 · 한국 애니로 나눴다. 이미 받은 그림이 가리켜서 지우지 않고 내렸다 — 같은 조합의 _jp · _kr 을 쓴다"
   },
   "anime_brush_jp": {
    "from": "sam:anime_brush@v1",
@@ -63,6 +65,30 @@
     "paint": "render3d",
     "light": "global_soft",
     "fx": "none"
+   },
+   "retired": "2026-11-10",
+   "retired_why": "사용자 2026-11-10 「3d 애니메이션도 지정을 일본,한국 나눠서 해줘. 지금 없음값 내려주고」 — 이미 받은 그림이 가리켜서 지우지 않고 내렸다 — styl3d_jp · styl3d_kr 을 쓴다"
+  },
+  "styl3d_jp": {
+   "from": "sam:styl3d@v1",
+   "note": "styl3d 의 방향만 일본 3D 애니메이션으로",
+   "parts": {
+    "direction": "jp_film3d",
+    "face": "stylised3d",
+    "paint": "render3d",
+    "light": "global_soft",
+    "fx": "none"
+   }
+  },
+  "styl3d_kr": {
+   "from": "sam:styl3d@v1",
+   "note": "styl3d 의 방향만 한국 3D 애니메이션으로",
+   "parts": {
+    "direction": "kr_film3d",
+    "face": "stylised3d",
+    "paint": "render3d",
+    "light": "global_soft",
+    "fx": "none"
    }
   },
   "anime_matte": {
@@ -73,7 +99,9 @@
     "paint": "matte_soft",
     "light": "overcast",
     "fx": "none"
-   }
+   },
+   "retired": "2026-11-10",
+   "retired_why": "사용자 2026-11-10 「애니 나라없음은 빼자」 — 일본 · 한국 애니로 나눴다. 이미 받은 그림이 가리켜서 지우지 않고 내렸다 — 같은 조합의 _jp · _kr 을 쓴다"
   },
   "anime_matte_jp": {
    "from": "sam:anime_matte@v1",

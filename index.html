@@ -134,7 +134,8 @@ function sel(label, id, opts, val, onch) {
   const s = el('select', { id }); opts.forEach(([v, t]) => { const o = el('option', { value: v }, t); if (v === val) o.selected = true; s.append(o); });
   s.addEventListener('change', onch); return el('label', {}, label, s);
 }
-const partOpts = (a, any) => (any ? [['', '전부']] : []).concat(Object.entries(P.parts[a]).map(([k, r]) => [k, r.ko + ' (' + k + ')']));
+/* any = 그림 찾기(내린 부품도 — 옛 그림이 있다), 아니면 살아 있는 부품만 */
+const partOpts = (a, any) => (any ? [['', '전부']] : []).concat(Object.entries(P.parts[a]).filter(([k, r]) => any || !r.retired).map(([k, r]) => [k, r.ko + (r.retired ? ' · 내림' : '') + ' (' + k + ')']));
 const specOf = r => ({ direction: r.direction, face: r.face, paint: r.paint, light: r.light, fx: r.fx });
 const thumb = id => { const r = rows.find(x => x.id === id); return IMG + 'thumb/' + r.subject + '/' + r.world + '/' + id + '.webp'; };
 const full = r => IMG + 'img/' + r.subject + '/' + r.world + '/' + r.id + '.webp';
@@ -160,7 +161,7 @@ async function showDetail(r) {
   const t = $('dRecipe'); t.innerHTML = '';
   t.append(el('tr', {}, el('th', {}, '조합'), el('td', {}, el('b', {}, nm || '(이름 없음)'), el('span', { class: 'k' }, rs.id))));
   rs.parts.forEach(p => t.append(el('tr', {}, el('th', {}, P.axes.find(a => a.key === p.axis).ko),
-    el('td', {}, el('b', {}, p.ko), el('span', { class: 'k' }, p.key + ' @' + p.v), el('span', { class: 'txt' }, p.text || '(없음)')))));
+    el('td', {}, el('b', {}, p.ko + (p.retired ? ' (내림)' : '')), el('span', { class: 'k' }, p.key + ' @' + p.v), el('span', { class: 'txt' }, p.text || '(없음)')))));
   const f = $('dFacts'); f.innerHTML = '';
   const fact = (k, v) => { if (v != null && v !== '') f.append(el('dt', {}, k), el('dd', {}, String(v))); };
   fact('캐릭터', koOf(r.subject) + ' (' + r.subject + ')'); fact('세계', (WORLD_KO[r.world] || r.world) + (r.exposure ? ' · 노출 ' + r.exposure : ''));
@@ -227,18 +228,18 @@ function axisUI() {
   const bar = $('axisBar'); bar.innerHTML = '';
   if (!A.subject) A.subject = SL.subjects[0].id;
   const s = SL.subjects.find(x => x.id === A.subject); if (!s.worlds.includes(A.world)) A.world = s.worlds[0];
-  if (!A.base) A.base = Object.keys(R.recipes)[0];
+  if (!A.base) A.base = B.liveRecipes(R)[0];
   bar.append(sel('캐릭터', 'as', SL.subjects.map(x => [x.id, x.ko]), A.subject, e => { A.subject = e.target.value; axisUI(); }));
   bar.append(sel('세계', 'aw', s.worlds.map(w => [w, w]), A.world, e => { A.world = e.target.value; axisRun(); }));
   bar.append(sel('모델', 'am', B.MODELS.map(m => [m, m]), A.model, e => { A.model = e.target.value; axisRun(); }));
-  bar.append(sel('기준 조합', 'ab', Object.keys(R.recipes).map(k => [k, k]), A.base, e => { A.base = e.target.value; axisRun(); }));
+  bar.append(sel('기준 조합', 'ab', B.liveRecipes(R).map(k => [k, k]), A.base, e => { A.base = e.target.value; axisRun(); }));
   bar.append(sel('바꿀 축', 'aa', P.axes.map(a => [a.key, a.ko]), A.axis, e => { A.axis = e.target.value; axisRun(); }));
   axisRun();
 }
 function axisRun() {
   const base = B.resolve(P, R, A.base), row = $('axisRow'); row.innerHTML = '';
   const subj = SUB[A.subject]; let n = 0, empty = 0;
-  Object.keys(P.parts[A.axis]).forEach(k => {
+  B.live(P, A.axis).forEach(k => {
     const spec = {}; base.parts.forEach(p => spec[p.axis] = p.key + '@' + p.v); spec[A.axis] = k;
     const rs = B.resolve(P, R, spec), clash = B.clashes(rs).length;
     const slot = B.slotName(rs.id, A.subject, A.world, 'world', subj.defaultExposure, subj);
@@ -259,8 +260,8 @@ function mixUI() {
   const bar = $('mixBar'); bar.innerHTML = '';
   if (!M.subject) M.subject = SL.subjects[0].id;
   const s = SL.subjects.find(x => x.id === M.subject), sd = SUB[M.subject]; if (!s.worlds.includes(M.world)) M.world = s.worlds[0];
-  if (!M.direction) Object.assign(M, R.recipes[Object.keys(R.recipes)[0]].parts);
-  bar.append(sel('불러오기', 'mr', [['', '— 조합 —']].concat(Object.keys(R.recipes).map(k => [k, k])), '', e => { if (e.target.value) { Object.assign(M, R.recipes[e.target.value].parts); mixUI(); } }));
+  if (!M.direction) Object.assign(M, R.recipes[B.liveRecipes(R)[0]].parts);
+  bar.append(sel('불러오기', 'mr', [['', '— 조합 —']].concat(B.liveRecipes(R).map(k => [k, k])), '', e => { if (e.target.value) { Object.assign(M, R.recipes[e.target.value].parts); mixUI(); } }));
   bar.append(sel('캐릭터', 'ms', SL.subjects.map(x => [x.id, x.ko]), M.subject, e => { M.subject = e.target.value; mixUI(); }));
   bar.append(sel('세계', 'mw', s.worlds.map(w => [w, w]), M.world, e => { M.world = e.target.value; mixRun(); }));
   bar.append(sel('노출', 'mx', ['bold', 'moderate', 'low'].map(x => [x, x]), M.exposure || sd.defaultExposure, e => { M.exposure = e.target.value; mixRun(); }));

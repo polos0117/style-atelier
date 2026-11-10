@@ -25,7 +25,7 @@ if (has('gaps')) {
   const jd = path.join(IMG, 'jobs');
   if (fs.existsSync(jd)) fs.readdirSync(jd).filter(d => /^j\d{4}/.test(d)).forEach(d => { const s = path.join(jd, d, 'slots.json'); if (fs.existsSync(s)) JSON.parse(fs.readFileSync(s, 'utf8')).slots.forEach(x => pending.add(x.slot + '__' + x.model)); });
   const drawn = new Set(rows.map(r => r.id.replace(/__\d+$/, '')));
-  const keys = list ? list.split(',') : Object.keys(P.parts[axis]);
+  const keys = list ? list.split(',') : B.live(P, axis);
   for (const sid of flag('subject', '').split(',').filter(Boolean)) for (const w of flag('world', '').split(',').filter(Boolean)) {
     const subj = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/subjects', sid + '.json'), 'utf8'));
     for (const k of keys) {

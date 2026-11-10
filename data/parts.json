@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "화풍 부품 — 축마다 부품, 부품마다 판(v). 화풍 문단 = direction + face + paint(이 차례로 한 문단), 빛 줄 = 'Light: ' + light + fx. 부품을 고치면 그 부품 versions 에 새 판을 더하고 current 를 올린다 — 옛 판은 지우지 않는다(옛 그림 기록이 그 판을 가리킨다). code 는 조합 이름에 들어가는 짧은 코드(축 안에서 겹치지 않게). only = 이 부품과 같이 쓸 수 있는 다른 축 부품(없으면 아무거나). avoid = 5칸 제약에 합쳐지는 피할 것(영어, 마침표 없이). models.<모델> · worlds.<세계> = 그 모델 · 세계에서만 바꿔 쓰는 글. 처음 판은 삼국지 공방 data/style.json 의 새로 쓴 화풍 열(2026-11-10)을 축별로 쪼갠 것.",
+ "note": "화풍 부품 — 축마다 부품, 부품마다 판(v). 화풍 문단 = direction + face + paint(이 차례로 한 문단), 빛 줄 = 'Light: ' + light + fx. 부품을 고치면 그 부품 versions 에 새 판을 더하고 current 를 올린다 — 옛 판은 지우지 않는다(옛 그림 기록이 그 판을 가리킨다). code 는 조합 이름에 들어가는 짧은 코드(축 안에서 겹치지 않게). only = 이 부품과 같이 쓸 수 있는 다른 축 부품(없으면 아무거나). avoid = 5칸 제약에 합쳐지는 피할 것(영어, 마침표 없이). models.<모델> · worlds.<세계> = 그 모델 · 세계에서만 바꿔 쓰는 글. 처음 판은 삼국지 공방 data/style.json 의 새로 쓴 화풍 열(2026-11-10)을 축별로 쪼갠 것. retired = 내린 부품 — 옛 그림 기록 때문에 남겨 두지만 새 조합 · 일감 · 섞어보기 · 축 비교에서 빠진다.",
  "axes": [
   {
    "key": "direction",
@@ -111,7 +111,9 @@
       "anime_adult",
       "anime_gacha"
      ]
-    }
+    },
+    "retired": "2026-11-10",
+    "retired_why": "사용자 2026-11-10 「애니 나라없음은 빼자」 — 일본 · 한국 애니로 나눴다. 이미 받은 그림이 가리켜서 지우지 않고 내렸다"
    },
    "jp_anime": {
     "code": "jn",
@@ -241,7 +243,7 @@
    },
    "film3d": {
     "code": "f3",
-    "ko": "3D 애니메이션 영화",
+    "ko": "3D 애니메이션(나라 말 없음)",
     "current": "v1",
     "versions": [
      {
@@ -249,6 +251,48 @@
       "text": "Stylised 3D animated-film character render."
      }
     ],
+    "only": {
+     "face": [
+      "stylised3d"
+     ],
+     "paint": [
+      "render3d"
+     ]
+    },
+    "retired": "2026-11-10",
+    "retired_why": "사용자 2026-11-10 「3d 애니메이션도 지정을 일본,한국 나눠서 해줘. 지금 없음값 내려주고」 — 이미 받은 그림이 가리켜서 지우지 않고 내렸다"
+   },
+   "jp_film3d": {
+    "code": "j3",
+    "ko": "일본 3D 애니메이션",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Japanese stylised 3D animated-film character render."
+     }
+    ],
+    "note": "3D 애니메이션 나라 구분(사용자 2026-11-10)",
+    "only": {
+     "face": [
+      "stylised3d"
+     ],
+     "paint": [
+      "render3d"
+     ]
+    }
+   },
+   "kr_film3d": {
+    "code": "k3",
+    "ko": "한국 3D 애니메이션",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Korean stylised 3D animated-film character render."
+     }
+    ],
+    "note": "3D 애니메이션 나라 구분(사용자 2026-11-10)",
     "only": {
      "face": [
       "stylised3d"

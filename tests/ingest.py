@@ -10,7 +10,7 @@ try:
     img = d / 'img'
     img.mkdir()
     run = lambda *a: subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img)] + list(a), check=True, capture_output=True, text=True).stdout
-    out = run('--recipes', 'semi_smooth,illus_23d,oil_hikey,styl3d,anime_matte', '--subject', 'sam.wenyang', '--world', 'samguk', '--label', 't', '--size', '4')
+    out = run('--recipes', 'semi_smooth,illus_23d,oil_hikey,styl3d_jp,anime_matte_jp', '--subject', 'sam.wenyang', '--world', 'samguk', '--label', 't', '--size', '4')
     jobs = sorted(p.name for p in (img / 'jobs').glob('j*'))
     assert jobs == ['j0001-t', 'j0002-t'], jobs
     s1 = json.loads((img / 'jobs/j0001-t/slots.json').read_text())
@@ -111,9 +111,12 @@ try:
     assert '새 칸이 없다' in run('--recipes', 'oil_hikey', '--subject', 'el.fe', '--world', 'fantasy', '--round', '2', '--off-focus')   # 합친 칸은 새 일감에 있다
 
     # 초점 — 문앙 무협 말고는 --off-focus 없이 안 만든다, 비우면 문앙 무협 · 보류
-    r = subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--recipes', 'styl3d', '--subject', 'el.fe', '--world', 'fantasy', '--dry'], capture_output=True, text=True)
+    r = subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--recipes', 'styl3d_jp', '--subject', 'el.fe', '--world', 'fantasy', '--dry'], capture_output=True, text=True)
     assert r.returncode == 1 and '지금은 sam.wenyang · samguk 만' in r.stderr, r.stderr
     assert 'sam.wenyang__samguk-world' in run('--recipes', 'cgi_hikey', '--dry')
+    r = subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--recipes', 'anime_brush', '--dry'], capture_output=True, text=True)
+    assert r.returncode == 1 and '내린 조합' in r.stderr, r.stderr   # 나라 말 없는 애니는 내렸다
+    assert 'direction/anime ' not in run('--base', 'anime_brush_jp', '--vary', 'direction', '--dry')
     subprocess.run(['node', str(ROOT / 'tools/make-job.cjs'), '--img', str(img), '--hold', new[0], '--why', '시험'], check=True, capture_output=True)
     hj = json.loads((img / 'jobs' / new[0] / 'slots.json').read_text())
     assert hj['hold'] == '시험' and new[0] not in (img / 'jobs/NEXT.md').read_text() and '보류' in (img / 'jobs' / new[0] / 'REQUEST.md').read_text()
@@ -124,6 +127,6 @@ try:
     assert a in f and '1장' in f, f
     g = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--gaps', '--base', 'semi_smooth', '--vary', 'paint', '--subject', 'sam.wenyang', '--world', 'samguk'], check=True, capture_output=True, text=True).stdout
     assert '있음' in g and '비었음' in g and '짝 안 맞음' in g, g
-    print('PASS 수거: 초점(문앙 무협) · 보류 · 크게 다시 묶기 · 예약(예약 중 · 만료 · 차례) · REQUEST 다시 쓰기 · API 생성 정보 · 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
+    print('PASS 수거: 초점(문앙 무협) · 보류 · 내린 조합 거절 · 크게 다시 묶기 · 예약(예약 중 · 만료 · 차례) · REQUEST 다시 쓰기 · API 생성 정보 · 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
 finally:
     shutil.rmtree(d)

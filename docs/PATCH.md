@@ -3,6 +3,12 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 나라 말 없는 애니 · 3D 애니메이션을 내리고 3D 도 일본 · 한국으로
+- 사용자 「애니 나라없음은 빼자」 → 「아 3d 애니메이션도 지정을 일본,한국 나눠서 해줘. 지금 없음값 내려주고」
+- `data/parts.json` — 방향 anime · film3d 에 retired(이미 받은 그림이 가리켜 지우지 않는다), 새 방향 jp_film3d(일본 3D 애니메이션) · kr_film3d(한국 3D 애니메이션)
+- `data/recipes.json` — anime_brush · anime_matte · styl3d 에 retired, 새 조합 styl3d_jp · styl3d_kr. 말 되는 조합 9,264 → 8,832
+- `lib/build.js` live · liveRecipes · retiredIn — 내린 부품 · 조합은 말 되는 조합 · make-job(거절) · find --gaps · 섞어보기 · 축 비교 · 기준 조합에서 빠지고, 그림 찾기 · 상세(「내림」 표시)에는 남는다. 검사 둘
+
 ## 2026-11-10 · claude · 초점 — 지금은 문앙 무협만 그린다
 - 사용자 「네가 내 의도를 잘못파악하고 있는거 같으니까 다시 얘기할게. 지금 의도가 화풍비교가 우선이지? 그러려면 케릭터 통일성이 중요하겠지? 그러니까 문앙 무협으로만 그리도록 지시해줘」
 - `data/focus.json`(sam.wenyang · samguk) — `tools/make-job.cjs` 기본값, 그 밖은 `--off-focus` 없이 안 만든다. `--hold <일감> --why`(손대지 않은 일감 내리기 — 지우지 않고 retired · hold)
