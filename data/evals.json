@@ -241,6 +241,11 @@
    "verdict": "drop",
    "at": "2026-11-10T12:25Z",
    "by": "user"
+  },
+  "km2-il2-og3-mu1-x01__sam.wenyang__samguk-world-moderate__chatgpt__1": {
+   "verdict": "drop",
+   "at": "2026-11-10T12:26Z",
+   "by": "user"
   }
  }
 }
