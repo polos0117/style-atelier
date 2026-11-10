@@ -716,6 +716,19 @@
      }
     ]
    },
+   "glossy_digital": {
+    "code": "gd",
+    "ko": "디지털 페인팅 · 유광",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "Glossy digital painting: smooth dimensional shading, softly polished skin with a gentle sheen, and lustrous metal, lacquer and silk with crisp specular accents.",
+      "ko": "디지털 페인팅 · 유광"
+     }
+    ],
+    "note": "광택 메우기(사용자 2026-11-10 「기존에 있던 gloosy 는 어떻게 대체 된거지?」 → 「응 셋 다 넣을거고」) — 삼국지 한국형 글로시(glossy_kr_game · glossy_kr_semireal) 의 표면 쪽"
+   },
    "painted_refined": {
     "code": "pr",
     "ko": "디지털 일러스트 · 가벼운 입체(2.3D)",
@@ -892,6 +905,19 @@
       "stylised3d"
      ]
     }
+   },
+   "painted_3d": {
+    "code": "p3",
+    "ko": "핸드페인팅 텍스처 3D",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "In-engine 3D character rendering with hand-painted textures: semi-realistic volumetric forms and porcelain skin with a soft subsurface glow.",
+      "ko": "핸드페인팅 텍스처 3D"
+     }
+    ],
+    "note": "광택 메우기(사용자 2026-11-10 「기존에 있던 gloosy 는 어떻게 대체 된거지?」 → 「응 셋 다 넣을거고」) — 삼국지 한국 MMORPG 프로모(kr_mmorpg · api25 · kr_mmorpg_26) 의 렌더링 쪽 — 2.5 API 미형 느낌을 부품으로 다시 조립해 보려고"
    },
    "photoreal_cgi": {
     "code": "pc",
@@ -1079,6 +1105,19 @@
       "ko": "전역광 · 림 라이트 · 맑은 채도"
      }
     ]
+   },
+   "rim_gloss": {
+    "code": "rg",
+    "ko": "림 라이트 · 강한 하이라이트",
+    "current": "v1",
+    "versions": [
+     {
+      "v": "v1",
+      "text": "a soft key light with a strong rim light tracing her hair, shoulders and armour; bright, crisp specular highlights on metal, skin and jewellery.",
+      "ko": "림 라이트 · 강한 하이라이트"
+     }
+    ],
+    "note": "광택 메우기(사용자 2026-11-10 「기존에 있던 gloosy 는 어떻게 대체 된거지?」 → 「응 셋 다 넣을거고」) — 삼국지 MMORPG CG · 한국 MMORPG 프로모의 조명 쪽"
    },
    "hikey_natural": {
     "code": "hn",
