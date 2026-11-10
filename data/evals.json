@@ -26,6 +26,11 @@
    "verdict": "drop",
    "at": "2026-11-10T10:55Z",
    "by": "user"
+  },
+  "kp1-ag2-cg2-hp2-xs1__sam.wenyang__samguk-world-low__chatgpt__1": {
+   "verdict": "keep",
+   "at": "2026-11-10T11:46Z",
+   "by": "user"
   }
  }
 }
