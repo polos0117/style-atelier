@@ -87,5 +87,7 @@ make-job ──────────────────────▶ j
 
 ## 6. 아직 없는 것
 
+- **노출 줄 이름표 「Skin shown:」** — 나중에 검토(사용자 2026-11-10 「skin shown 은 나중에 검토해보자. 화풍부터 잡고」). 「Exposure (bold)」 가 사진 노출(밝기)로도 읽힐 수 있다는 의심에서 나왔다 — 드러나는 부위만 나열(`Skin shown: shoulders, arms, upper chest, and one thigh through a side slit.`)하고 지킴 말은 제약으로. 조립부에 `exposureConstraint` 칸은 남아 있다. 삼국지 · 원소 쪽도 그때 같이.
+
 - 일상컷(근거리 · 원거리) — 세계 그림을 첨부해 고치는 꼴이라 일감에 「첨부 그림」 칸이 있어야 한다. 갈래 이름은 `casual` · `far` 로 자리만 잡아 뒀다(`lib/build.js` KINDS).
 - 평 매기기 화면 — 지금은 `rec/<그림>.json` 의 `rating` 을 손으로(Claude 에게 말하면 적는다).
