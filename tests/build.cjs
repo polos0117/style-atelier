@@ -135,6 +135,10 @@ for (const s of SL.subjects) {
     assert.deepEqual(B.retiredIn(rs), [], c.key + ' 에 내린 부품'); assert.deepEqual(B.clashes(rs), [], c.key + ' 모순 짝');
     if (R.recipes[c.key]) assert.equal(B.recipeNameOf(R, rs), c.key, c.key + ' 은 등록한 조합과 같은 부품');
     for (const [w, id] of Object.entries(c.images || {})) { const m = B.parseImage(id); assert(m && id.startsWith(c.id + '__') && m.slot.includes('__' + w + '-'), c.key + ' 대표 그림 ' + w + ': ' + id); }
+    for (const v of c.variants || []) {   /* 변주 — 배경 처리는 판까지(열쇠@판), 대표 그림 칸 끝 ~<코드><판> */
+      assert(/@v\d+$/.test(v.bg), c.key + ' 변주 배경은 판까지: ' + v.bg); const g = B.background(J('data/backgrounds.json'), v.bg);
+      for (const [w, id] of Object.entries(v.images || {})) { const m = B.parseImage(id); assert(m && id.startsWith(c.id + '__') && m.world === w && m.bg === g.code, c.key + ' 변주 그림 ' + w + ': ' + id); }
+    }
   } }
 assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', { direction: 'photo_still', face: 'real_natural', paint: 'smooth', light: 'muted', fx: 'none' }), /같이 못 쓰는 짝/);
 assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'semi_smooth', { kind: 'casual' }), /아직 없는 갈래/);

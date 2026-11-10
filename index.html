@@ -415,10 +415,22 @@ function confCard(c, cand) {
     rs.parts.forEach(p => t.append(el('tr', {}, el('th', {}, P.axes.find(a => a.key === p.axis).ko),
       el('td', {}, el('b', {}, p.ko), el('span', { class: 'k' }, p.key + ' @' + p.v + (p.v !== P.parts[p.axis][p.key].current ? ' · 지금 판은 ' + P.parts[p.axis][p.key].current : '')), el('span', { class: 'txt' }, p.text || '(없음)')))));
     const avoid = [...new Set(rs.parts.flatMap(p => p.avoid))];
-    const styleText = B.paragraph(rs) + '\n' + B.lightLine(rs) + (avoid.length ? '\nAvoid: ' + avoid.join(', ') + '.' : '');
+    const styleWith = (bgLine, bgAvoid) => { const av = [...new Set(avoid.concat(bgAvoid || []))]; return B.paragraph(rs) + '\n' + B.lightLine(rs) + (bgLine ? '\n' + bgLine : '') + (av.length ? '\nAvoid: ' + av.join(', ') + '.' : ''); };
+    const styleText = styleWith();
     const ev = all.map(r => evOf(r.id)).filter(Boolean), avg = k => { const v = ev.map(e => e[k]).filter(x => typeof x === 'number'); return v.length ? (v.reduce((a, b) => a + b, 0) / v.length).toFixed(1) + ' (' + v.length + ')' : '—'; };
-    const copy = el('button', { class: 'b', type: 'button', on: { click: e => navigator.clipboard.writeText(styleText).then(() => { e.target.textContent = '복사함'; }) } }, '화풍 문장 복사');
+    const copyBtn = (txt, label) => el('button', { class: 'b', type: 'button', on: { click: e => navigator.clipboard.writeText(txt).then(() => { e.target.textContent = '복사함'; }) } }, label);
+    const copy = copyBtn(styleText, '화풍 문장 복사');
     const detail = [el('h3', {}, '조합표'), t, el('h3', {}, '화풍 문장'), el('pre', {}, styleText), copy];
+    /* 변주 — 같은 화풍에 배경 처리(data/backgrounds.json, 판 고정)를 얹은 대표 그림 */
+    (c.variants || []).forEach(v => {
+      let g; try { g = B.background(BGS, v.bg); } catch (e) { return detail.push(el('div', { class: 'warn' }, '변주 ' + v.bg + ' — ' + e.message)); }
+      const vi = Object.entries(v.images || {}), vw = el('div', { class: 'worlds' });
+      vi.forEach(([w, id]) => { const r = rows.find(x => x.id === id);
+        vw.append(el('figure', {}, r ? el('img', { src: thumb(id), loading: 'lazy', alt: (v.ko || g.ko) + ' — ' + (WORLD_KO[w] || w), on: { click: () => openImg(r, vi.map(([, i]) => rows.find(x => x.id === i)).filter(Boolean)) } }) : el('div', { class: 'none' }, '그림 없음'), el('figcaption', {}, WORLD_KO[w] || w))); });
+      const line = 'Background treatment: ' + g.text, cur = BGS.backgrounds[g.key].current;
+      detail.push(el('h3', {}, '변주 — ' + (v.ko || g.ko)), el('div', { class: 'keys' }, '배경 처리 ', el('code', {}, g.key + ' @' + g.v), ' · 칸 끝 ~' + g.code + (g.v !== cur ? ' · 지금 판은 ' + cur : '')), el('div', { class: 'why' }, v.why || ''), vw,
+        el('pre', {}, line), copyBtn(styleWith(line, g.avoid), '화풍 문장 + 배경 줄 복사'));
+    });
     return el('div', { class: 'conf' + (cand ? ' cand' : '') },
       el('h2', {}, el('span', { class: 'tag' }, cand ? '후보' : '확정'), c.ko),
       el('div', { class: 'keys' }, '열쇠 ', el('code', {}, c.key), ' · 조합 ', el('code', {}, c.id), cand ? ' · 후보 ' + (c.since || '') : ' · 확정 ' + c.confirmed),

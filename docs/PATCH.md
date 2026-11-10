@@ -3,6 +3,10 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · 확정 화풍 카드 — 배경 변주
+- 사용자 「확정 화풍 카드에 배경 변주로 붙여줘」 — confirmed.json kr_drawn_brush_rim.variants: canvas_rough@v2, 대표 그림 무협 · 판타지 · 메카(13차 ~cr2 api26)
+- 카드에 「변주 — 배경 · 거친 유화 붓질 캔버스」: 그림 셋(누르면 상세) · 배경 줄 · 화풍 문장 + 배경 줄 복사. 검사에 변주(판 고정 · 그림 칸 끝 ~cr2) 더함
+
 ## 2026-11-11 · claude · 배경 처리 canvas_rough v2 · 2.6 API 3장
 - v1 은 판타지 · 메카에서 배경이 꼼꼼하게 그려져 효과가 약했다 → v2 「loosely blocked in with thick, rough oil brushstrokes and palette-knife marks, canvas weave showing through thin passages; the background stays less detailed than the figure」(사용자 「응 그려줘」)
 - 13차 j0079-r13-canvas2 — 같은 세 장(~cr2), 출력 3,396. 하늘 · 행성 · 성벽에 두꺼운 붓 · 나이프 자국이 또렷, 인물 화풍은 그대로
