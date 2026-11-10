@@ -30,6 +30,8 @@ try:
     run('--recipes', 'oil_hikey', '--subject', 'el.fe', '--world', 'fantasy', '--round', '2', '--off-focus')
     assert json.loads((img / 'jobs/j0004/slots.json').read_text())['round'] == 2
     assert s3['slots'][0]['n'] == 2, s3['slots'][0]
+    out = run('--recipes', 'semi_smooth', '--subject', 'sam.wenyang', '--world', 'samguk', '--repeat', '--times', '2', '--dry')
+    assert '__chatgpt__3' in out and '__chatgpt__4' in out, out   # --times 2 — 한 일감에 같은 칸 두 장(번호 3 · 4)
     # 축 바꾸기 — 짝 안 맞는 3D 는 빠진다
     out = run('--base', 'semi_smooth', '--vary', 'direction', '--subject', 'el.fe', '--world', 'fantasy', '--dry', '--off-focus')
     assert 'el.fe__fantasy-world' in out and 'jl1-' in out and 'ps1-' not in out and 'cc' not in out.split('jl1-')[0][-3:], out   # 내린 방향(실사 영화 · 시네마틱)은 빠진다

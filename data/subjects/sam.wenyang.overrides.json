@@ -12,6 +12,15 @@
    "from": " in this style",
    "to": "",
    "why": "얼굴 크기 · 턱 · 비율은 캐릭터 설계(고정 조건) — 화풍 따라 바뀌는 말처럼 읽히지 않게"
+  },
+  {
+   "field": "costume",
+   "worlds": [
+    "samguk"
+   ],
+   "from": "a plumed helmet or a war headband",
+   "to": "a war headband with a single white plume",
+   "why": "머리 장식을 하나로 고정 — 「투구 또는 머리띠」 둘 중 하나라 그릴 때마다 깃털 · 머리 윤곽이 달라져 화풍 비교를 흐렸다(6차 반복 평가 「머리스타일」). 사용자 2026-11-10 「응 A 먼저 해줘」"
   }
  ],
  "exposure": {

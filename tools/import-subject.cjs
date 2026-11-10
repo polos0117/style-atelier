@@ -6,7 +6,7 @@
    node tools/import-subject.cjs sam <장수 열쇠> --id sam.<이름> [--worlds samguk,fantasy,mecha] [--from ../sam-atelier] [--style <칸 꼴 화풍>]
    node tools/import-subject.cjs element <원소 열쇠> --id el.<이름> [--worlds fantasy,steampunk,mecha] [--from ../element-atelier]
    이미 있는 복사본은 덮지 않는다 — 새 판으로 다시 가져오려면 --replace(옛 그림 기록은 source.commit 으로 옛 판을 가리킨다).
-   덮어쓰기: data/subjects/<id>.overrides.json 의 replace[{field, from, to, why}] 를 가져온 뒤 세계마다 적용한다 —
+   덮어쓰기: data/subjects/<id>.overrides.json 의 replace[{field, from, to, why, worlds?}] 를 가져온 뒤 세계마다(worlds 가 있으면 그 세계만) 적용한다 —
    원본 줄은 worlds.<세계>.original.<칸> 에 남긴다. from 이 원본에 없으면 멈춘다(원본이 바뀌었다는 뜻). */
 'use strict';
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), cp = require('node:child_process');
@@ -107,6 +107,7 @@ if (fs.existsSync(ovF)) {
   for (const w of worlds) {
     const W = subj.worlds[w];
     for (const r of OV.replace || []) {
+      if (r.worlds && !r.worlds.includes(w)) continue;
       const cur = W[r.field], arr = Array.isArray(cur);
       const txt = arr ? cur.join('\n') : cur;
       if (typeof txt !== 'string' || txt.indexOf(r.from) < 0) { console.error(w + ' ' + r.field + ' 에 「' + r.from + '」 가 없다 — 원본이 바뀌었다. overrides 를 고친다'); process.exit(1); }
@@ -116,7 +117,7 @@ if (fs.existsSync(ovF)) {
       W[r.field] = arr ? nt.split('\n') : nt;
     }
   }
-  subj.overrides = (OV.replace || []).map(r => ({ field: r.field, from: r.from, to: r.to, why: r.why }));
+  subj.overrides = (OV.replace || []).map(r => Object.assign({ field: r.field, from: r.from, to: r.to, why: r.why }, r.worlds ? { worlds: r.worlds } : {}));
   /* 노출 줄 통째로 — 「Skin shown:」 꼴(드러나는 부위만), 지킴 말은 exposureConstraint(노출을 넣을 때만 5칸에) */
   if (OV.exposure) for (const w of worlds) if (OV.exposure[w]) {
     const W = subj.worlds[w]; W.original = W.original || {};

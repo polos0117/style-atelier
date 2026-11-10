@@ -10,7 +10,7 @@
        비우면 data/focus.json(지금은 문앙 · 무협 — 화풍 비교는 캐릭터 하나로). 그 밖의 캐릭터 · 세계는 --off-focus 를 붙일 때만(사용자가 정할 때).
      --model chatgpt(기본) | api26 | api25    --exposure none|bold|moderate|low(기본은 data/focus.json — 지금 none, 노출 줄 없이)
      --round N(차수 — 화면 「1차 › 문앙」 묶음. 기본은 가장 최근 일감의 차수, 처음이면 1)
-     --size 10(일감 하나에 칸 수 — 사용자 2026-11-10 「4장보다 한 번에 맡기는 양 더 늘려도 돼」, 처음엔 4)  --label <짧은 이름>  --repeat(이미 그린 칸도 다시 — 번호를 올린다)
+     --size 10(일감 하나에 칸 수 — 사용자 2026-11-10 「4장보다 한 번에 맡기는 양 더 늘려도 돼」, 처음엔 4)  --label <짧은 이름>  --repeat(이미 그린 칸도 다시 — 번호를 올린다)  --times N(칸마다 N 장 — 한 일감에 같은 칸 번호 n · n+1 …, 반복 유지 보기)
      --img ../style-atelier-img     --dry(쓰지 않고 칸만 보인다)
    아직 아무도 손대지 않은 일감을 크게 다시 묶기: --merge all | j0003,j0004 [--size 10]
      예약(CLAIM.md) · 그림(rec · rec/blocked · inbox)이 하나도 없는 일감만. 차수 · 모델 · 캐릭터가 같은 칸끼리 차례대로 고르게 나눠 새 일감으로,
@@ -25,14 +25,15 @@ const ROOT = path.join(__dirname, '..');
 const args = process.argv.slice(2), has = k => args.includes('--' + k), flag = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
 const P = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/parts.json'), 'utf8')), R = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/recipes.json'), 'utf8'));
 const IMG = path.resolve(ROOT, flag('img', '../style-atelier-img'));
-const model = flag('model', 'chatgpt'), size = +flag('size', 10), label = flag('label', '');
+const model = flag('model', 'chatgpt'), size = +flag('size', 10), label = flag('label', ''), times = +flag('times', 1);
+if (!(times >= 1 && times <= 5 && Number.isInteger(times))) die('--times 는 1~5 정수');
 let exposure = flag('exposure', null);   /* 비우면 data/focus.json 의 exposure(지금은 none — 노출 줄 없이) */
 if (B.MODELS.indexOf(model) < 0) die('모르는 모델: ' + model + ' (' + B.MODELS.join(' · ') + ')');
 if (label && !/^[a-z0-9-]{1,32}$/.test(label)) die('label 은 소문자 · 숫자 · - 로 32자까지');
 function die(m) { console.error(m); process.exit(1); }
 const sha = s => crypto.createHash('sha256').update(s).digest('hex');
 if (flag('rewrite')) { rewrite(flag('rewrite')); process.exit(0); }
-if (flag('merge')) { merge(flag('merge')); process.exit(0); }
+if (flag('merge')) { if (has('dry')) die('--merge 는 --dry 를 모른다 — 바로 묶는다'); merge(flag('merge')); process.exit(0); }
 if (flag('hold')) { hold(flag('hold'), flag('why', '')); process.exit(0); }
 
 /* 조합 목록 */
@@ -77,11 +78,13 @@ for (const sid of subjects) {
       const b = B.build(P, R, subj, w, rc, { model, exposure: ex });
       const k = b.slot + '__' + model;
       if (taken[k] && !has('repeat')) { console.log('  있음(건너뜀) ' + b.slot); continue; }
+      for (let t = 0; t < times; t++) {
       const n = (taken[k] || 0) + 1; taken[k] = n;
       slots.push({ slot: b.slot, file: B.imageName(b.slot, model, n), subject: sid, subject_commit: subj.source.commit, world: w, kind: b.kind, exposure: b.exposure, model, n,
         recipe: { id: b.recipe.id, name: b.recipe.name, display: B.displayName(b.recipe), parts: b.recipe.parts.map(p => ({ axis: p.axis, key: p.key, v: p.v, code: p.code, ko: p.ko, pairs: p.pairs || null, requires: p.requires || null })), untested: B.untested(b.recipe) },   /* 그 판의 한글 이름 · 짝 규칙을 박아 둔다(검토안 6.2 — 나중에 이름 · 규칙이 바뀌어도 옛 그림 기록은 그대로) */
         subject_overrides: (subj.overrides || []).map(o => o.field + ': ' + o.from + ' → ' + o.to),
         prompt: b.text, prompt_sha256: sha(b.text) });
+      }
     }
   }
 }

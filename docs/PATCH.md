@@ -3,6 +3,12 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 문앙 머리 장식 고정 · 7차 반복 일감
+- 6차 반복 평가(사용자 「평가 올렸어. 애매한건 놔뒀어」) — 붓 채색 조합은 반복 4~5, 유화(og3) 두 조합은 3 · 메모 「머리스타일 · 체형 · 얼굴」. 머리 차이는 캐릭터 문장의 「투구 또는 머리띠」 · 「details are free」 탓이라 화풍 비교를 흐렸다
+- 사용자 「응 A 먼저 해줘」 — 문앙 복사본(무협만) 의상 줄 「a plumed helmet or a war headband」 → 「a war headband with a single white plume」. 삼국지 공방은 그대로. overrides 의 replace 에 worlds(그 세계만) 를 더했다
+- make-job --times N(칸마다 N 장을 한 일감에), --merge 는 --dry 를 받으면 멈춘다(묶기가 바로 일어나던 것)
+- 7차 j0064-r7-headband — 유화 두 조합(ln_drawn_oil · kr_semi_oil_rim) × 2장, 머리 장식 고정 뒤 반복 유지 보기
+
 ## 2026-11-10 · claude · 5차로 고른 화풍 넷 등록 · 6차는 반복(같은 문장 두 번 더)
 - 사용자 「지금 한것도 5차지? 평가올렸어 그리고 이거 좋다. km2-il2-ba3-rg2-x01」 — 조명 새 판(muted v2 · rim_gloss v2)에서 파란 자국이 사라졌다(rim_gloss v2 는 두 조합에서 후보), 전역광은 네 조합 다 후보
 - `data/recipes.json` — ln_drawn_oil(라이트노벨 · 그린 얼굴 · 유화 글레이즈 · 전역광) · kr_anime_brush(MMORPG · 애니 · 2D 붓질 · 전역광) · kr_drawn_brush_rim(MMORPG · 그린 얼굴 · 2D 붓질 · 림 라이트 — 사용자가 짚은 그림) · kr_semi_oil_rim(MMORPG · 반실사 · 유화 글레이즈 · 림 라이트)

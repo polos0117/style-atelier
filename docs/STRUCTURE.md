@@ -15,7 +15,7 @@
 
 사용자가 가져온 검토안 [docs/AXIS_REVIEW.md](AXIS_REVIEW.md) → 「1. 크고 둥근 눈으로. 2. 삼국지 설계표도 다 수정해줘. 3. 그 순서로 진행해줘」.
 - 축 이름 · 담당 범위는 `data/parts.json` axes[].rule — 방향 · 얼굴 표현 · 렌더링·채색 · 조명·색조 · 이펙트. 2D · 3D · CGI · 사진은 렌더링·채색, 실제 나이 · 얼굴 크기 · 생김새는 캐릭터 설계(고정 조건).
-- 캐릭터 공통 문구는 복사본의 덮어쓰기(`data/subjects/<id>.overrides.json` — 원본 줄은 `original` 에)로 고친다. 문앙: 머리말 「character card illustration」 → 「character image」, 얼굴 비율 줄의 「in this style」 빼기. 눈 모순은 삼국지 설계표에서 고쳤다(sam-atelier 89ab31a).
+- 캐릭터 공통 문구는 복사본의 덮어쓰기(`data/subjects/<id>.overrides.json` — 원본 줄은 `original` 에)로 고친다. 문앙: 머리말 「character card illustration」 → 「character image」, 얼굴 비율 줄의 「in this style」 빼기, 무협 의상의 「a plumed helmet or a war headband」 → 「a war headband with a single white plume」(머리 장식 고정 — 6차 반복에서 깃털 · 머리 윤곽이 그릴 때마다 달라져 화풍 비교를 흐렸다. `worlds` 로 세계를 집는다). 눈 모순은 삼국지 설계표에서 고쳤다(sam-atelier 89ab31a).
 - 부품 v2(같은 날 사용자 v2 표 → 「classical, fantasy_paint는 내리자. 그리고 kr_game_keyart 추가해주고. jp_light_novel … 추가해줘」): 축을 넘던 말 · 부정 말을 정리하고 판마다 한글 이름(versions[].ko). 짝은 `pairs`(추천 — 막지 않음, 화면에 「검증 전 짝」) · `requires`(진짜 모순 — 막음, 지금은 실사 영화 → 사진 · 포토리얼 CGI 렌더링만)로 나눴다. 이펙트 `none` = 미지정(빈 문장), `off` = 없음(avoid 로 억제). 조합 이름은 판과 상관없이 부품 열쇠로 찾는다(`recipeNameOf` — 1차 v1 그림도 제 이름).
 - 공통 문구가 바뀌었으니 새 기준은 **2차** — 1차(옛 문구 · 부품 v1) 그림과 견줄 때는 화풍만 다른 게 아니다.
 
@@ -59,7 +59,7 @@ make-job ──────────────────────▶ j
 ```
 
 - 일감 하나는 **칸 10개까지**(`--size`, 사용자 2026-11-10 「4장보다 한 번에 맡기는 양 더 늘려도 돼」 — 처음엔 4). 아직 아무도 손대지 않은 일감은 `make-job --merge all` 로 차수 · 모델 · 캐릭터별로 크게 다시 묶는다 — 옛 일감은 지우지 않고 `retired` · `merged_into` 만 적는다(NEXT.md · 수거 · 겹침 검사에서 빠진다).
-- `make-job` — 칸을 정하는 길 둘: `--recipes a,b` · `--base <조합> --vary <축>[=k1,k2]`. 캐릭터 · 세계 여럿 가능. 이미 그린 칸 · 열린 일감에 있는 칸은 빠진다(`--repeat` 면 번호를 올려 다시). 칸 4개씩 끊는다(`--size`).
+- `make-job` — 칸을 정하는 길 둘: `--recipes a,b` · `--base <조합> --vary <축>[=k1,k2]`. 캐릭터 · 세계 여럿 가능. 이미 그린 칸 · 열린 일감에 있는 칸은 빠진다(`--repeat` 면 번호를 올려 다시, `--times N` 이면 칸마다 N 장을 한 일감에). 칸 4개씩 끊는다(`--size`).
 - 일감 이름 `j0001[-label]` — 차례대로. 일감 폴더는 지우지 않는다(기록이 가리킨다).
 - **차수**(`round`, `make-job --round N` — 기본은 가장 최근 일감의 차수): 시험 단계 묶음. 화면 검색 조건이 「1차 › 문앙 · 2차 › 문앙 · 1차 › 철」 꼴로 차수 × 캐릭터를 묶는다(사용자 2026-11-10). 색인의 `round` 는 일감에서 다시 읽는다 — 일감의 차수를 고치면 색인도 따라간다.
 - 세션이 올리는 것: 그림 — 다른 공방 GPT 세션과 같게 **WebP(품질 90, 1024×1536)로 바꿔 일감 하나 한 커밋**(사용자 2026-11-10 「이미 다른 공방들은 chatGPT 세션에서 이미지 잘만 올리고 있는데」 — PNG 원본을 한 장씩 올리라던 첫 판에서 세션이 업로드 중 Too many requests 로 멈췄다. 받는 쪽은 png · jpg 도 받는다) · `<그림>.blocked.txt`(거절 문구) · `<그림>.note.txt`(메모, 선택).
