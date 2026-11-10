@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 화풍 비교 노출 moderate · 4차 작은 교차(방향 2 × 얼굴 3 × 렌더링 3)
+- 사용자 「노출은 너무 low로 했나봐. 피부결 다리나 흉부쪽에 조금 보였으면 해」 · 「2d 쪽은 거의 편차가 없어서 좋은거 위주로만 했어」
+- `data/focus.json` exposure low → moderate. 검사 · 문서
+- 4차 — 2 · 3차 평가에서 두 기준 다 후보였던 것: 방향 kr_mmorpg · jp_light_novel × 얼굴 semi_paint · illustrated · anime_adult × 렌더링 oil_glaze · oil_brush · brush_anime, 조명 muted · 이펙트 미지정 고정 — 18칸. glossy_digital 은 반실사 내리기 · 애니 후보라 내리지 않았다(축 사이 영향)
+
 ## 2026-11-10 · claude · 2차 평가로 부품 다섯 내림 · 3차는 애니 기준에서 축 훑기
 - 사용자 「우선 내릴것만 몇 개 체크해서 저장했어. 다음 일감 만들어줘」 — 2차 「내리기」 다섯: 방향 cinematic_cgi, 렌더링·채색 impasto · photoreal_cgi · photo · render3d
 - `data/parts.json` — 다섯 내림 + photo_still(붙을 렌더링이 안 남아). `data/recipes.json` — cgi_hikey · photo_real · styl3d_jp · styl3d_kr 내림. 말 되는 조합 64,350. `tests/ingest.py` 내린 조합을 쓰던 시험을 살아 있는 조합으로
