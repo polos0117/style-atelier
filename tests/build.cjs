@@ -81,7 +81,9 @@ for (const s of SL.subjects) {
   for (const [w, W] of Object.entries(subj.worlds)) {
     for (const k of ['genre', 'head', 'faceFrame']) assert(W[k], s.id + ' ' + w + ' ' + k);
     for (const k of ['character', 'costume', 'scene', 'constraints']) assert(Array.isArray(W[k]) && W[k].length, s.id + ' ' + w + ' ' + k);
-    for (const e of ['bold', 'moderate', 'low']) assert(/^Exposure \(/.test(W.exposure[e]), s.id + ' ' + w + ' 노출 ' + e);
+    for (const e of ['bold', 'moderate', 'low']) assert(/^(Exposure \(|Skin shown: )/.test(W.exposure[e]), s.id + ' ' + w + ' 노출 ' + e);
+    if (s.id === 'sam.wenyang') { assert(/^Skin shown: /.test(W.exposure.bold) && W.exposureConstraint && /Intimate areas stay covered/.test(W.exposureConstraint), '문앙 노출 줄은 「Skin shown:」 꼴 · 지킴 말은 제약으로');
+      assert(!/\b(Exposure|bold)\b/.test(W.exposure.bold), '노출 줄에 Exposure · bold 이름표가 없다'); }
     const flat = [W.head, W.faceFrame].concat(W.character, W.costume, W.scene, W.constraints).join('\n');
     assert(!/^(Style|Light|Mood):/m.test(flat) && !/\bLIGHT:/.test(flat), s.id + ' ' + w + ' 에 화풍 말이 남았다');
     assert(W.scene.some(l => /^Composition:/.test(l)), s.id + ' ' + w + ' 구도 줄');
@@ -92,14 +94,16 @@ for (const s of SL.subjects) {
       assert(idx.every((x, i) => x > 0 && (i === 0 || x > idx[i - 1])), s.id + ' ' + w + ' ' + k + ' 다섯 칸 차례');
       assert.equal((t.match(/^Light: /mg) || []).length, 1, '빛 줄 하나');
       assert(t.indexOf('\nLight: ') < t.indexOf('\nComposition:'), '빛 줄은 구도 앞');
-      assert.equal((t.match(/^Exposure \(/mg) || []).length, 1, '노출 줄 하나');
+      assert.equal((t.match(/^(Exposure \(|Skin shown: )/mg) || []).length, 1, '노출 줄 하나');
       assert(t.includes(B.paragraph(b.recipe)), '화풍 문단');
       n++;
     }
     const no = B.build(P, R, subj, w, 'semi_smooth', { exposure: 'none' });
-    assert(!/^Exposure \(/m.test(no.text) && /-none$/.test(no.slot), '노출 none — 노출 줄 없이(화풍 비교 기본)');
+    assert(!/^(Exposure \(|Skin shown: )/m.test(no.text) && /-none$/.test(no.slot), '노출 none — 노출 줄 없이(화풍 비교 기본)');
+    if (W.exposureConstraint) assert(!no.text.includes(W.exposureConstraint), '노출을 빼면 지킴 말도 빠진다');
     const lo = B.build(P, R, subj, w, 'semi_smooth', { exposure: 'low' });
-    assert(/^Exposure \(low\)/m.test(lo.text) && /-low$/.test(lo.slot), '노출 낮추기');
+    assert(/^(Exposure \(low\)|Skin shown: face, neck and hands only)/m.test(lo.text) && /-low$/.test(lo.slot), '노출 낮추기');
+    if (W.exposureConstraint) assert(lo.text.includes(W.exposureConstraint), '노출을 넣으면 지킴 말이 5칸에');
   }
 }
 { const wy = J('data/subjects/sam.wenyang.json'), W = wy.worlds.samguk;

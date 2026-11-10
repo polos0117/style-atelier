@@ -117,6 +117,14 @@ if (fs.existsSync(ovF)) {
     }
   }
   subj.overrides = (OV.replace || []).map(r => ({ field: r.field, from: r.from, to: r.to, why: r.why }));
+  /* 노출 줄 통째로 — 「Skin shown:」 꼴(드러나는 부위만), 지킴 말은 exposureConstraint(노출을 넣을 때만 5칸에) */
+  if (OV.exposure) for (const w of worlds) if (OV.exposure[w]) {
+    const W = subj.worlds[w]; W.original = W.original || {};
+    if (!('exposure' in W.original)) W.original.exposure = W.exposure;
+    W.exposure = Object.assign({}, W.exposure, OV.exposure[w]);
+    if (OV.exposureConstraint && OV.exposureConstraint[w]) W.exposureConstraint = OV.exposureConstraint[w];
+    subj.overrides.push({ field: 'exposure', world: w, why: OV.exposure.why });
+  }
 }
 fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.writeFileSync(out, JSON.stringify(subj, null, 1) + '\n');
