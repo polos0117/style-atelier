@@ -1,0 +1,90 @@
+{
+ "id": "el.fe",
+ "ko": "철",
+ "defaultExposure": "bold",
+ "source": {
+  "atelier": "element",
+  "key": "fe",
+  "repo": "polos0117/element-atelier",
+  "commit": "74eb6d8",
+  "date": "2026-11-10",
+  "builder": "lib/prompt-element.js build (짧은 판 — 화풍 말은 뺐다)"
+ },
+ "worlds": {
+  "fantasy": {
+   "exposure": {
+    "bold": "Exposure (bold): her regalia opens to show skin — bare shoulders and arms between pauldron and bracer, a deep open neckline under the gorget with natural cleavage, a high slit in the tabard or robe showing the thigh; armor pieces stay on and symmetrical. Nothing slipped off. Intimate areas covered; no corset; keep the costume WORLD describes, material and palette.",
+    "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; chest and pelvis covered.",
+    "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
+   },
+   "genre": "HIGH FANTASY",
+   "head": "A full-body vertical 2:3 (1024×1536) character card image of an adult woman — the personification of the element Iron (철) itself — the sovereign of the Iron Nation. A female character who IS the element; her costume, ornaments and colors carry the element’s traits. Both hands are ordinary human hands and hold nothing. Age: late twenties — a settled, mature adult face with defined cheekbones; no wrinkles, folds or under-eye bags.",
+   "faceFrame": "Face proportions: a short midface and a soft, gently rounded jawline with a small soft chin — never a long face or a long, pointed or heavy jaw; any crown or headpiece sits above her hairline and never lengthens her face. Her eyes keep the shape described above at a natural open size — never squeezed into narrow slits.",
+   "character": [
+    "Look: a glamorous, sultry allure; bronze-brown skin; oval face; moderately sized, realistically proportioned eyes — wide almond eyes, level outer eye corners; soft rounded brows; straight narrow nose; full heart-shaped lips; ember-orange eyes; bold red lipstick. toned athletic-curvy, full-busted with rounded hips build; long wavy hair with center-parted bangs framing the face; iron-grey hair with a brushed-steel sheen.",
+    "Element: dark grey iron with bright steel highlights, orange-brown rust and glowing forge-orange heat, magnetism (iron filings, lodestone), hardness and weight, the smell of a smithy; it is the element of tools, weapons, bridges, machines and blood. Palette: iron grey, steel silver, rust orange, ember red, black soot."
+   ],
+   "costume": [
+    "World and costume: a fantasy kingdom of smiths: a mountain fortress built around a great forge, rivers of molten iron glowing in channels, hammered-iron gates, anvils as altars, iron filings drawn into patterns by magic magnetism, ember sparks in the air. COSTUME (fantasy): a high-fantasy royal or warrior costume — plate pauldrons or a gorget, mail or scale over a long tabard or robe, a circlet or crown, a flowing cape; metal ornament and regalia built from the traits above, subtle magical glow along the patterns. No corset, no bustle, no Victorian tailoring, no modern material, no machinery.",
+    "Silhouette: dragon-scale armor covering the body with horn-shaped shoulder and head ornaments — a beastly, imposing silhouette. Only the overall shape is fixed; design the details freely in the element's materials and palette. This silhouette overrides the overall shape of the costume above."
+   ],
+   "scene": [
+    "Pose: standing confidently, her body turned slightly while her face looks toward the viewer. Expression: level brow, direct unhurried gaze, chin slightly raised, mouth closed and composed.",
+    "Composition: vertical 2:3 full-body framing with modest headroom and clear space below the boots — the whole figure from the top of her head or headpiece to both feet stays inside the frame, occupying about four-fifths of the image height, with the same camera distance in every world; her hands stay inside the frame. Camera at chest height with natural portrait perspective — no wide-angle distortion, no low angle, no close crop."
+   ],
+   "constraints": [
+    "One figure only, natural hands with five fingers; no text or numbers except her element's own chemical symbol (Fe) and atomic number (26) — and those only as part of the scene: engraved, embroidered or glowing on her costume, a banner, a sign or a machine, never as a floating label, corner badge, periodic-table tile, caption or overlay on the picture; no logo or watermark."
+   ]
+  },
+  "steampunk": {
+   "exposure": {
+    "bold": "Exposure (bold): the high collar unbuttoned down to the sternum with natural cleavage, sleeves rolled above the elbow, a short bustle skirt showing the legs above laced boots; the waistcoat stays buttoned at the waist. Nothing slipped off. Intimate areas covered; no corset; keep the costume WORLD describes, material and palette.",
+    "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; chest and pelvis covered.",
+    "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
+   },
+   "genre": "STEAMPUNK",
+   "head": "A full-body vertical 2:3 (1024×1536) character card image of an adult woman — the personification of the element Iron (철) itself — the sovereign of the Iron Nation. A female character who IS the element; her costume, ornaments and colors carry the element’s traits. Both hands are ordinary human hands and hold nothing. Age: late twenties — a settled, mature adult face with defined cheekbones; no wrinkles, folds or under-eye bags.",
+   "faceFrame": "Face proportions: a short midface and a soft, gently rounded jawline with a small soft chin — never a long face or a long, pointed or heavy jaw; any crown or headpiece sits above her hairline and never lengthens her face. Her eyes keep the shape described above at a natural open size — never squeezed into narrow slits.",
+   "character": [
+    "Look: a glamorous, sultry allure; bronze-brown skin; oval face; moderately sized, realistically proportioned eyes — wide almond eyes, level outer eye corners; soft rounded brows; straight narrow nose; full heart-shaped lips; ember-orange eyes; bold red lipstick. toned athletic-curvy, full-busted with rounded hips build; an updo bun with no bangs, forehead bare; iron-grey hair with a brushed-steel sheen.",
+    "Element: dark grey iron with bright steel highlights, orange-brown rust and glowing forge-orange heat, magnetism (iron filings, lodestone), hardness and weight, the smell of a smithy; it is the element of tools, weapons, bridges, machines and blood. Palette: iron grey, steel silver, rust orange, ember red, black soot."
+   ],
+   "costume": [
+    "World and costume: the Industrial Revolution around 1860: a cast-iron railway bridge over a river, a steam locomotive with a glowing firebox, blast furnaces and chimneys, riveted iron girders, gauges and valves, coal smoke under a copper sunset. COSTUME (steampunk): late-Victorian industrial dress — a high-necked blouse with a waistcoat or a tailored tail coat, leather gloves, a work apron or utility belt with brass fittings, goggles hung at the neck or a small instrument as ornament; below, a short bustle skirt over riding trousers and laced boots; muted palette with the traits above as accents. No armor plates, no cape, no crown unless CONCEPT says she wears one; steam, pipes and gauges in the scene; no modern plastic, no sci-fi.",
+    "Silhouette: a riveted iron breastplate and broad pauldrons over a bustled skirt, heavy boots — a solid, armoured industrial shape. Only the overall shape is fixed; design the details freely in the element's materials and palette. This silhouette overrides the overall shape of the costume above."
+   ],
+   "scene": [
+    "Pose: standing confidently, her body turned slightly while her face looks toward the viewer. Expression: level brow, direct unhurried gaze, chin slightly raised, mouth closed and composed.",
+    "Composition: vertical 2:3 full-body framing with modest headroom and clear space below the boots — the whole figure from the top of her head or headpiece to both feet stays inside the frame, occupying about four-fifths of the image height, with the same camera distance in every world; her hands stay inside the frame. Camera at chest height with natural portrait perspective — no wide-angle distortion, no low angle, no close crop."
+   ],
+   "constraints": [
+    "One figure only, natural hands with five fingers; no text or numbers except her element's own chemical symbol (Fe) and atomic number (26) — and those only as part of the scene: engraved, embroidered or glowing on her costume, a banner, a sign or a machine, never as a floating label, corner badge, periodic-table tile, caption or overlay on the picture; no logo or watermark."
+   ]
+  },
+  "mecha": {
+   "exposure": {
+    "bold": "Exposure (bold): her outer layer (coat, cloak, robe or armor) stays on both shoulders, worn symmetrically; skin shows through the inner garment — a deep open neckline with natural cleavage, a fitted corset-like waist, slits where the form allows. The collar opens with the neckline in a V or folds down, never standing away from the neck. Nothing slipped off. Intimate areas covered; keep the costume WORLD describes, material and palette.",
+    "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; chest and pelvis covered.",
+    "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
+   },
+   "genre": "MECHA",
+   "head": "A full-body vertical 2:3 (1024×1536) character card image of an adult woman — the personification of the element Iron (철) itself — the sovereign of the Iron Nation. A female character who IS the element; her costume, ornaments and colors carry the element’s traits. Both hands are ordinary human hands and hold nothing. Age: late twenties — a settled, mature adult face with defined cheekbones; no wrinkles, folds or under-eye bags.",
+   "faceFrame": "Face proportions: a short midface and a soft, gently rounded jawline with a small soft chin — never a long face or a long, pointed or heavy jaw; any crown or headpiece sits above her hairline and never lengthens her face. Her eyes keep the shape described above at a natural open size — never squeezed into narrow slits.",
+   "character": [
+    "Look: a glamorous, sultry allure; bronze-brown skin; heart-shaped face; moderately sized, realistically proportioned eyes — wide almond eyes, level outer eye corners; soft rounded brows; straight narrow nose; full heart-shaped lips; ember-orange eyes; bold red lipstick. toned athletic-curvy, full-busted with rounded hips build; long braids with blunt straight bangs; iron-grey hair with a brushed-steel sheen.",
+    "Element: dark grey iron with bright steel highlights, orange-brown rust and glowing forge-orange heat, magnetism (iron filings, lodestone), hardness and weight, the smell of a smithy; it is the element of tools, weapons, bridges, machines and blood. Palette: iron grey, steel silver, rust orange, ember red, black soot."
+   ],
+   "costume": [
+    "World and costume: year 2150, an orbital iron foundry over a red-dust asteroid: molten metal pouring in zero gravity into glowing molds, magnetic rails, stars and a distant sun, hard rim light. MECHA DESIGN: she is a female mecha personification — plates, joints, binders and glow lines carry the traits above; the plates must read as solid armor with visible joints, not as cloth or a gown; a back unit may carry the motif. heavy dark-iron plating with brushed-steel edges, visible rivets and I-beam girder shapes in the pauldrons and greaves, a magnetic field drawn as hovering iron-filing arcs and a halo of orbiting shards, forge-orange glow lines along the seams, a rusted patina band across one shoulder, a back unit shaped like a blast-furnace crown.",
+    "Silhouette: mecha armor shaped like a medieval knight's plate — big rounded pauldrons, a breastplate, layered plates below the waist, a head ornament instead of a helmet so her face shows. Only the overall shape is fixed; design the details freely in the element's materials and palette."
+   ],
+   "scene": [
+    "Pose: standing confidently, her body turned slightly while her face looks toward the viewer. Expression: level brow, direct unhurried gaze, chin slightly raised, mouth closed and composed.",
+    "Composition: vertical 2:3 full-body framing with modest headroom and clear space below the boots — the whole figure from the top of her head or headpiece to both feet stays inside the frame, occupying about four-fifths of the image height, with the same camera distance in every world; her hands stay inside the frame. Camera at chest height with natural portrait perspective — no wide-angle distortion, no low angle, no close crop."
+   ],
+   "constraints": [
+    "One figure only, natural hands with five fingers; no text or numbers except her element's own chemical symbol (Fe) and atomic number (26) — and those only as part of the scene: engraved, embroidered or glowing on her costume, a banner, a sign or a machine, never as a floating label, corner badge, periodic-table tile, caption or overlay on the picture; no logo or watermark."
+   ]
+  }
+ }
+}

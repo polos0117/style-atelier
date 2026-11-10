@@ -1,0 +1,30 @@
+{
+ "subjects": [
+  {
+   "id": "el.fe",
+   "ko": "철",
+   "atelier": "element",
+   "key": "fe",
+   "worlds": [
+    "fantasy",
+    "steampunk",
+    "mecha"
+   ],
+   "commit": "74eb6d8",
+   "date": "2026-11-10"
+  },
+  {
+   "id": "sam.wenyang",
+   "ko": "문앙",
+   "atelier": "sam",
+   "key": "문앙",
+   "worlds": [
+    "samguk",
+    "fantasy",
+    "mecha"
+   ],
+   "commit": "4bc7624",
+   "date": "2026-11-10"
+  }
+ ]
+}

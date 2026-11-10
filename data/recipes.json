@@ -1,0 +1,16 @@
+{
+ "version": 1,
+ "note": "이름 붙인 조합 — 등록한 것만. parts 의 값은 부품 열쇠(판을 박으려면 '열쇠@v2'). 이름은 비워 두면 부품 이름으로 짓는다. from = 처음 쪼갠 원본(삼국지 공방 화풍 열쇠@판) — 원본 문장과 글자가 같지는 않다(축별 문장으로 다시 끊었다).",
+ "recipes": {
+  "semi_smooth": { "from": "sam:semi_smooth@v1", "note": "주력 후보 — 2.5 느낌을 2.6 에서", "parts": { "direction": "kr_mmorpg", "face": "semi_soft", "paint": "smooth", "light": "muted", "fx": "faint" } },
+  "semi_oil_classic": { "from": "sam:semi_oil_classic@v1", "parts": { "direction": "classical", "face": "semi_soft", "paint": "oil_glaze", "light": "warm_side", "fx": "none" } },
+  "anime_brush": { "from": "sam:anime_brush@v1", "parts": { "direction": "anime", "face": "anime_adult", "paint": "brush_anime", "light": "daylight", "fx": "none" } },
+  "styl3d": { "from": "sam:styl3d@v1", "parts": { "direction": "film3d", "face": "stylised3d", "paint": "render3d", "light": "global_soft", "fx": "none" } },
+  "anime_matte": { "from": "sam:anime_matte@v1", "parts": { "direction": "anime", "face": "anime_adult", "paint": "matte_soft", "light": "overcast", "fx": "none" } },
+  "semi_impasto": { "from": "sam:semi_impasto@v1", "parts": { "direction": "fantasy_paint", "face": "semi_ideal", "paint": "impasto", "light": "directional", "fx": "none" } },
+  "semi_paint_jp": { "from": "sam:semi_paint_jp@v1", "parts": { "direction": "jp_game_paint", "face": "semi_paint", "paint": "brush_layered", "light": "modelled_deep", "fx": "none" } },
+  "illus_23d": { "from": "sam:illus_23d@v1", "parts": { "direction": "kr_mmorpg", "face": "illustrated", "paint": "painted_refined", "light": "clean_soft", "fx": "faint" } },
+  "anime_gloss_jp": { "from": "sam:anime_gloss_jp@v1", "parts": { "direction": "jp_gacha", "face": "anime_gacha", "paint": "cel_gradient", "light": "hikey_pastel", "fx": "soft" } },
+  "oil_hikey": { "from": "sam:oil_hikey@v1", "parts": { "direction": "kr_mmorpg_promo", "face": "semi_soft", "paint": "oil_brush", "light": "hikey_natural", "fx": "none" } }
+ }
+}

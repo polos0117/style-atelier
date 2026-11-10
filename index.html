@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>화풍공방</title>
+<style>
+:root { --bg:#f6f4ef; --panel:#fffdf8; --ink:#1f1d1a; --sub:#6b665d; --line:#e2ddd2; --acc:#7a4b2a; --acc2:#efe4d6; --warn:#a33a2a; --ok:#2f6b3a; }
+@media (prefers-color-scheme: dark) { :root { --bg:#161513; --panel:#1f1d1a; --ink:#ece7dd; --sub:#a39d92; --line:#34302a; --acc:#d8a275; --acc2:#2c2620; --warn:#e07a68; --ok:#7fc08a; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+header { padding:18px 16px 0; max-width:1280px; margin:0 auto; }
+h1 { margin:0; font-size:22px; letter-spacing:-.01em; }
+header p { margin:4px 0 0; color:var(--sub); font-size:13px; }
+nav { display:flex; gap:4px; margin-top:14px; border-bottom:1px solid var(--line); overflow-x:auto; }
+nav button { background:none; border:0; border-bottom:2px solid transparent; padding:8px 12px; font:inherit; color:var(--sub); cursor:pointer; white-space:nowrap; }
+nav button[aria-selected=true] { color:var(--ink); border-color:var(--acc); font-weight:600; }
+main { max-width:1280px; margin:0 auto; padding:16px; }
+section[hidden] { display:none; }
+.bar { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:end; margin-bottom:14px; }
+label { display:flex; flex-direction:column; gap:2px; font-size:12px; color:var(--sub); }
+select, button.b { font:inherit; font-size:14px; padding:6px 8px; border:1px solid var(--line); border-radius:6px; background:var(--panel); color:var(--ink); min-width:0; max-width:100%; }
+button.b { cursor:pointer; background:var(--acc2); }
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px, 1fr)); gap:12px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; cursor:pointer; }
+.card img { display:block; width:100%; aspect-ratio:2/3; object-fit:cover; background:var(--line); }
+.card .cap { padding:6px 8px; font-size:12px; color:var(--sub); }
+.card .cap b { color:var(--ink); font-weight:600; display:block; }
+.row { display:grid; grid-auto-flow:column; grid-auto-columns:minmax(150px, 1fr); gap:10px; overflow-x:auto; padding-bottom:6px; }
+.cell { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:6px; font-size:12px; }
+.cell .h { font-weight:600; margin-bottom:4px; }
+.cell .empty { aspect-ratio:2/3; display:grid; place-items:center; color:var(--sub); border:1px dashed var(--line); border-radius:6px; }
+.cell img { width:100%; aspect-ratio:2/3; object-fit:cover; border-radius:6px; display:block; margin-bottom:4px; cursor:pointer; }
+pre { white-space:pre-wrap; word-break:break-word; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; font-size:13px; }
+.meta { font-size:13px; color:var(--sub); margin:6px 0; }
+.warn { color:var(--warn); } .ok { color:var(--ok); }
+dialog { border:0; border-radius:10px; padding:0; max-width:min(1100px, 96vw); background:var(--panel); color:var(--ink); }
+dialog::backdrop { background:rgba(0,0,0,.6); }
+.dlg { display:grid; grid-template-columns:minmax(0, 420px) minmax(0, 1fr); gap:14px; padding:14px; }
+.dlg img { width:100%; border-radius:6px; }
+@media (max-width:760px) { .dlg { grid-template-columns:1fr; } }
+.x { float:right; }
+</style>
+</head>
+<body>
+<header>
+  <h1>화풍공방</h1>
+  <p>화풍 부품(방향 · 얼굴 · 채색 · 빛 · 이펙트)을 조합해 시험하는 곳 — 그림은 <span id="imgsrc"></span></p>
+  <nav role="tablist">
+    <button role="tab" data-t="find" aria-selected="true">그림 찾기</button>
+    <button role="tab" data-t="axis">축 비교</button>
+    <button role="tab" data-t="mix">섞어보기</button>
+    <button role="tab" data-t="jobs">일감</button>
+  </nav>
+</header>
+<main>
+  <section id="find">
+    <div class="bar" id="findBar"></div>
+    <div class="meta" id="findMeta"></div>
+    <div class="grid" id="findGrid"></div>
+  </section>
+  <section id="axis" hidden>
+    <div class="bar" id="axisBar"></div>
+    <div class="meta" id="axisMeta"></div>
+    <div class="row" id="axisRow"></div>
+  </section>
+  <section id="mix" hidden>
+    <div class="bar" id="mixBar"></div>
+    <div class="meta" id="mixMeta"></div>
+    <pre id="mixOut"></pre>
+  </section>
+  <section id="jobs" hidden>
+    <pre id="jobsOut">불러오는 중…</pre>
+  </section>
+</main>
+<dialog id="dlg"><div class="dlg"><div><img id="dImg" alt=""></div><div><button class="b x" onclick="dlg.close()">닫기</button><div id="dMeta" class="meta"></div><pre id="dPrompt"></pre></div></div></dialog>
+<script src="lib/build.js"></script>
+<script>
+'use strict';
+const B = window.StyleAtelier, Q = new URLSearchParams(location.search);
+const IMG = (Q.get('img') || 'https://raw.githubusercontent.com/polos0117/style-atelier-img/main/').replace(/\/?$/, '/');
+document.getElementById('imgsrc').textContent = IMG.replace(/^https:\/\//, '');
+const $ = id => document.getElementById(id);
+const el = (t, a, ...c) => { const e = document.createElement(t); Object.entries(a || {}).forEach(([k, v]) => k === 'on' ? Object.entries(v).forEach(([ev, f]) => e.addEventListener(ev, f)) : e.setAttribute(k, v)); c.flat().forEach(x => e.append(x)); return e; };
+const getJ = u => fetch(u, { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null);
+const getT = u => fetch(u, { cache: 'no-cache' }).then(r => r.ok ? r.text() : null).catch(() => null);
+let P, R, SUB = {}, SL, rows = [], blocked = [], pending = [];
+
+function sel(label, id, opts, val, onch) {
+  const s = el('select', { id }); opts.forEach(([v, t]) => { const o = el('option', { value: v }, t); if (v === val) o.selected = true; s.append(o); });
+  s.addEventListener('change', onch); return el('label', {}, label, s);
+}
+const partOpts = (a, any) => (any ? [['', '전부']] : []).concat(Object.entries(P.parts[a]).map(([k, r]) => [k, r.ko + ' (' + k + ')']));
+const specOf = r => ({ direction: r.direction, face: r.face, paint: r.paint, light: r.light, fx: r.fx });
+const thumb = id => { const r = rows.find(x => x.id === id); return IMG + 'thumb/' + r.subject + '/' + r.world + '/' + id + '.webp'; };
+const full = r => IMG + 'img/' + r.subject + '/' + r.world + '/' + r.id + '.webp';
+
+async function openImg(r) {
+  $('dImg').src = full(r); $('dPrompt').textContent = '…';
+  const rs = B.resolve(P, R, specOf(r));
+  $('dMeta').innerHTML = '';
+  $('dMeta').append(el('div', {}, el('b', {}, B.displayName(rs))), el('div', {}, r.id), el('div', {}, r.subject + ' · ' + r.world + ' · ' + r.model + ' · ' + r.job + ' · ' + r.added));
+  $('dlg').showModal();
+  const rec = await getJ(IMG + 'rec/' + r.id + '.json');
+  if (rec && rec.note) $('dMeta').append(el('div', {}, '세션 메모: ' + rec.note));
+  $('dPrompt').textContent = rec ? (await getT(IMG + rec.prompt_file)) || '(지시문을 못 읽었다)' : '(기록을 못 읽었다)';
+}
+function card(r) {
+  const rs = B.resolve(P, R, specOf(r));
+  return el('div', { class: 'card', on: { click: () => openImg(r) } }, el('img', { src: thumb(r.id), loading: 'lazy', alt: '' }),
+    el('div', { class: 'cap' }, el('b', {}, (Object.keys(R.recipes).find(k => B.resolve(P, R, k).id === rs.id) || rs.id)), r.subject + ' · ' + r.world + ' · ' + r.model + (r.n > 1 ? ' #' + r.n : '')));
+}
+
+/* 그림 찾기 */
+const F = { subject: '', world: '', model: '' };
+function findUI() {
+  const bar = $('findBar'); bar.innerHTML = '';
+  bar.append(sel('캐릭터', 'fs', [['', '전부']].concat(SL.subjects.map(s => [s.id, s.ko + ' (' + s.id + ')'])), F.subject, e => { F.subject = e.target.value; findRun(); }));
+  bar.append(sel('세계', 'fw', [['', '전부']].concat([...new Set(SL.subjects.flatMap(s => s.worlds))].map(w => [w, w])), F.world, e => { F.world = e.target.value; findRun(); }));
+  bar.append(sel('모델', 'fm', [['', '전부']].concat(B.MODELS.map(m => [m, m])), F.model, e => { F.model = e.target.value; findRun(); }));
+  B.AXES.forEach(a => bar.append(sel(P.axes.find(x => x.key === a).ko, 'fa_' + a, partOpts(a, true), F[a] || '', e => { F[a] = e.target.value; findRun(); })));
+}
+function findRun() {
+  const hit = rows.filter(r => ['subject', 'world', 'model'].every(c => !F[c] || r[c] === F[c]) && B.AXES.every(a => !F[a] || String(r[a]).split('@')[0] === F[a]));
+  $('findMeta').textContent = hit.length + '장 / 색인 ' + rows.length + '장 · 막힌 칸 ' + blocked.length;
+  const g = $('findGrid'); g.innerHTML = ''; hit.slice().reverse().forEach(r => g.append(card(r)));
+}
+
+/* 축 비교 */
+const A = { subject: '', world: '', model: 'chatgpt', base: '', axis: 'face' };
+function axisUI() {
+  const bar = $('axisBar'); bar.innerHTML = '';
+  if (!A.subject) A.subject = SL.subjects[0].id;
+  const s = SL.subjects.find(x => x.id === A.subject); if (!s.worlds.includes(A.world)) A.world = s.worlds[0];
+  if (!A.base) A.base = Object.keys(R.recipes)[0];
+  bar.append(sel('캐릭터', 'as', SL.subjects.map(x => [x.id, x.ko]), A.subject, e => { A.subject = e.target.value; axisUI(); }));
+  bar.append(sel('세계', 'aw', s.worlds.map(w => [w, w]), A.world, e => { A.world = e.target.value; axisRun(); }));
+  bar.append(sel('모델', 'am', B.MODELS.map(m => [m, m]), A.model, e => { A.model = e.target.value; axisRun(); }));
+  bar.append(sel('기준 조합', 'ab', Object.keys(R.recipes).map(k => [k, k]), A.base, e => { A.base = e.target.value; axisRun(); }));
+  bar.append(sel('바꿀 축', 'aa', P.axes.map(a => [a.key, a.ko]), A.axis, e => { A.axis = e.target.value; axisRun(); }));
+  axisRun();
+}
+function axisRun() {
+  const base = B.resolve(P, R, A.base), row = $('axisRow'); row.innerHTML = '';
+  const subj = SUB[A.subject]; let n = 0, empty = 0;
+  Object.keys(P.parts[A.axis]).forEach(k => {
+    const spec = {}; base.parts.forEach(p => spec[p.axis] = p.key + '@' + p.v); spec[A.axis] = k;
+    const rs = B.resolve(P, R, spec), clash = B.clashes(rs).length;
+    const slot = B.slotName(rs.id, A.subject, A.world, 'world', subj.defaultExposure, subj);
+    const hits = rows.filter(r => r.id.startsWith(slot + '__' + A.model + '__'));
+    const isBase = base.parts.find(p => p.axis === A.axis).key === k;
+    const c = el('div', { class: 'cell' }, el('div', { class: 'h' }, (isBase ? '● ' : '') + P.parts[A.axis][k].ko));
+    if (clash) c.append(el('div', { class: 'empty' }, '짝 안 맞음'));
+    else if (hits.length) { n++; hits.forEach(r => c.append(el('img', { src: thumb(r.id), loading: 'lazy', alt: '', on: { click: () => openImg(r) } }))); }
+    else { empty++; c.append(el('div', { class: 'empty' }, blocked.some(b => b.slot === slot) ? '막힘' : pending.some(f => f.startsWith(slot + '__' + A.model + '__')) ? '일감에 있음' : '비었음')); }
+    c.append(el('div', {}, rs.id)); row.append(c);
+  });
+  $('axisMeta').textContent = '기준 ' + A.base + ' (' + base.id + ')에서 ' + P.axes.find(a => a.key === A.axis).ko + '만 바꿈 — 그림 있는 칸 ' + n + ' · 빈 칸 ' + empty + '. 빈 칸 채우기: node tools/make-job.cjs --base ' + A.base + ' --vary ' + A.axis + ' --subject ' + A.subject + ' --world ' + A.world;
+}
+
+/* 섞어보기 */
+const M = { subject: '', world: '', exposure: '' };
+function mixUI() {
+  const bar = $('mixBar'); bar.innerHTML = '';
+  if (!M.subject) M.subject = SL.subjects[0].id;
+  const s = SL.subjects.find(x => x.id === M.subject), sd = SUB[M.subject]; if (!s.worlds.includes(M.world)) M.world = s.worlds[0];
+  if (!M.direction) Object.assign(M, R.recipes[Object.keys(R.recipes)[0]].parts);
+  bar.append(sel('불러오기', 'mr', [['', '— 조합 —']].concat(Object.keys(R.recipes).map(k => [k, k])), '', e => { if (e.target.value) { Object.assign(M, R.recipes[e.target.value].parts); mixUI(); } }));
+  bar.append(sel('캐릭터', 'ms', SL.subjects.map(x => [x.id, x.ko]), M.subject, e => { M.subject = e.target.value; mixUI(); }));
+  bar.append(sel('세계', 'mw', s.worlds.map(w => [w, w]), M.world, e => { M.world = e.target.value; mixRun(); }));
+  bar.append(sel('노출', 'mx', ['bold', 'moderate', 'low'].map(x => [x, x]), M.exposure || sd.defaultExposure, e => { M.exposure = e.target.value; mixRun(); }));
+  B.AXES.forEach(a => bar.append(sel(P.axes.find(x => x.key === a).ko, 'm_' + a, partOpts(a), String(M[a]).split('@')[0], e => { M[a] = e.target.value; mixRun(); })));
+  bar.append(el('button', { class: 'b', on: { click: () => navigator.clipboard.writeText($('mixOut').textContent) } }, '지시문 복사'));
+  mixRun();
+}
+function mixRun() {
+  const spec = {}; B.AXES.forEach(a => spec[a] = M[a]);
+  const rs = B.resolve(P, R, spec), bad = B.clashes(rs);
+  const r = B.build(P, R, SUB[M.subject], M.world, spec, { exposure: M.exposure || undefined, allowClash: true });
+  const named = Object.keys(R.recipes).find(k => B.resolve(P, R, k).id === rs.id);
+  $('mixMeta').innerHTML = '';
+  $('mixMeta').append(el('div', {}, el('b', {}, B.displayName(rs))), el('div', {}, '조합 ' + rs.id + (named ? ' = ' + named : ' (등록 안 됨)') + ' · 칸 ' + r.slot),
+    el('div', { class: bad.length ? 'warn' : 'ok' }, bad.length ? '같이 못 쓰는 짝: ' + bad.join(' / ') : '짝 맞음 · 말 되는 조합 전체 ' + COMBOS + '개'));
+  $('mixOut').textContent = r.text;
+}
+
+let COMBOS = 0;
+(async () => {
+  [P, R, SL] = await Promise.all([getJ('data/parts.json'), getJ('data/recipes.json'), getJ('data/subjects/index.json')]);
+  for (const s of SL.subjects) SUB[s.id] = await getJ('data/subjects/' + s.id + '.json');
+  COMBOS = B.combos(P).length;
+  const [ix, bl, pd] = await Promise.all([getJ(IMG + 'index/images.json'), getJ(IMG + 'index/blocked.json'), getJ(IMG + 'index/pending.json')]);
+  pending = pd || [];
+  if (ix) rows = ix.rows.map(r => Object.fromEntries(ix.cols.map((c, i) => [c, r[i]])));
+  blocked = bl || [];
+  findUI(); findRun(); axisUI(); mixUI();
+  const nx = await getT(IMG + 'jobs/NEXT.md'); $('jobsOut').textContent = nx || '(일감 목록을 못 읽었다)';
+})();
+document.querySelectorAll('nav button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('nav button').forEach(x => x.setAttribute('aria-selected', x === b));
+  document.querySelectorAll('main section').forEach(s => s.hidden = s.id !== b.dataset.t);
+}));
+</script>
+</body>
+</html>

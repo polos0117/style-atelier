@@ -1,0 +1,112 @@
+{
+ "id": "sam.wenyang",
+ "ko": "문앙",
+ "defaultExposure": "bold",
+ "source": {
+  "atelier": "sam",
+  "key": "문앙",
+  "repo": "polos0117/sam-atelier",
+  "commit": "4bc7624",
+  "date": "2026-11-10",
+  "builder": "lib/prompt-sam.js build (칸 꼴 · 화풍 game_keyart — 화풍 말은 뺐다)",
+  "faceWorld": "samguk"
+ },
+ "worlds": {
+  "samguk": {
+   "exposure": {
+    "bold": "Exposure (bold): her robes open to show skin — the cross collar opened into a deep neckline with natural cleavage, bare shoulders and arms where the outer robe is cut away by design, a high slit in the skirt panels showing the thigh; armor pieces stay on and symmetrical. Intimate areas covered; keep the costume material and palette.",
+    "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; intimate areas covered.",
+    "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
+   },
+   "genre": "THREE KINGDOMS",
+   "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
+   "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
+   "character": [
+    "Age: late twenties — a graceful grown-up face with soft, smooth contours.",
+    "Face — her own, recognisably this character, a woman's face with no beard or facial hair: a fierce, wild ferocity; fair skin; heart-shaped face; smaller, narrower eyes than usual anime proportion — large round eyes, outer eye corners drooping downward; thin arched brows; small button nose; full wide lips; ice-blue eyes; sharp winged eyeliner.",
+    "Body and hair: tall and statuesque with long legs and a full, curvaceous figure — full bust and hips, narrow waist build; a bob with long bangs falling over one eye; glossy jet-black hair.",
+    "Expression: a composed, self-assured look, subtle and relaxed.",
+    "Legend, carried in her design and bearing: peerless solo courage, a steel whip-sword.",
+    "Anatomy: one head, two arms and two legs, each joined at its natural joint; natural hands with five fingers."
+   ],
+   "costume": [
+    "Costume: Three Kingdoms war general's armor — lamellar scale armor laced over a silk battle robe, beast-head shoulder guards, a plumed helmet or a war headband, a long war cape, her weapon at hand. Late-Han Chinese dress — cross-collared silk robes with wide sleeves and a broad sash, lamellar or scale armor laced with cords where armor is worn, bronze, jade and lacquer ornament, Han court hair ornaments; silk, lacquered leather, bronze and iron.",
+    "Silhouette: layered laced lamellar armor, big heavy beast-head pauldrons and armored skirts to the knees — a broad, weighty general's silhouette. The overall shape is fixed; the details are free.",
+    "Colours: deep navy blue, black lacquer, cold steel silver, ivory white.",
+    "Signature item: a steel whip-sword. She holds it at full scale: one whole object, drawn once, held in front of or beside her body; a long weapon keeps one straight, unbroken shaft with a single head or blade."
+   ],
+   "scene": [
+    "World: Cao Wei in northern China, around 200–235 AD: the walled capitals of Xuchang, Ye and Luoyang, rammed-earth ramparts and tiled watchtowers, black-and-navy banners over vast northern plains, armoured cavalry, bronze ritual vessels and lacquered halls.",
+    "Pose: standing confidently, her body turned slightly while her face looks toward the viewer.",
+    "Composition: her whole figure from the top of her head or headpiece to both feet inside the frame with clear margins, about four-fifths of the image height; camera at chest height with natural portrait perspective."
+   ],
+   "constraints": [
+    "One figure only — no second character, horse or other creature. No readable text or numbers, except that a banner, seal or emblem may carry the single character 魏 or 文. No logo, watermark, speech bubble or frame border. Three Kingdoms-era Chinese dress, architecture and materials only."
+   ]
+  },
+  "fantasy": {
+   "exposure": {
+    "bold": "Exposure (bold): her regalia opens to show skin — bare shoulders and arms between pauldron and bracer, a deep open neckline under the gorget with natural cleavage, a high slit in the tabard or gown showing the thigh; armor pieces stay on and symmetrical. Intimate areas covered; no corset; keep the costume material and palette.",
+    "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; intimate areas covered.",
+    "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
+   },
+   "genre": "MEDIEVAL FANTASY",
+   "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
+   "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
+   "character": [
+    "Age: late twenties — a graceful grown-up face with soft, smooth contours.",
+    "Face — her own, recognisably this character, a woman's face with no beard or facial hair: a fierce, wild ferocity; fair skin; heart-shaped face; smaller, narrower eyes than usual anime proportion — large round eyes, outer eye corners drooping downward; thin arched brows; small button nose; full wide lips; ice-blue eyes; sharp winged eyeliner.",
+    "Body and hair: tall and statuesque with long legs and a full, curvaceous figure — full bust and hips, narrow waist build; a bob with long bangs falling over one eye; glossy jet-black hair.",
+    "Expression: a composed, self-assured look, subtle and relaxed.",
+    "Legend, carried in her design and bearing: peerless solo courage, a steel whip-sword.",
+    "Anatomy: one head, two arms and two legs, each joined at its natural joint; natural hands with five fingers."
+   ],
+   "costume": [
+    "Costume: a knight-champion's armor — articulated plate with a heraldic tabard in her faction's colours, a plumed helm or circlet, a battle cape, her weapon at hand. Western medieval high-fantasy dress — plate, mail and heraldic tabards, gowns and mantles, circlets and crowns; steel, leather, wool, velvet and gold, with a subtle magical glow along the patterns. Her Three Kingdoms origin shows through her signature item, her colours and her bearing.",
+    "Silhouette: a fitted breastplate and pauldrons above a gown skirt flaring to the floor — an elegant lady-knight silhouette. The overall shape is fixed; the details are free.",
+    "Colours: deep navy blue, black lacquer, cold steel silver, ivory white.",
+    "Signature item: a steel whip-sword, reimagined as a Western high-fantasy version of the same kind of object with the same silhouette — polished steel and silvered mithril throughout, the shaft or hilt also forged metal with engraved runes (never plain wood), a faint magical glow running along the edge and the runes, a gem-set guard or socket, a leather-wrapped grip and heraldic or elven ornament, with any animal motif re-sculpted in Western heraldic style. She holds it at full scale: one whole object, drawn once, held in front of or beside her body; a long weapon keeps one straight, unbroken shaft with a single head or blade."
+   ],
+   "scene": [
+    "World: a stern northern empire of medieval high fantasy: black-stone citadels with blue banners, iron-shod heavy cavalry, snowy plains and pine forests, a court ruled by strict law, cold blue sigil-magic.",
+    "Pose: standing confidently, her body turned slightly while her face looks toward the viewer.",
+    "Composition: her whole figure from the top of her head or headpiece to both feet inside the frame with clear margins, about four-fifths of the image height; camera at chest height with natural portrait perspective."
+   ],
+   "constraints": [
+    "One figure only — no second character, horse or other creature. No readable text or numbers — banners and shields carry only heraldic devices (a beast or a crest), never letters or Chinese characters. No logo, watermark, speech bubble or frame border. A Western medieval setting and dress only — stone castles, Romanesque or Gothic architecture — with no Chinese architecture, robes or hanzi."
+   ]
+  },
+  "mecha": {
+   "exposure": {
+    "bold": "Exposure (bold): her mecha frame is cut open by design in only these places — bare shoulders and upper arms between pauldron and gauntlet, and bare upper thighs between the hip armor and thigh-high leg plates; everywhere else she stays fully plated. The plates stay on, fitted and symmetrical, with skin clearly showing in each opening. Intimate areas covered; keep the plate material and palette.",
+    "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; intimate areas covered.",
+    "low": "Exposure (low): a mostly covered version of the costume WORLD describes; face, neck and hands show."
+   },
+   "genre": "MECHA",
+   "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
+   "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
+   "character": [
+    "Age: late twenties — a graceful grown-up face with soft, smooth contours.",
+    "Face — her own, recognisably this character, a woman's face with no beard or facial hair: a fierce, wild ferocity; fair skin; heart-shaped face; smaller, narrower eyes than usual anime proportion — large round eyes, outer eye corners drooping downward; thin arched brows; small button nose; full wide lips; ice-blue eyes; sharp winged eyeliner.",
+    "Body and hair: tall and statuesque with long legs and a full, curvaceous figure — full bust and hips, narrow waist build; a bob with long bangs falling over one eye; glossy jet-black hair.",
+    "Expression: a composed, self-assured look, subtle and relaxed.",
+    "Legend, carried in her design and bearing: peerless solo courage, a steel whip-sword.",
+    "Anatomy: one head, two arms and two legs, each joined at its natural joint; natural hands with five fingers."
+   ],
+   "costume": [
+    "Costume: a female mecha personification built as an assault-type mecha frame — heavy armor plates, thruster packs, reinforced limbs, her weapon rebuilt as a large mecha armament. Solid hard-surface plates with visible joints cover her whole frame; any cape or skirt is made of rigid armored plates; her face and hair stay human.",
+    "Silhouette: several long rigid jointed plates hanging from behind the shoulders to the ankles like a cape — plates, not cloth. The overall shape is fixed; the details are free.",
+    "Colours: deep navy blue, black lacquer, cold steel silver, ivory white. Faction frame: navy-blue and black lacquer heavy plating with cold steel-silver edges, angular command fins, a disciplined symmetrical frame, cold blue glow lines.",
+    "Signature item: a steel whip-sword, rebuilt as a far-future high-tech version of the same kind of object with the same silhouette — hard-surface alloy plates with panel lines, mechanical joints, vents and emitter nodes, an energy edge, plasma blade or glowing core in her glow-line colour and small status lights, with any animal motif re-sculpted as sleek machined armour. She holds it at full scale: one whole object, drawn once, held in front of or beside her body; a long weapon keeps one straight, unbroken shaft with a single head or blade."
+   ],
+   "scene": [
+    "World: year 2190, the Wei Federation in orbit: a navy-black orbital fortress and capital-ship fleet above a cold blue planet, starfields and a distant sun, hard white floodlights on armored hulls.",
+    "Pose: standing confidently, her body turned slightly while her face looks toward the viewer.",
+    "Composition: her whole figure from the top of her head or headpiece to both feet inside the frame with clear margins, about four-fifths of the image height; camera at chest height with natural portrait perspective."
+   ],
+   "constraints": [
+    "One figure only — no second character, horse or other creature. No readable text or numbers — emblems are abstract insignia shapes only, never letters or Chinese characters. No logo, watermark, speech bubble or frame border. A far-future setting only — space stations, starships and high-tech structures — with no traditional East-Asian architecture."
+   ]
+  }
+ }
+}
