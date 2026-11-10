@@ -372,7 +372,7 @@ function mixUI() {
   bar.append(sel('불러오기', 'mr', [['', '— 조합 —']].concat(B.liveRecipes(R).map(k => [k, k])), '', e => { if (e.target.value) { Object.assign(M, R.recipes[e.target.value].parts); mixUI(); } }));
   bar.append(sel('캐릭터', 'ms', SL.subjects.map(x => [x.id, x.ko]), M.subject, e => { M.subject = e.target.value; mixUI(); }));
   bar.append(sel('세계', 'mw', s.worlds.map(w => [w, w]), M.world, e => { M.world = e.target.value; mixRun(); }));
-  bar.append(sel('노출', 'mx', [['none', 'none(노출 줄 없음)'], ['bold', 'bold'], ['moderate', 'moderate'], ['low', 'low']], mixExposure(), e => { M.exposure = e.target.value; mixRun(); }));
+  bar.append(sel('노출', 'mx', [['none', 'none(노출 줄 없음)'], ['bold', 'bold'], ['slit', 'slit(다리 라인)'], ['moderate', 'moderate'], ['low', 'low']], mixExposure(), e => { M.exposure = e.target.value; mixRun(); }));
   B.AXES.forEach(a => bar.append(sel(P.axes.find(x => x.key === a).ko, 'm_' + a, partOpts(a), String(M[a]).split('@')[0], e => { M[a] = e.target.value; mixRun(); })));
   bar.append(el('button', { class: 'b', on: { click: () => navigator.clipboard.writeText($('mixOut').textContent) } }, '지시문 복사'));
   mixRun();

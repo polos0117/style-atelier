@@ -51,7 +51,6 @@ else if (flag('base') && flag('vary')) {
 } else die('--recipes 또는 --base + --vary 가 있어야 한다');
 
 const FOCUS = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/focus.json'), 'utf8'));
-if (!exposure && FOCUS.exposure) exposure = FOCUS.exposure;
 const subjects = flag('subject', FOCUS.subject).split(',').filter(Boolean), worlds = flag('world', FOCUS.world).split(',').filter(Boolean);
 if (!has('off-focus') && (subjects.some(s => s !== FOCUS.subject) || worlds.some(w => w !== FOCUS.world)))
   die('지금은 ' + FOCUS.subject + ' · ' + FOCUS.world + ' 만 그린다(data/focus.json — ' + FOCUS.why.slice(0, 60) + '…). 사용자가 정했으면 --off-focus');
@@ -73,7 +72,9 @@ for (const sid of subjects) {
     for (const rc of recipes) {
       if (R.recipes[rc] && R.recipes[rc].retired) die('내린 조합: ' + rc + ' — ' + R.recipes[rc].retired_why);
       const dead = B.retiredIn(B.resolve(P, R, rc)); if (dead.length) die('내린 부품이 들어 있다: ' + rc + ' — ' + dead.join(' · '));
-      const b = B.build(P, R, subj, w, rc, { model, exposure });
+      /* 노출 — 고른 값, 없으면 초점 노출(그 캐릭터 · 세계에 그 단계가 있을 때만 — slit 은 문앙 복사본에만 있다), 없으면 캐릭터 기본값 */
+      const ex = exposure || (FOCUS.exposure && (FOCUS.exposure === 'none' || (subj.worlds[w].exposure || {})[FOCUS.exposure] != null) ? FOCUS.exposure : undefined);
+      const b = B.build(P, R, subj, w, rc, { model, exposure: ex });
       const k = b.slot + '__' + model;
       if (taken[k] && !has('repeat')) { console.log('  있음(건너뜀) ' + b.slot); continue; }
       const n = (taken[k] || 0) + 1; taken[k] = n;

@@ -13,5 +13,17 @@
    "to": "",
    "why": "얼굴 크기 · 턱 · 비율은 캐릭터 설계(고정 조건) — 화풍 따라 바뀌는 말처럼 읽히지 않게"
   }
- ]
+ ],
+ "exposure": {
+  "why": "다리 라인 단계 slit — 사용자 2026-11-10 「1차때처럼 다리라인 좀 더 보여야겠어」(1차 bold 의 높은 트임만, 깊은 목선 · 맨어깨는 빼고). 원래 단계(bold · moderate · low)는 그대로",
+  "samguk": {
+   "slit": "Exposure (slit): the costume WORLD describes opens at the collarbone and shows the arms, and a high slit in the skirt panels shows one leg up to the thigh; armor pieces stay on and symmetrical; intimate areas covered."
+  },
+  "fantasy": {
+   "slit": "Exposure (slit): the costume WORLD describes opens at the collarbone and shows the arms, and a high slit in the tabard or gown shows one leg up to the thigh; armor pieces stay on and symmetrical; intimate areas covered."
+  },
+  "mecha": {
+   "slit": "Exposure (slit): the frame opens at the collarbone and shows the arms, and bare upper thighs show between the hip armor and thigh-high leg plates; the plates stay on, fitted and symmetrical; intimate areas covered."
+  }
+ }
 }
