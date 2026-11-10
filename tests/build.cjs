@@ -111,6 +111,11 @@ for (const s of SL.subjects) {
   assert(!/smaller, narrower eyes/.test(W.character.join(' ')) && /large round eyes/.test(W.character.join(' ')), '문앙 무협은 크고 둥근 눈 하나로(삼국지 설계표 고침)');
   assert(P.axes.every(a => a.ko && a.rule), '축마다 한글 이름 · 담당 범위');
   assert.equal(J('data/focus.json').exposure, 'low', '화풍 비교는 노출 low(사용자 「bold 를 화풍비교에선 빼자」 → 「skin shown low 로 낮춰줘」 → 「그냥 exposure 로 쓰자」)'); }
+/* 평가 — data/evals.json 칸이 lib/evals.js 항목대로 */
+{ const V = require('../lib/evals.js'), E = J('data/evals.json');
+  for (const [id, e] of Object.entries(E.evals || {})) { assert(B.parseImage(id), '평가 열쇠는 그림 이름: ' + id); assert.deepEqual(V.check(e), [], id + ' 평가 칸'); }
+  assert.deepEqual(V.check({ taste: 6 }), ['taste 는 1~5']); assert.deepEqual(V.check({ verdict: 'meh' }).length, 1); assert.deepEqual(V.check({ foo: 1 }), ['모르는 칸 foo']);
+  assert.equal(V.badge({ taste: 4, verdict: 'fix', side: '조금' }), '★4 · 고칠 것 · 변화 조금'); assert.equal(V.badge({}), ''); }
 assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', { direction: 'photo_still', face: 'real_natural', paint: 'smooth', light: 'muted', fx: 'none' }), /같이 못 쓰는 짝/);
 assert.throws(() => B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'semi_smooth', { kind: 'casual' }), /아직 없는 갈래/);
 console.log('PASS 조립부: 부품 ' + B.AXES.map(a => Object.keys(P.parts[a]).length).join('·') + ' · 조합 ' + Object.keys(R.recipes).length + ' · 말 되는 조합 ' + cs.length + ' · 캐릭터 ' + SL.subjects.length + ' · 지시문 ' + n);

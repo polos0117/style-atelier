@@ -61,6 +61,19 @@ table.recipe tr:last-child th, table.recipe tr:last-child td { border-bottom:0; 
 table.recipe th { width:4.5em; color:var(--sub); font-weight:500; white-space:nowrap; }
 table.recipe .k { display:block; color:var(--sub); font-size:12px; }
 table.recipe .txt { display:block; margin-top:4px; color:var(--sub); font-size:13px; }
+/* 평가 */
+.evalbox { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; display:grid; gap:10px; }
+.evrow { display:grid; grid-template-columns:7.5em 1fr; gap:8px; align-items:start; }
+.evrow > span { color:var(--sub); font-size:13px; padding-top:6px; }
+.evrow small { display:block; color:var(--sub); font-size:12px; margin-top:2px; }
+.seg { display:flex; flex-wrap:wrap; gap:6px; }
+.seg button { font:inherit; font-size:14px; min-width:2.4em; padding:5px 10px; border:1px solid var(--line); border-radius:999px; background:var(--bg); color:var(--ink); cursor:pointer; }
+.seg button[aria-pressed=true] { background:var(--acc); border-color:var(--acc); color:var(--panel); }
+.evalbox textarea { font:inherit; font-size:14px; width:100%; min-height:3.2em; padding:6px 8px; border:1px solid var(--line); border-radius:6px; background:var(--bg); color:var(--ink); resize:vertical; }
+.evbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.evstat { font-size:13px; color:var(--sub); }
+.badge { display:inline-block; margin-top:3px; font-size:12px; color:var(--acc); font-weight:600; }
+@media (max-width:640px) { .evrow { grid-template-columns:1fr; } .evrow > span { padding-top:0; } }
 dl.facts { display:grid; grid-template-columns:auto 1fr; gap:4px 14px; margin:0; font-size:14px; }
 dl.facts dt { color:var(--sub); }
 dl.facts dd { margin:0; word-break:break-all; }
@@ -113,12 +126,15 @@ dl.facts dd { margin:0; word-break:break-all; }
     <div class="dsub" id="dSub"></div>
     <h3>조합표</h3>
     <table class="recipe" id="dRecipe"></table>
+    <h3>평가</h3>
+    <div class="evalbox" id="dEval"></div>
     <h3>그림 정보</h3>
     <dl class="facts" id="dFacts"></dl>
     <details><summary><h3 style="display:inline">지시문 전문</h3></summary><pre id="dPrompt"></pre></details>
   </div>
 </div>
 <script src="lib/build.js"></script>
+<script src="lib/evals.js"></script>
 <script>
 'use strict';
 const B = window.StyleAtelier, Q = new URLSearchParams(location.search);
@@ -139,6 +155,85 @@ const partOpts = (a, any) => (any ? [['', '전부']] : []).concat(Object.entries
 const specOf = r => ({ direction: r.direction, face: r.face, paint: r.paint, light: r.light, fx: r.fx });
 const thumb = id => { const r = rows.find(x => x.id === id); return IMG + 'thumb/' + r.subject + '/' + r.world + '/' + id + '.webp'; };
 const full = r => IMG + 'img/' + r.subject + '/' + r.world + '/' + r.id + '.webp';
+
+/* ── 평가 — data/evals.json(코드 저장소). 읽기는 raw(최신), 쓰기는 GitHub API(토큰 — 이 기기에만 기억). 토큰이 없거나 실패하면 이 기기에 두고 나중에 올린다 */
+const V = window.StyleEvals, CODE = Q.get('code') || 'polos0117/style-atelier';
+const TOK_KEY = 'style_atelier_gh_token_v1', PEND_KEY = 'style_atelier_evals_pending_v1';
+const ls = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
+let EV = {};
+const evPending = () => { try { return JSON.parse(ls.get(PEND_KEY) || '{}'); } catch (e) { return {}; } };
+const setEvPending = o => ls.set(PEND_KEY, Object.keys(o).length ? JSON.stringify(o) : null);
+const evOf = id => evPending()[id] || EV[id] || null;
+const b64e = s => { const b = new TextEncoder().encode(s); let x = ''; b.forEach(c => x += String.fromCharCode(c)); return btoa(x); };
+const b64d = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g, '')), c => c.charCodeAt(0)));
+async function loadEvals() {
+  const fresh = await getJ('https://raw.githubusercontent.com/' + CODE + '/main/data/evals.json') || await getJ('data/evals.json');
+  EV = (fresh && fresh.evals) || {};
+}
+/* 저장 — 파일을 새로 읽어 그 칸만 바꿔 커밋(부딪치면 한 번 더) */
+async function pushEvals(entries) {
+  const tok = ls.get(TOK_KEY); if (!tok) throw new Error('토큰 없음');
+  const api = 'https://api.github.com/repos/' + CODE + '/contents/data/evals.json', h = { Authorization: 'Bearer ' + tok, Accept: 'application/vnd.github+json' };
+  for (let i = 0; i < 2; i++) {
+    const g = await fetch(api + '?ref=main', { headers: h, cache: 'no-store' });
+    if (!g.ok) throw new Error('읽기 ' + g.status);
+    const cur = await g.json(), doc = JSON.parse(b64d(cur.content));
+    doc.evals = doc.evals || {};
+    Object.entries(entries).forEach(([id, e]) => { if (V.empty(e)) delete doc.evals[id]; else doc.evals[id] = e; });
+    const ids = Object.keys(entries), msg = '평가: ' + (ids.length === 1 ? ids[0].split('__')[0] : ids.length + '장') + ' [skip ci]';
+    const p = await fetch(api, { method: 'PUT', headers: Object.assign({ 'content-type': 'application/json' }, h), body: JSON.stringify({ message: msg, content: b64e(JSON.stringify(doc, null, 1) + '\n'), sha: cur.sha, branch: 'main' }) });
+    if (p.ok) { EV = doc.evals; return; }
+    if (p.status !== 409 && p.status !== 422) throw new Error('쓰기 ' + p.status);
+  }
+  throw new Error('부딪침이 계속된다');
+}
+function evalStatus(msg) {
+  const n = Object.keys(evPending()).length, tok = !!ls.get(TOK_KEY), s = $('evStat'); if (!s) return;
+  s.textContent = (msg ? msg + ' · ' : '') + (tok ? 'GitHub 연결됨' : 'GitHub 연결 안 됨 — 이 기기에만 저장') + (n ? ' · 올라가지 않은 평가 ' + n + '개' : '');
+  $('evFlush').hidden = !(n && tok);
+}
+function evalForm(r) {
+  const box = $('dEval'); box.innerHTML = '';
+  const cur = Object.assign({}, evOf(r.id) || {}), sameSlot = rows.filter(x => x.id.replace(/__\d+$/, '') === r.id.replace(/__\d+$/, '')).length;
+  const seg = (f, opts) => {
+    const w = el('div', { class: 'seg', role: 'group', 'aria-label': f.ko });
+    opts.forEach(([v, t]) => { const b = el('button', { type: 'button', 'aria-pressed': String(cur[f.key] === v), on: { click: () => { cur[f.key] = cur[f.key] === v ? null : v; w.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b && cur[f.key] === v))); } } }, t); w.append(b); });
+    return w;
+  };
+  V.FIELDS.forEach(f => {
+    if (f.key === 'repeat' && sameSlot < 2 && !cur.repeat) return;   /* 같은 칸이 한 장이면 반복 유지는 숨긴다 */
+    let ctl;
+    if (f.type === 'score') ctl = seg(f, [1, 2, 3, 4, 5].map(n => [n, String(n)]));
+    else if (f.type === 'level') ctl = seg(f, f.levels.map(x => [x, x]));
+    else if (f.type === 'choice') ctl = seg(f, f.choices);
+    else { ctl = el('textarea', { 'aria-label': f.ko, placeholder: '무엇이 같이 변했나, 고칠 말 …' }); ctl.value = cur.note || ''; ctl.addEventListener('input', () => { cur.note = ctl.value; }); }
+    box.append(el('div', { class: 'evrow' }, el('span', {}, f.ko, f.hint ? el('small', {}, f.hint) : ''), ctl));
+  });
+  const save = el('button', { class: 'b', type: 'button', on: { click: async () => {
+    const e = {}; V.FIELDS.forEach(f => { const v = f.type === 'text' ? (cur[f.key] || '').trim() : cur[f.key]; if (v != null && v !== '') e[f.key] = v; });
+    if (!V.empty(e)) { e.at = new Date().toISOString().slice(0, 16) + 'Z'; e.by = 'user'; }
+    const bad = V.check(e); if (bad.length) return evalStatus('틀린 칸: ' + bad.join(' / '));
+    const pd = evPending(); pd[r.id] = e; setEvPending(pd); refreshBadges();
+    if (!ls.get(TOK_KEY)) return evalStatus('이 기기에 저장');
+    evalStatus('올리는 중…');
+    try { await pushEvals({ [r.id]: e }); const p2 = evPending(); delete p2[r.id]; setEvPending(p2); evalStatus('저장됨'); }
+    catch (err) { evalStatus('이 기기에 저장(올리기 실패: ' + err.message + ')'); }
+  } } }, '저장');
+  const conn = el('button', { class: 'b', type: 'button', on: { click: () => {
+    if (ls.get(TOK_KEY) && confirm('GitHub 연결을 끊을까? (이 기기에서 토큰을 지운다)')) { ls.set(TOK_KEY, null); return evalStatus(); }
+    const t = prompt('GitHub 토큰(fine-grained, ' + CODE + ' 저장소 하나 · Contents 읽기와 쓰기). 이 기기에만 기억한다.');
+    if (t && t.trim()) { ls.set(TOK_KEY, t.trim()); evalStatus('연결함'); }
+  } } }, 'GitHub 연결');
+  const flush = el('button', { class: 'b', type: 'button', id: 'evFlush', hidden: '', on: { click: async () => {
+    evalStatus('올리는 중…');
+    try { const pd = evPending(); await pushEvals(pd); setEvPending({}); evalStatus('대기분 올림'); } catch (err) { evalStatus('올리기 실패: ' + err.message); }
+  } } }, '대기분 올리기');
+  box.append(el('div', { class: 'evbar' }, save, conn, flush, el('span', { class: 'evstat', id: 'evStat' })));
+  evalStatus(cur.at ? '마지막 평가 ' + cur.at.replace('T', ' ').replace('Z', ' UTC') : '');
+}
+function refreshBadges() {
+  document.querySelectorAll('[data-ev]').forEach(n => { n.textContent = V.badge(evOf(n.dataset.ev)); });
+}
 
 const koOf = sid => (SL.subjects.find(s => s.id === sid) || {}).ko || sid;
 const nameOf = rs => B.recipeNameOf(R, rs);   /* 판과 상관없이 부품 열쇠로 — 1차(v1) 그림도 제 이름 */
@@ -166,13 +261,14 @@ async function showDetail(r) {
   const fact = (k, v) => { if (v != null && v !== '') f.append(el('dt', {}, k), el('dd', {}, String(v))); };
   fact('캐릭터', koOf(r.subject) + ' (' + r.subject + ')'); fact('세계', (WORLD_KO[r.world] || r.world) + (r.exposure ? ' · 노출 ' + r.exposure : ''));
   fact('모델', r.model + (r.n > 1 ? ' · ' + r.n + '번째' : '')); fact('차수 · 일감', (r.round || 1) + '차 · ' + r.job); fact('받은 날', r.added); fact('그림 이름', r.id);
+  evalForm(r);
   $('dPrompt').textContent = '…';
   const rec = await getJ(IMG + 'rec/' + r.id + '.json');
   if (LIST[CUR] !== r) return;   // 그사이 다른 그림으로 넘겼다
   if (rec) { fact('세션 메모', rec.note); if (rec.generation && rec.generation.usage) fact('출력 토큰', rec.generation.usage.output_tokens); if (rec.resized_from) fact('원본 크기', rec.resized_from.join('×')); }
   $('dPrompt').textContent = rec ? (await getT(IMG + rec.prompt_file)) || '(지시문을 못 읽었다)' : '(기록을 못 읽었다)';
 }
-function hideDetail() { $('detail').hidden = true; document.body.style.overflow = ''; }
+function hideDetail() { $('detail').hidden = true; document.body.style.overflow = ''; refreshBadges(); }
 function step(d) { const r = LIST[CUR + d]; if (r) { CUR += d; history.replaceState(null, '', '#img=' + r.id); showDetail(r); } }
 function route() {
   const m = /^#img=(.+)$/.exec(location.hash), r = m && rows.find(x => x.id === decodeURIComponent(m[1]));
@@ -183,12 +279,12 @@ function route() {
 $('dBack').addEventListener('click', () => history.length > 1 && /^#img=/.test(location.hash) ? history.back() : (location.hash = ''));
 $('dPrev').addEventListener('click', () => step(-1)); $('dNext').addEventListener('click', () => step(1));
 addEventListener('hashchange', route);
-addEventListener('keydown', e => { if ($('detail').hidden) return; if (e.key === 'Escape') $('dBack').click(); if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
+addEventListener('keydown', e => { if ($('detail').hidden || /^(INPUT|TEXTAREA|SELECT)$/.test((e.target || {}).tagName || '')) return; if (e.key === 'Escape') $('dBack').click(); if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
 
 function card(r, list) {
   const rs = B.resolve(P, R, specOf(r)), nm = nameOf(rs);
   return el('div', { class: 'card', tabindex: '0', on: { click: () => openImg(r, list), keydown: e => { if (e.key === 'Enter') openImg(r, list); } } }, el('img', { src: thumb(r.id), loading: 'lazy', alt: B.displayName(rs) }),
-    el('div', { class: 'cap' }, el('b', {}, nm || rs.id), (WORLD_KO[r.world] || r.world) + ' · ' + r.model + (r.n > 1 ? ' #' + r.n : '')));
+    el('div', { class: 'cap' }, el('b', {}, nm || rs.id), (WORLD_KO[r.world] || r.world) + ' · ' + r.model + (r.n > 1 ? ' #' + r.n : ''), el('span', { class: 'badge', 'data-ev': r.id }, V.badge(evOf(r.id)))));
 }
 
 /* 그림 찾기 — 검색 조건 = 「N차 › 캐릭터」(그림이 있는 묶음만), 더 거르기는 접어 둔다 */
@@ -247,7 +343,7 @@ function axisRun() {
     const isBase = base.parts.find(p => p.axis === A.axis).key === k;
     const c = el('div', { class: 'cell' }, el('div', { class: 'h' }, (isBase ? '● ' : '') + P.parts[A.axis][k].ko));
     if (clash) c.append(el('div', { class: 'empty' }, '짝 안 맞음'));
-    else if (hits.length) { n++; hits.forEach(r => c.append(el('img', { src: thumb(r.id), loading: 'lazy', alt: '', on: { click: () => openImg(r, hits) } }))); }
+    else if (hits.length) { n++; hits.forEach(r => c.append(el('img', { src: thumb(r.id), loading: 'lazy', alt: '', on: { click: () => openImg(r, hits) } }), el('span', { class: 'badge', 'data-ev': r.id }, V.badge(evOf(r.id))))); }
     else { empty++; c.append(el('div', { class: 'empty' }, blocked.some(b => b.slot === slot) ? '막힘' : pending.some(f => f.startsWith(slot + '__' + A.model + '__')) ? '일감에 있음' : '비었음')); }
     c.append(el('div', {}, rs.id)); row.append(c);
   });
@@ -287,7 +383,7 @@ let COMBOS = 0, FOCUS_EX = '';
   if (FO) { A.subject = M.subject = FO.subject; A.world = M.world = FO.world; FOCUS_EX = FO.exposure || ''; }   /* 지금 시험하는 캐릭터 · 세계(data/focus.json)부터 */
   for (const s of SL.subjects) SUB[s.id] = await getJ('data/subjects/' + s.id + '.json');
   COMBOS = B.combos(P).length;
-  const [ix, bl, pd] = await Promise.all([getJ(IMG + 'index/images.json'), getJ(IMG + 'index/blocked.json'), getJ(IMG + 'index/pending.json')]);
+  const [ix, bl, pd] = await Promise.all([getJ(IMG + 'index/images.json'), getJ(IMG + 'index/blocked.json'), getJ(IMG + 'index/pending.json'), loadEvals()]);
   pending = pd || [];
   if (ix) rows = ix.rows.map(r => Object.fromEntries(ix.cols.map((c, i) => [c, r[i]])));
   blocked = bl || [];

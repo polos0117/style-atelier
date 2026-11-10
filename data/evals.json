@@ -1,0 +1,5 @@
+{
+ "version": 1,
+ "note": "그림 평가 — evals.<그림 이름> = {taste, intent, keep, side, repeat, verdict, note, at, by}. 항목 뜻은 lib/evals.js(검토안 7.5 + 판정 · 메모). 화면(상세 → 평가)에서 저장하면 GitHub 로 이 파일에 커밋된다. 손으로 고쳐도 된다(Claude 가 사용자 말로 적을 때).",
+ "evals": {}
+}

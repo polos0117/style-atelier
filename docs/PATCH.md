@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 평가 칸 — 그림 상세에서 다섯 항목 · 판정 · 메모, 코드 저장소 data/evals.json 에
+- 사용자 「응 평가 칸 붙여줘」 — 검토안 7.5 의 다섯 항목(취향 · 의도 반영 · 캐릭터 유지 · 다른 특징 변화 · 반복 유지) + 판정(후보 · 고칠 것 · 축 사이 · 내리기) · 메모
+- `lib/evals.js`(항목 · 검사 · 짧은 표시) · `data/evals.json` · `index.html` 상세 「평가」(GitHub 토큰이면 바로 커밋, 없으면 이 기기 대기 → 대기분 올리기), 카드 · 축 비교 칸 밑 표시
+- `tools/find.cjs` --rated · --unrated · --verdict, 줄 끝에 평가. `tests/build.cjs` · `docs/STRUCTURE.md` 4.1절
+
 ## 2026-11-10 · claude · 노출 줄은 원래 Exposure 꼴로 되돌리고, 화풍 비교 노출은 low
 - 사용자 「화풍쪽에는 바로 바꿔달라는게 아니라 이런 형식으로 쓰면 어떨까 물어본거였어 … 화풍공방쪽은 skin shown low 로 낮춰줘」 → 「아 잠깐만 미안. 그냥 exposure 로 쓰자」
 - `data/subjects/sam.wenyang.overrides.json` — Skin shown 노출 덮어쓰기를 뺐다(문앙 노출 줄은 원래 Exposure (bold|moderate|low) 그대로). 조립부의 exposureConstraint 칸은 남겨 둔다(쓰는 복사본 없음)
