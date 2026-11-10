@@ -79,7 +79,7 @@
     "Anatomy: one head, two arms and two legs, each joined at its natural joint; natural hands with five fingers."
    ],
    "costume": [
-    "Costume: a knight-champion's armor — articulated plate with a heraldic tabard in her faction's colours, a plumed helm or circlet, a battle cape, her weapon at hand. Western medieval high-fantasy dress — plate, mail and heraldic tabards, gowns and mantles, circlets and crowns; steel, leather, wool, velvet and gold, with a subtle magical glow along the patterns. Her Three Kingdoms origin shows through her signature item, her colours and her bearing.",
+    "Costume: a knight-champion's armor — articulated plate with a heraldic tabard in her faction's colours, a circlet with a single white plume, a battle cape, her weapon at hand. Western medieval high-fantasy dress — plate, mail and heraldic tabards, gowns and mantles, circlets and crowns; steel, leather, wool, velvet and gold, with a subtle magical glow along the patterns. Her Three Kingdoms origin shows through her signature item, her colours and her bearing.",
     "Silhouette: a fitted breastplate and pauldrons above a gown skirt flaring to the floor — an elegant lady-knight silhouette. The overall shape is fixed; the details are free.",
     "Colours: deep navy blue, black lacquer, cold steel silver, ivory white.",
     "Signature item: a steel whip-sword, reimagined as a Western high-fantasy version of the same kind of object with the same silhouette — polished steel and silvered mithril throughout, the shaft or hilt also forged metal with engraved runes (never plain wood), a faint magical glow running along the edge and the runes, a gem-set guard or socket, a leather-wrapped grip and heraldic or elven ornament, with any animal motif re-sculpted in Western heraldic style. She holds it at full scale: one whole object, drawn once, held in front of or beside her body; a long weapon keeps one straight, unbroken shaft with a single head or blade."
@@ -95,6 +95,12 @@
    "original": {
     "head": "A full-body character card illustration, vertical 2:3 (1024×1536): Wen Yang of the Romance of the Three Kingdoms, reimagined as an adult woman — the young warrior who turned alone and drove back hundreds.",
     "faceFrame": "Her face is small and soft in this style: a short midface, a softly rounded jaw and a small chin, about 1.3 times as long as it is wide, with her eyes open at their natural size. Bangs, side locks and headpieces frame the face without lengthening it.",
+    "costume": [
+     "Costume: a knight-champion's armor — articulated plate with a heraldic tabard in her faction's colours, a plumed helm or circlet, a battle cape, her weapon at hand. Western medieval high-fantasy dress — plate, mail and heraldic tabards, gowns and mantles, circlets and crowns; steel, leather, wool, velvet and gold, with a subtle magical glow along the patterns. Her Three Kingdoms origin shows through her signature item, her colours and her bearing.",
+     "Silhouette: a fitted breastplate and pauldrons above a gown skirt flaring to the floor — an elegant lady-knight silhouette. The overall shape is fixed; the details are free.",
+     "Colours: deep navy blue, black lacquer, cold steel silver, ivory white.",
+     "Signature item: a steel whip-sword, reimagined as a Western high-fantasy version of the same kind of object with the same silhouette — polished steel and silvered mithril throughout, the shaft or hilt also forged metal with engraved runes (never plain wood), a faint magical glow running along the edge and the runes, a gem-set guard or socket, a leather-wrapped grip and heraldic or elven ornament, with any animal motif re-sculpted in Western heraldic style. She holds it at full scale: one whole object, drawn once, held in front of or beside her body; a long weapon keeps one straight, unbroken shaft with a single head or blade."
+    ],
     "exposure": {
      "bold": "Exposure (bold): her regalia opens to show skin — bare shoulders and arms between pauldron and bracer, a deep open neckline under the gorget with natural cleavage, a high slit in the tabard or gown showing the thigh; armor pieces stay on and symmetrical. Intimate areas covered; no corset; keep the costume material and palette.",
      "moderate": "Exposure (moderate): the costume WORLD describes opens at the collarbone and shows the arms or lower legs; intimate areas covered.",
@@ -165,6 +171,15 @@
    "why": "머리 장식을 하나로 고정 — 「투구 또는 머리띠」 둘 중 하나라 그릴 때마다 깃털 · 머리 윤곽이 달라져 화풍 비교를 흐렸다(6차 반복 평가 「머리스타일」). 사용자 2026-11-10 「응 A 먼저 해줘」",
    "worlds": [
     "samguk"
+   ]
+  },
+  {
+   "field": "costume",
+   "from": "a plumed helm or circlet",
+   "to": "a circlet with a single white plume",
+   "why": "판타지도 머리 장식을 하나로 고정 — 「투구 또는 서클릿」 둘 중 하나는 그릴 때마다 머리 윤곽이 달라진다(무협 머리띠 고정과 같은 까닭, 흰 깃털 하나로 맞춤). 사용자 2026-11-10 화풍 넓혀 보기 1단계 「응」",
+   "worlds": [
+    "fantasy"
    ]
   },
   {

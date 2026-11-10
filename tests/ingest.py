@@ -38,6 +38,8 @@ try:
 
     nxt = (img / 'jobs/NEXT.md').read_text()
     assert 'j0001-t' in nxt and '0 / 4' in nxt
+    assert '초점 밖 · 사용자가 정한 일감' in (img / 'jobs/j0004/REQUEST.md').read_text() and '초점 밖' not in (img / 'jobs/j0001-t/REQUEST.md').read_text()
+    assert [l for l in nxt.splitlines() if l.startswith('| [j0004]')][0].count('초점 밖 · 사용자가 정함') == 1 and '초점 밖' not in [l for l in nxt.splitlines() if l.startswith('| [j0001-t]')][0]
 
     inbox = img / 'inbox'
     inbox.mkdir()

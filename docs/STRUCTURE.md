@@ -11,11 +11,13 @@
 
 `data/focus.json` 이 지금 시험하는 캐릭터 · 세계를 정한다(사용자 2026-11-10 — 화풍 비교가 먼저라 캐릭터 통일성이 중요하다). `make-job` 기본값 · 화면 기본값 · NEXT.md 첫 줄이 이것을 따른다. 노출도 여기서 — 지금 `slit`(문앙 복사본에만 더한 단계 — 쇄골 · 팔 + 높은 트임으로 한쪽 다리 허벅지까지, 같은 날 「1차때처럼 다리라인 좀 더 보여야겠어」 — 그 앞은 moderate(같은 날 「노출은 너무 low로 했나봐. 피부결 다리나 흉부쪽에 조금 보였으면 해」 — 그 앞은 low)(노출 줄 원래 꼴 `Exposure (low): …`, 칸 이름 끝 `-low`. 사용자 2026-11-10 「bold 를 화풍비교에선 빼자」 → 「skin shown low 로 낮춰줘」 → 「그냥 exposure 로 쓰자」). bold 는 화풍이 정해진 뒤 `--exposure bold` 옵션으로. `none`(노출 줄 없이)도 쓸 수 있다.
 
+초점 밖 일감(`make-job --off-focus` — 사용자가 정할 때만)은 REQUEST.md 첫머리에 「초점 밖 · 사용자가 정한 일감」 이 붙고 NEXT.md 표의 이름 칸에 「초점 밖 · 사용자가 정함」 이 붙는다 — GPT 세션은 NEXT.md 첫 줄(「문앙 무협만」)의 예외로 그 일감을 그린다(11차 넓혀 보기에서 더했다).
+
 ## 0.1 축 담당 범위 · 공통 문구 (2026-11-10)
 
 사용자가 가져온 검토안 [docs/AXIS_REVIEW.md](AXIS_REVIEW.md) → 「1. 크고 둥근 눈으로. 2. 삼국지 설계표도 다 수정해줘. 3. 그 순서로 진행해줘」.
 - 축 이름 · 담당 범위는 `data/parts.json` axes[].rule — 방향 · 얼굴 표현 · 렌더링·채색 · 조명·색조 · 이펙트. 2D · 3D · CGI · 사진은 렌더링·채색, 실제 나이 · 얼굴 크기 · 생김새는 캐릭터 설계(고정 조건).
-- 캐릭터 공통 문구는 복사본의 덮어쓰기(`data/subjects/<id>.overrides.json` — 원본 줄은 `original` 에)로 고친다. 문앙: 머리말 「character card illustration」 → 「character image」, 얼굴 비율 줄의 「in this style」 빼기, 무협 의상의 「a plumed helmet or a war headband」 → 「a war headband with a single white plume」(머리 장식 고정 — 6차 반복에서 깃털 · 머리 윤곽이 그릴 때마다 달라져 화풍 비교를 흐렸다. `worlds` 로 세계를 집는다). 시간대 · 하늘 말은 두 번 넣었다가 뺐다(7 · 8차 — 하늘이 그림 전체 톤을 바꿔 화풍 차이처럼 보였다. 대조군 애니 붓이 하늘만 바뀌어도 「느낌이 달라져서 애매함」. 사용자 「시간 말은 빼긴 해야하는데」 — 1~6차와 같은 조건, 하늘색은 반복 장수로 거른다). 눈 모순은 삼국지 설계표에서 고쳤다(sam-atelier 89ab31a).
+- 캐릭터 공통 문구는 복사본의 덮어쓰기(`data/subjects/<id>.overrides.json` — 원본 줄은 `original` 에)로 고친다. 문앙: 머리말 「character card illustration」 → 「character image」, 얼굴 비율 줄의 「in this style」 빼기, 무협 의상의 「a plumed helmet or a war headband」 → 「a war headband with a single white plume」, 판타지 의상의 「a plumed helm or circlet」 → 「a circlet with a single white plume」(머리 장식 고정 — 6차 반복에서 깃털 · 머리 윤곽이 그릴 때마다 달라져 화풍 비교를 흐렸다. `worlds` 로 세계를 집는다). 시간대 · 하늘 말은 두 번 넣었다가 뺐다(7 · 8차 — 하늘이 그림 전체 톤을 바꿔 화풍 차이처럼 보였다. 대조군 애니 붓이 하늘만 바뀌어도 「느낌이 달라져서 애매함」. 사용자 「시간 말은 빼긴 해야하는데」 — 1~6차와 같은 조건, 하늘색은 반복 장수로 거른다). 눈 모순은 삼국지 설계표에서 고쳤다(sam-atelier 89ab31a).
 - 부품 v2(같은 날 사용자 v2 표 → 「classical, fantasy_paint는 내리자. 그리고 kr_game_keyart 추가해주고. jp_light_novel … 추가해줘」): 축을 넘던 말 · 부정 말을 정리하고 판마다 한글 이름(versions[].ko). 짝은 `pairs`(추천 — 막지 않음, 화면에 「검증 전 짝」) · `requires`(진짜 모순 — 막음, 지금은 실사 영화 → 사진 · 포토리얼 CGI 렌더링만)로 나눴다. 이펙트 `none` = 미지정(빈 문장), `off` = 없음(avoid 로 억제). 조합 이름은 판과 상관없이 부품 열쇠로 찾는다(`recipeNameOf` — 1차 v1 그림도 제 이름).
 - 공통 문구가 바뀌었으니 새 기준은 **2차** — 1차(옛 문구 · 부품 v1) 그림과 견줄 때는 화풍만 다른 게 아니다.
 

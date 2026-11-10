@@ -191,9 +191,12 @@ function request(jid, part, model, round) {
   const how = model === 'chatgpt'
     ? 'ChatGPT 이미지 생성으로 그린다(세로 2:3, 1024×1536).'
     : '그림 API(' + model + ')로 그린다 — Claude 쪽 일감.';
+  const F = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/focus.json'), 'utf8'));
+  const off = part.filter(s => s.subject !== F.subject || s.world !== F.world).map(s => s.subject + ' · ' + s.world).filter((x, i, a) => a.indexOf(x) === i);
   return [
     '# 일감 ' + jid + ' — ' + round + '차 · 그림 ' + part.length + '장',
     '',
+  ].concat(off.length ? ['**초점 밖 · 사용자가 정한 일감** — ' + off.join(', ') + '. `NEXT.md` 의 「' + F.subject + ' · ' + F.world + ' 만」 과 달라도 이 일감은 그대로 그린다.', ''] : []).concat([
     'polos0117/style-atelier-img 저장소의 일감이야. 아래 칸마다 그림 한 장씩 그려서 WebP 로 바꿔 `inbox/` 폴더에 정해진 이름으로 올려줘(main 에 일반 push). ' + how,
     '',
     '진행 방식 — **묻지 않고 끝까지 한다**(사용자 2026-11-10 「gpt쪽 작업이 둘 다 채팅창에 멈춰서 진행이 안되고있어」)',
@@ -220,7 +223,7 @@ function request(jid, part, model, round) {
     '- 하다 끊기면 이어받는 세션은 위 예외대로 `CLAIM.md` 에 두 줄을 더 적고, `rec/` 에 기록이 없는 칸만 그린다.',
     '- 다 올리면 끝. 변환 · 썸네일 · 기록 · 목록은 워크플로가 한다.',
     ''
-  ].concat(part.map((s, i) => [
+  ]).concat(part.map((s, i) => [
     '## ' + (i + 1) + '. `' + s.file + '`',
     '',
     s.recipe.display + ' — ' + s.subject + ' · ' + s.world + (s.exposure ? ' · 노출 ' + s.exposure : ''),

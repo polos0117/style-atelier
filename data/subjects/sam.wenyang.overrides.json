@@ -21,6 +21,15 @@
    "from": "a plumed helmet or a war headband",
    "to": "a war headband with a single white plume",
    "why": "머리 장식을 하나로 고정 — 「투구 또는 머리띠」 둘 중 하나라 그릴 때마다 깃털 · 머리 윤곽이 달라져 화풍 비교를 흐렸다(6차 반복 평가 「머리스타일」). 사용자 2026-11-10 「응 A 먼저 해줘」"
+  },
+  {
+   "field": "costume",
+   "worlds": [
+    "fantasy"
+   ],
+   "from": "a plumed helm or circlet",
+   "to": "a circlet with a single white plume",
+   "why": "판타지도 머리 장식을 하나로 고정 — 「투구 또는 서클릿」 둘 중 하나는 그릴 때마다 머리 윤곽이 달라진다(무협 머리띠 고정과 같은 까닭, 흰 깃털 하나로 맞춤). 사용자 2026-11-10 화풍 넓혀 보기 1단계 「응」"
   }
  ],
  "exposure": {
