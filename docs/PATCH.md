@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · 배경 처리 층 · 확정 화풍 + 거친 유화 캔버스 배경(2.6 API 3장)
+- 사용자 「우리 확정한 화풍에 뒷 배경을 유화캔버스위에 붓질을 거칠게한 느낌으로 세계이미지 만들어줘. 2.6api로」 — data/backgrounds.json 첫 항목 canvas_rough(cr) v1, 장면 Light 줄 뒤 「Background treatment: …」. 이펙트 축은 발광 · 블룸만이라 따로 층으로
+- build.js background() · slotName/parseSlot 끝 ~cr1, make-job --bg, 기록 background · 색인 bg 열, 화면 상세 「배경 처리」 · 카드 표시, 검사 더함
+- 13차 j0078-r13-canvas — kr_drawn_brush_rim × 문앙 무협 · 판타지 · 메카, api26 3장 · 출력 3,396
+
 ## 2026-11-11 · claude · 12차 펼치기 일감
 - 사용자 「10개정도는 만들까했지」 → 「응 일감 만들어줘」 — 확정 화풍 10개를 목표로, 서로 먼 대표 10개를 한 장씩(j0077-r12-spread): anime_gloss_jp · anime_matte_jp · semi_paint_jp · semi_smooth · illus_23d · oil_hikey · anime_brush_kr · kk1-si1-p31-cl1(새) · kg2-ag2-gd1-rg2-xs1(새) · km2-il2-ba3-cl1(확정 화풍 + 로우키, 5차 한 장 뒤 #2)
 

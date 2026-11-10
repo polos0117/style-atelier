@@ -1,0 +1,19 @@
+{
+ "version": 1,
+ "note": "배경 처리 — 화풍 다섯 축과 따로, 장면(4. SCENE)의 Light 줄 뒤에 「Background treatment: …」 한 줄을 얹는다. 인물의 화풍(1. STYLE)은 그대로 두고 뒤 배경의 칠만 바꾼다. 칸 이름 끝에 ~<코드><판>(예 ~cr1) — 배경 처리 없는 칸과 섞이지 않는다. make-job --bg <열쇠>.",
+ "backgrounds": {
+  "canvas_rough": {
+   "code": "cr",
+   "ko": "거친 유화 붓질 캔버스",
+   "current": "v1",
+   "versions": [
+    {
+     "v": "v1",
+     "text": "the setting behind her is painted with rough, loose oil brushstrokes over visible canvas weave, while she keeps the finish described in STYLE.",
+     "ko": "거친 유화 붓질 캔버스",
+     "by": "사용자 2026-11-10 「우리 확정한 화풍에 뒷 배경을 유화캔버스위에 붓질을 거칠게한 느낌으로 세계이미지 만들어줘. 2.6api로」"
+    }
+   ]
+  }
+ }
+}

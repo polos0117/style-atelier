@@ -69,7 +69,16 @@ for (const k of B.liveRecipes(R)) assert.deepEqual(B.retiredIn(B.resolve(P, R, k
 const s0 = B.slotName('km1-ss1-sm1-mu1-xf1', 'sam.wenyang', 'samguk', 'world', 'bold', { defaultExposure: 'bold' });
 assert.equal(s0, 'km1-ss1-sm1-mu1-xf1__sam.wenyang__samguk-world');
 assert.equal(B.slotName('km1-ss1-sm1-mu1-xf1', 'sam.wenyang', 'samguk', 'world', 'low', { defaultExposure: 'bold' }), s0 + '-low');
-assert.deepEqual(B.parseSlot(s0 + '-low'), { recipe: 'km1-ss1-sm1-mu1-xf1', subject: 'sam.wenyang', world: 'samguk', kind: 'world', exposure: 'low' });
+assert.deepEqual(B.parseSlot(s0 + '-low'), { recipe: 'km1-ss1-sm1-mu1-xf1', subject: 'sam.wenyang', world: 'samguk', kind: 'world', exposure: 'low', bg: null });
+/* 배경 처리 — 칸 이름 끝 ~<코드><판>, 지시문은 장면의 Light 줄 뒤 한 줄 */
+assert.equal(B.slotName('km1-ss1-sm1-mu1-xf1', 'sam.wenyang', 'samguk', 'world', 'low', { defaultExposure: 'bold' }, 'cr1'), s0 + '-low~cr1');
+assert.equal(B.parseSlot(s0 + '-low~cr1').bg, 'cr1'); assert.equal(B.parseImage(s0 + '~cr1__api26__2').bg, 'cr1');
+{ const BG = J('data/backgrounds.json');
+  for (const [k, r] of Object.entries(BG.backgrounds)) { const g = B.background(BG, k); assert(/^[a-z]+\d+$/.test(g.code) && /^[a-z]/.test(g.text) && /\.$/.test(g.text), '배경 ' + k + ' 은 소문자 시작 · 마침표 끝'); assert(!/\b(never|no|not)\b/i.test(g.text), '배경 ' + k + ' 부정 말은 avoid 로'); }
+  const b = B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit', bg: 'canvas_rough', BG });
+  const L = b.text.split('\n'), li = L.findIndex(l => /^Light:/.test(l));
+  assert(/^Background treatment: /.test(L[li + 1]) && /^Composition:/.test(L[li + 2]), '배경 처리 줄은 Light 와 Composition 사이');
+  assert(b.slot.endsWith('-slit~cr1')); assert.equal(B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit' }).text.indexOf('Background treatment'), -1); }
 const im = B.parseImage(B.imageName(s0, 'chatgpt', 3));
 assert.equal(im.slot, s0); assert.equal(im.model, 'chatgpt'); assert.equal(im.n, 3);
 assert.equal(B.parseImage('nope'), null);
