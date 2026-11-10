@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 조명 muted · rim_gloss 새 판 — 눈가 파란 자국
+- 사용자 5차 평가 「고칠 것 — 눈 옆에 생긴 멍 같은 파란자국」 · 「이쁜데 얼굴 눈가에 생긴 파란색 색조」
+- `data/parts.json` light/muted v2 · rim_gloss v2 — 얼굴 그림자는 따뜻하고 중성적으로(muted), 피부는 깨끗한 따뜻한 윤기 · 반사는 금속 · 장신구에(rim_gloss), avoid 「a blue or bruise-like tint on the skin around the eyes」
+- j0058 보류 — 넷째 조합 일곱 + 셋째 조합 따뜻한 빛을 새 판으로, 앞 세 조합의 muted · rim_gloss 도 새 판으로 다시(고침 확인)
+
 ## 2026-11-10 · claude · 노출 slit(다리 라인) · 5차 — 4차 후보 넷 × 조명 일곱
 - 사용자 「체크했어. 1차때처럼 다리라인 좀 더 보여야겠어」
 - `data/subjects/sam.wenyang.overrides.json` — 문앙 세 세계에 노출 단계 slit(쇄골 · 팔 + 높은 트임으로 한쪽 다리 허벅지까지, 1차 bold 의 깊은 목선 · 맨어깨는 빼고). `data/focus.json` moderate → slit, `index.html` 섞어보기에 slit

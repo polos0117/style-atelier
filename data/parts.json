@@ -1022,12 +1022,21 @@
    "muted": {
     "code": "mu",
     "ko": "차분 · 낮은 채도 · 깊은 그림자",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
       "text": "soft, even key light on her face; a muted, slightly desaturated palette with deep soft shadows and small restrained highlights.",
       "ko": "차분 · 낮은 채도 · 깊은 그림자"
+     },
+     {
+      "v": "v2",
+      "text": "soft, even key light on her face with warm, neutral facial shadows; a muted, slightly desaturated palette with deep soft shadows in the scene and small restrained highlights.",
+      "ko": "차분 · 낮은 채도 · 깊은 그림자",
+      "by": "사용자 2026-11-10 5차 평가 「고칠 것 — 눈 옆에 생긴 멍 같은 파란자국」 · 「이쁜데 얼굴 눈가에 생긴 파란색 색조」",
+      "avoid": [
+       "a blue or bruise-like tint on the skin around the eyes"
+      ]
      }
     ]
    },
@@ -1142,12 +1151,21 @@
    "rim_gloss": {
     "code": "rg",
     "ko": "림 라이트 · 강한 하이라이트",
-    "current": "v1",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
       "text": "a soft key light with a strong rim light tracing her hair, shoulders and armour; bright, crisp specular highlights on metal, skin and jewellery.",
       "ko": "림 라이트 · 강한 하이라이트"
+     },
+     {
+      "v": "v2",
+      "text": "a soft key light with a strong rim light tracing her hair, shoulders and armour; bright, crisp specular highlights on metal and jewellery, and a clean, warm-neutral sheen on her skin.",
+      "ko": "림 라이트 · 강한 하이라이트",
+      "by": "사용자 2026-11-10 5차 평가 「고칠 것 — 눈 옆에 생긴 멍 같은 파란자국」 · 「이쁜데 얼굴 눈가에 생긴 파란색 색조」",
+      "avoid": [
+       "a blue or bruise-like tint on the skin around the eyes"
+      ]
      }
     ],
     "note": "광택 메우기(사용자 2026-11-10 「기존에 있던 gloosy 는 어떻게 대체 된거지?」 → 「응 셋 다 넣을거고」) — 삼국지 MMORPG CG · 한국 MMORPG 프로모의 조명 쪽"
