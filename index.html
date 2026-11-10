@@ -281,7 +281,8 @@ function mixRun() {
 
 let COMBOS = 0;
 (async () => {
-  [P, R, SL] = await Promise.all([getJ('data/parts.json'), getJ('data/recipes.json'), getJ('data/subjects/index.json')]);
+  let FO; [P, R, SL, FO] = await Promise.all([getJ('data/parts.json'), getJ('data/recipes.json'), getJ('data/subjects/index.json'), getJ('data/focus.json')]);
+  if (FO) { A.subject = M.subject = FO.subject; A.world = M.world = FO.world; }   /* 지금 시험하는 캐릭터 · 세계(data/focus.json)부터 */
   for (const s of SL.subjects) SUB[s.id] = await getJ('data/subjects/' + s.id + '.json');
   COMBOS = B.combos(P).length;
   const [ix, bl, pd] = await Promise.all([getJ(IMG + 'index/images.json'), getJ(IMG + 'index/blocked.json'), getJ(IMG + 'index/pending.json')]);

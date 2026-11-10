@@ -7,6 +7,7 @@
      --base <조합> --vary <축>[=k1,k2] 기준 조합에서 그 축만 바꾼 것(목록이 없으면 그 축 부품 전부, 같이 못 쓰는 짝은 뺀다)
    그 밖:
      --subject sam.wenyang[,el.fe]  --world samguk[,fantasy]   (캐릭터마다 그 세계가 있어야 한다 — 없으면 건너뛴다)
+       비우면 data/focus.json(지금은 문앙 · 무협 — 화풍 비교는 캐릭터 하나로). 그 밖의 캐릭터 · 세계는 --off-focus 를 붙일 때만(사용자가 정할 때).
      --model chatgpt(기본) | api26 | api25    --exposure moderate|low(기본은 캐릭터 기본값)
      --round N(차수 — 화면 「1차 › 문앙」 묶음. 기본은 가장 최근 일감의 차수, 처음이면 1)
      --size 10(일감 하나에 칸 수 — 사용자 2026-11-10 「4장보다 한 번에 맡기는 양 더 늘려도 돼」, 처음엔 4)  --label <짧은 이름>  --repeat(이미 그린 칸도 다시 — 번호를 올린다)
@@ -14,6 +15,7 @@
    아직 아무도 손대지 않은 일감을 크게 다시 묶기: --merge all | j0003,j0004 [--size 10]
      예약(CLAIM.md) · 그림(rec · rec/blocked · inbox)이 하나도 없는 일감만. 차수 · 모델 · 캐릭터가 같은 칸끼리 차례대로 고르게 나눠 새 일감으로,
      옛 일감은 지우지 않고 slots.json 에 retired · merged_into 를 적는다(NEXT.md · 수거 · 겹침 검사에서 빠진다). 칸 이름 · 지시문은 그대로.
+   일감 내리기(보류): --hold j0014,j0015 --why '<까닭>' — 예약 · 그림이 없는 일감만, 지우지 않고 retired · hold 를 적는다(NEXT.md 에서 빠진다).
    이미 만든 일감의 REQUEST.md 를 지금 꼴로 다시 쓰기: --rewrite all | j0001,j0002(칸 · 지시문은 그대로)
    이미 그린 칸(rec/)과 열린 일감에 들어 있는 칸은 --repeat 없이는 다시 넣지 않는다. */
 'use strict';
@@ -30,6 +32,7 @@ function die(m) { console.error(m); process.exit(1); }
 const sha = s => crypto.createHash('sha256').update(s).digest('hex');
 if (flag('rewrite')) { rewrite(flag('rewrite')); process.exit(0); }
 if (flag('merge')) { merge(flag('merge')); process.exit(0); }
+if (flag('hold')) { hold(flag('hold'), flag('why', '')); process.exit(0); }
 
 /* 조합 목록 */
 let recipes = [];
@@ -46,8 +49,10 @@ else if (flag('base') && flag('vary')) {
   }
 } else die('--recipes 또는 --base + --vary 가 있어야 한다');
 
-const subjects = flag('subject', '').split(',').filter(Boolean), worlds = flag('world', '').split(',').filter(Boolean);
-if (!subjects.length || !worlds.length) die('--subject 와 --world 가 있어야 한다');
+const FOCUS = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/focus.json'), 'utf8'));
+const subjects = flag('subject', FOCUS.subject).split(',').filter(Boolean), worlds = flag('world', FOCUS.world).split(',').filter(Boolean);
+if (!has('off-focus') && (subjects.some(s => s !== FOCUS.subject) || worlds.some(w => w !== FOCUS.world)))
+  die('지금은 ' + FOCUS.subject + ' · ' + FOCUS.world + ' 만 그린다(data/focus.json — ' + FOCUS.why.slice(0, 60) + '…). 사용자가 정했으면 --off-focus');
 
 /* 이미 있는 것 — 그린 그림(rec) · 막힌 칸 · 열린 일감 */
 const taken = {}; /* 칸__모델 → 가장 큰 번호 */
@@ -139,6 +144,22 @@ function merge(which) {
     J.retired = today; J.merged_into = [...new Set(J.slots.map(s => made[s.file]))];
     fs.writeFileSync(path.join(jd, J.job, 'slots.json'), JSON.stringify(J, null, 1) + '\n');
     fs.writeFileSync(path.join(jd, J.job, 'REQUEST.md'), '# 일감 ' + J.job + ' — 합쳐짐\n\n이 일감은 ' + today + ' 에 ' + J.merged_into.join(' · ') + ' 로 합쳤다. 여기서는 그리지 않는다 — `jobs/NEXT.md` 에서 열린 일감을 고른다.\n');
+  }
+  cp.execFileSync('python3', [path.join(__dirname, 'ingest.py'), '--img', IMGR, '--refresh'], { stdio: 'inherit' });
+}
+
+/* 일감 내리기 — 손대지 않은 일감만, 지우지 않는다 */
+function hold(which, why) {
+  const IMGR = path.resolve(ROOT, flag('img', '../style-atelier-img')), jd = path.join(IMGR, 'jobs'), today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  if (!why) die('--why 가 있어야 한다');
+  for (const jid of which.split(',')) {
+    const f = path.join(jd, jid, 'slots.json'), J = JSON.parse(fs.readFileSync(f, 'utf8'));
+    const busy = fs.existsSync(path.join(jd, jid, 'CLAIM.md')) || J.slots.some(s => ['rec/' + s.file + '.json', 'rec/blocked/' + s.file + '.json'].some(p => fs.existsSync(path.join(IMGR, p))));
+    if (busy) { console.log('  그대로(예약 · 그림 있음) ' + jid); continue; }
+    J.retired = today; J.hold = why;
+    fs.writeFileSync(f, JSON.stringify(J, null, 1) + '\n');
+    fs.writeFileSync(path.join(jd, jid, 'REQUEST.md'), '# 일감 ' + jid + ' — 보류\n\n' + today + ' 에 내렸다. 여기서는 그리지 않는다 — `jobs/NEXT.md` 에서 열린 일감을 고른다.\n\n까닭: ' + why + '\n');
+    console.log('보류 ' + jid);
   }
   cp.execFileSync('python3', [path.join(__dirname, 'ingest.py'), '--img', IMGR, '--refresh'], { stdio: 'inherit' });
 }
