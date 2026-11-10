@@ -11,6 +11,8 @@
 body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
 header { padding:18px 16px 0; max-width:1280px; margin:0 auto; }
 h1 { margin:0; font-size:22px; letter-spacing:-.01em; }
+header .home { font-size:13px; color:var(--sub); text-decoration:none; }
+header .home:hover { color:var(--acc); }
 header p { margin:4px 0 0; color:var(--sub); font-size:13px; }
 nav { display:flex; gap:4px; margin-top:14px; border-bottom:1px solid var(--line); overflow-x:auto; }
 nav button { background:none; border:0; border-bottom:2px solid transparent; padding:8px 12px; font:inherit; color:var(--sub); cursor:pointer; white-space:nowrap; }
@@ -44,6 +46,7 @@ dialog::backdrop { background:rgba(0,0,0,.6); }
 </head>
 <body>
 <header>
+  <a class="home" href="/">← 공방 지도</a>
   <h1>화풍공방</h1>
   <p>화풍 부품(방향 · 얼굴 · 채색 · 빛 · 이펙트)을 조합해 시험하는 곳 — 그림은 <span id="imgsrc"></span></p>
   <nav role="tablist">
