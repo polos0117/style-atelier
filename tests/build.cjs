@@ -69,7 +69,7 @@ for (const k of B.liveRecipes(R)) assert.deepEqual(B.retiredIn(B.resolve(P, R, k
 const s0 = B.slotName('km1-ss1-sm1-mu1-xf1', 'sam.wenyang', 'samguk', 'world', 'bold', { defaultExposure: 'bold' });
 assert.equal(s0, 'km1-ss1-sm1-mu1-xf1__sam.wenyang__samguk-world');
 assert.equal(B.slotName('km1-ss1-sm1-mu1-xf1', 'sam.wenyang', 'samguk', 'world', 'low', { defaultExposure: 'bold' }), s0 + '-low');
-assert.deepEqual(B.parseSlot(s0 + '-low'), { recipe: 'km1-ss1-sm1-mu1-xf1', subject: 'sam.wenyang', world: 'samguk', kind: 'world', exposure: 'low', bg: null });
+assert.deepEqual(B.parseSlot(s0 + '-low'), { recipe: 'km1-ss1-sm1-mu1-xf1', subject: 'sam.wenyang', world: 'samguk', kind: 'world', exposure: 'low', bg: null, boost: null });
 /* 배경 처리 — 칸 이름 끝 ~<코드><판>, 지시문은 장면의 Light 줄 뒤 한 줄 */
 assert.equal(B.slotName('km1-ss1-sm1-mu1-xf1', 'sam.wenyang', 'samguk', 'world', 'low', { defaultExposure: 'bold' }, 'cr1'), s0 + '-low~cr1');
 assert.equal(B.parseSlot(s0 + '-low~cr1').bg, 'cr1'); assert.equal(B.parseImage(s0 + '~cr1__api26__2').bg, 'cr1');
@@ -78,7 +78,18 @@ assert.equal(B.parseSlot(s0 + '-low~cr1').bg, 'cr1'); assert.equal(B.parseImage(
   const b = B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit', bg: 'canvas_rough@v1', BG });
   const L = b.text.split('\n'), li = L.findIndex(l => /^Light:/.test(l));
   assert(/^Background treatment: /.test(L[li + 1]) && /^Composition:/.test(L[li + 2]), '배경 처리 줄은 Light 와 Composition 사이');
-  assert(b.slot.endsWith('-slit~cr1')); assert.equal(B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit' }).text.indexOf('Background treatment'), -1); }
+  assert(b.slot.endsWith('-slit~cr1'));
+  /* 화풍 세기 — 칸 이름 끝 +<코드><판>, A 는 5칸 끝(Avoid 앞), B 는 머리말 매체 */
+  const BO = J('data/boosts.json'), S = J('data/subjects/sam.wenyang.json');
+  const a1 = B.build(P, R, S, 'samguk', 'jn2-aa2-ms2-oc1-x01', { exposure: 'slit', boost: 'restate', BO }), A1 = a1.text.split('\n');
+  assert(a1.slot.endsWith('-slit+ra1') && B.parseSlot(a1.slot).boost === 'ra1' && B.parseSlot(a1.slot).bg === null);
+  assert(/^Render the whole image/.test(A1[A1.length - 1]), '다시 말하기는 5칸 끝(Avoid 가 없을 때)');
+  { const T = B.build(P, R, S, 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit', boost: 'restate', BO }).text.split('\n'); assert(/^Render the whole image/.test(T[T.length - 2]) && /^Avoid:/.test(T[T.length - 1]), '다시 말하기는 Avoid 바로 앞'); }
+  const h1 = B.build(P, R, S, 'samguk', 'jn2-aa2-ms2-oc1-x01', { exposure: 'slit', boost: 'head_medium', BO });
+  assert(/^A full-body flat 2D matte character illustration, vertical/.test(h1.text) && h1.slot.endsWith('+hm1'));
+  assert.throws(() => B.build(P, R, S, 'samguk', 'km2-ss2-sm2-mu2-xf1', { boost: 'head_medium', BO }), /medium 이 없다/);
+  const both = B.build(P, R, S, 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit', bg: 'canvas_rough@v2', BG, boost: 'restate', BO });
+  assert(both.slot.endsWith('-slit~cr2+ra1')); const pb = B.parseImage(both.slot + '__api26__1'); assert(pb.bg === 'cr2' && pb.boost === 'ra1'); assert.equal(B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit' }).text.indexOf('Background treatment'), -1); }
 const im = B.parseImage(B.imageName(s0, 'chatgpt', 3));
 assert.equal(im.slot, s0); assert.equal(im.model, 'chatgpt'); assert.equal(im.n, 3);
 assert.equal(B.parseImage('nope'), null);

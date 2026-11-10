@@ -113,3 +113,10 @@ make-job ──────────────────────▶ j
 
 사용자 2026-11-10 「우리 확정한 화풍에 뒷 배경을 유화캔버스위에 붓질을 거칠게한 느낌으로 세계이미지 만들어줘. 2.6api로」. 화풍 다섯 축과 따로 두는 선택 — `data/backgrounds.json`(열쇠 · 코드 · 판, 부품과 같은 꼴). 지시문은 장면(4. SCENE)의 Light 줄 바로 뒤에 `Background treatment: …` 한 줄, avoid 가 있으면 5칸에. 이펙트 축에 넣지 않은 까닭: 이펙트 규칙은 발광 · 블룸 · 반짝임만이다. 칸 이름 끝에 `~<코드><판>`(예 `…-slit~cr1`) — 배경 처리 없는 칸과 섞이지 않는다. 기록 `background`, 색인 끝 열 `bg`(`canvas_rough@v1`). `make-job --bg <열쇠>`.
 
+## 화풍 세기
+
+12차 펼치기에서 서로 먼 조합 열 개가 한 동네(디테일 많은 한국 게임 일러)로 모였다 — 화풍 문단이 지시문 633단어 중 35단어 남짓(Light 줄까지 10% 안팎)이고, 의상 · 장면 묘사가 그림을 끌고 간다. 화풍 다섯 축과 따로 얹는 장치 `data/boosts.json`(사용자 2026-11-11 「응 화풍 세기 시험 일감 만들어줘」):
+- `restate`(+ra) — 5칸 끝(Avoid 앞)에 「Render the whole image, figure and background alike, in the STYLE described in section 1.」
+- `head_medium`(+hm) — 머리말의 「character image」 를 채색 부품 판의 `medium`(parts.json 채색 판의 칸, 문화권 말 없이 — 예 brush_anime v3 「2D brush-painted character illustration」)으로. medium 이 없는 채색이면 멈춘다.
+칸 이름 끝 `+<코드><판>`(배경 처리 `~cr2` 뒤). 기록 `boost`, 색인 끝 열 `boost`. `make-job --boost <열쇠>`. 14차 j0083 — 가챠(붓 칠로 거칠게 ja2-ag2-ba3-hp2-xs1) · 매트 애니(jn2-aa2-ms2-oc1-x01) × 없음 · A · B(매트 애니 「없음」 은 12차 그림).
+

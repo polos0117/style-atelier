@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "note": "화풍 세기 — 화풍 문단(1. STYLE)이 지시문의 10% 남짓이라 멀리 떨어진 조합도 한 동네로 모였다(12차 펼치기). 화풍 다섯 축과 따로 얹는 장치. where: constraints = 5칸 끝(Avoid 앞)에 한 줄, head = 머리말의 from 을 채색 부품 판의 medium 으로 바꾼다. 칸 이름 끝 +<코드><판>(예 +ra1). make-job --boost <열쇠>.",
+ "boosts": {
+  "restate": {
+   "code": "ra",
+   "ko": "화풍 다시 말하기",
+   "current": "v1",
+   "versions": [
+    {
+     "v": "v1",
+     "where": "constraints",
+     "text": "Render the whole image, figure and background alike, in the STYLE described in section 1.",
+     "ko": "화풍 다시 말하기(5칸 끝)",
+     "by": "사용자 2026-11-11 12차 평가 뒤 「응 화풍 세기 시험 일감 만들어줘」 — 안 A"
+    }
+   ]
+  },
+  "head_medium": {
+   "code": "hm",
+   "ko": "머리말에 매체",
+   "current": "v1",
+   "versions": [
+    {
+     "v": "v1",
+     "where": "head",
+     "from": "character image",
+     "ko": "머리말에 매체(채색 부품의 medium)",
+     "by": "사용자 2026-11-11 「응 화풍 세기 시험 일감 만들어줘」 — 안 B"
+    }
+   ]
+  }
+ }
+}

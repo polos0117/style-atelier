@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · 화풍 세기 층 · 14차 시험 일감
+- 12차 평가 — 9 kg 가챠 글로시 4 · 10 확정 + 로우키 4 · 5 2.3D 일러 3 좋다, 1 가챠 셀 「선명보다 살짝 거칠게」, 8 3D 칠 · 6 유화 프로모 2. 열 장이 한 동네로 모였다 — 화풍 문단이 지시문의 10% 남짓
+- data/boosts.json — restate(+ra1, 5칸 끝 다시 말하기) · head_medium(+hm1, 머리말 「character image」 → 채색 medium). parts 채색 brush_anime v3 · matte_soft v2 · cel_gradient v2 에 medium 칸. build/make-job --boost · 기록 boost · 색인 boost 열 · 화면 표시 · 검사
+- 14차 j0083-r14-boost(5장) — ja2-ag2-ba3-hp2-xs1(가챠 붓 칠) 없음 · A · B, jn2-aa2-ms2-oc1-x01(매트 애니) A · B(없음은 12차 #1)
+
 ## 2026-11-11 · claude · 확정 화풍 카드 — 배경 변주
 - 사용자 「확정 화풍 카드에 배경 변주로 붙여줘」 — confirmed.json kr_drawn_brush_rim.variants: canvas_rough@v2, 대표 그림 무협 · 판타지 · 메카(13차 ~cr2 api26)
 - 카드에 「변주 — 배경 · 거친 유화 붓질 캔버스」: 그림 셋(누르면 상세) · 배경 줄 · 화풍 문장 + 배경 줄 복사. 검사에 변주(판 고정 · 그림 칸 끝 ~cr2) 더함

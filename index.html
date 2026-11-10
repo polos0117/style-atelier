@@ -299,7 +299,7 @@ async function showDetail(r) {
   const f = $('dFacts'); f.innerHTML = '';
   const fact = (k, v) => { if (v != null && v !== '') f.append(el('dt', {}, k), el('dd', {}, String(v))); };
   fact('캐릭터', koOf(r.subject) + ' (' + r.subject + ')'); fact('세계', (WORLD_KO[r.world] || r.world) + (r.exposure ? ' · 노출 ' + r.exposure : ''));
-  fact('배경 처리', r.bg ? ((BGS && BGS.backgrounds[r.bg.split('@')[0]] || {}).ko || '') + ' (' + r.bg + ')' : ''); fact('모델', r.model + (r.n > 1 ? ' · ' + r.n + '번째' : '')); fact('차수 · 일감', (r.round || 1) + '차 · ' + r.job); fact('받은 날', r.added); fact('그림 이름', r.id);
+  fact('화풍 세기', r.boost || ''); fact('배경 처리', r.bg ? ((BGS && BGS.backgrounds[r.bg.split('@')[0]] || {}).ko || '') + ' (' + r.bg + ')' : ''); fact('모델', r.model + (r.n > 1 ? ' · ' + r.n + '번째' : '')); fact('차수 · 일감', (r.round || 1) + '차 · ' + r.job); fact('받은 날', r.added); fact('그림 이름', r.id);
   evalForm(r);
   $('dPrompt').textContent = '…';
   const rec = await getJ(IMG + 'rec/' + r.id + '.json');
@@ -323,7 +323,7 @@ addEventListener('keydown', e => { if ($('detail').hidden || /^(INPUT|TEXTAREA|S
 function card(r, list) {
   const rs = B.resolve(P, R, specOf(r)), nm = nameOf(rs);
   return el('div', { class: 'card', tabindex: '0', on: { click: () => openImg(r, list), keydown: e => { if (e.key === 'Enter') openImg(r, list); } } }, el('img', { src: thumb(r.id), loading: 'lazy', alt: B.displayName(rs) }),
-    el('div', { class: 'cap' }, el('b', {}, nm || rs.id), (WORLD_KO[r.world] || r.world) + (r.bg ? ' · 배경 ' + r.bg.split('@')[0] : '') + ' · ' + r.model + (r.n > 1 ? ' #' + r.n : ''), el('span', { class: 'badge', 'data-ev': r.id }, V.badge(evOf(r.id)))));
+    el('div', { class: 'cap' }, el('b', {}, nm || rs.id), (WORLD_KO[r.world] || r.world) + (r.bg ? ' · 배경 ' + r.bg.split('@')[0] : '') + (r.boost ? ' · 세기 ' + r.boost.split('@')[0] : '') + ' · ' + r.model + (r.n > 1 ? ' #' + r.n : ''), el('span', { class: 'badge', 'data-ev': r.id }, V.badge(evOf(r.id)))));
 }
 
 /* 그림 찾기 — 검색 조건 = 「N차 › 캐릭터」(그림이 있는 묶음만), 더 거르기는 접어 둔다 */

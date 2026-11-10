@@ -818,7 +818,8 @@
       "v": "v3",
       "text": "2D painting with visible brushwork: layered strokes of colour, soft broken edges, thin coloured linework and a few crisp accents on the face and costume.",
       "ko": "2D 붓질 · 색 선",
-      "by": "재검토안(2026-11-10 c432626) 3절 — 담당 범위 · 부정 말 정리"
+      "by": "재검토안(2026-11-10 c432626) 3절 — 담당 범위 · 부정 말 정리",
+      "medium": "2D brush-painted character illustration"
      }
     ]
    },
@@ -908,7 +909,8 @@
       "avoid": [
        "3D rendering",
        "photographic skin texture"
-      ]
+      ],
+      "medium": "2D cel-shaded character illustration"
      }
     ]
    },
@@ -926,7 +928,8 @@
       "v": "v2",
       "text": "2D soft matte painting: smooth gentle gradients and quiet, powdery surfaces.",
       "ko": "2D 무광 소프트",
-      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+      "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표",
+      "medium": "flat 2D matte character illustration"
      }
     ]
    },
