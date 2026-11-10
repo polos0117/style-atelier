@@ -8,6 +8,6 @@
 4. **그림 저장소의 `index/` · `jobs/NEXT.md` · `rec/` 는 손으로 고치지 않는다.** 수거 워크플로(`tools/ingest.py`)가 파일만 보고 다시 짓는다. 평을 매기는 것만 예외 — `rec/<그림>.json` 의 `rating`.
 5. **덮어쓰지 않는다.** 같은 칸을 다시 그리려면 `make-job --repeat`(번호가 올라간다).
 6. **막히면**: 세션은 같은 지시문으로 한 번 더 → 그래도 막히면 `.blocked.txt`. 여기서 `make-job … --exposure moderate`(그다음 `low`)로 새 일감 — 노출 말고 다른 말은 바꾸지 않는다. 그래도 막히면 멈추고 사용자에게 말한다.
-7. **API 로 그릴 때**(사용자가 정할 때만) 장 수 · 출력 토큰을 먼저 말한다. 키는 환경 변수 `OPENAI_API_KEY` 로만 — 값을 찍지 않는다. 누적 장 수는 세지 않는다.
+7. **API 로 그릴 때**(사용자가 정할 때만) 장 수 · 출력 토큰(2.6 한 장 약 1,132 · 2.5 약 343)을 먼저 말한다. `make-job --model api26` → `node tools/draw-api.cjs <일감>` → `python3 tools/ingest.py` → 그림 저장소 push. 키는 환경 변수 `OPENAI_API_KEY`(사용자가 Claude Code 세션 환경에 넣어 둔 GPT API 키 — 여러 세션이 같이 쓴다)로만 — 값을 찍지 않는다. 누적 장 수는 세지 않는다.
 8. **검사** — 밀기 전에 `node tests/build.cjs` · `python3 tests/ingest.py`(Pillow 필요). 고쳤으면 `docs/PATCH.md` 맨 위에 한 칸.
 9. **git** — main 에 바로 민다(PR 없음). 강제 push · 이력 고쳐 쓰기 없음. 밀기 전에 `git pull --rebase origin main`. 그림 저장소와 함께 바꿀 때는 코드 저장소 먼저(워크플로가 코드 저장소 도구를 받아 쓴다).

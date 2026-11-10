@@ -10,6 +10,7 @@
   inbox/<그림 이름>.png|.webp|.jpg|.jpeg   그림
   inbox/<그림 이름>.blocked.txt            막힌 칸(거절 문구)
   inbox/<그림 이름>.note.txt               세션이 남긴 한 줄(선택)
+  inbox/<그림 이름>.gen.json               API 로 그린 것의 생성 정보(tools/draw-api.cjs) → 기록의 generation
 모르는 이름 · 이미 있는 그림은 inbox 에 그대로 두고 index/problems.json 과 NEXT.md 에 적는다(덮지 않는다)."""
 import argparse, datetime, hashlib, json, os, re, sys
 from pathlib import Path
@@ -38,7 +39,7 @@ def save_json(p, obj):
     p.write_text(json.dumps(obj, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
 
 
-def take_image(img, src, job, slot, note, check):
+def take_image(img, src, job, slot, note, check, gen=None):
     from PIL import Image
     base = slot['file']
     dst = img / 'img' / slot['subject'] / slot['world'] / (base + '.webp')
@@ -67,7 +68,7 @@ def take_image(img, src, job, slot, note, check):
     r = dict({'id': base, 'job': job['job']}, **r)
     r.update({'file': str(dst.relative_to(img)), 'thumb': str(th.relative_to(img)), 'size': list(im.size), 'resized_from': [w0, h0] if resized else None,
               'source': {'name': src.name, 'sha256': hashlib.sha256(raw).hexdigest(), 'size': [w0, h0]},
-              'note': note, 'added': today(), 'rating': None})
+              'note': note, 'generation': gen, 'added': today(), 'rating': None})
     save_json(rec, r)
     src.unlink()
     return None
@@ -93,9 +94,10 @@ def ingest(img, check):
         return problems, done
     files = sorted(p for p in inbox.iterdir() if p.is_file() and not p.name.startswith('.') and p.name != 'README.md')
     notes = {p.name[:-len('.note.txt')]: p for p in files if p.name.endswith('.note.txt')}
+    gens = {p.name[:-len('.gen.json')]: p for p in files if p.name.endswith('.gen.json')}
     for p in files:
         name = p.name
-        if name.endswith('.note.txt'):
+        if name.endswith('.note.txt') or name.endswith('.gen.json'):
             continue
         if name.endswith('.blocked.txt'):
             base, kind = name[:-len('.blocked.txt')], 'blocked'
@@ -111,9 +113,12 @@ def ingest(img, check):
         try:
             if kind == 'image':
                 note = notes[base].read_text(encoding='utf-8', errors='replace').strip()[:500] if base in notes else None
-                err = take_image(img, p, job, slot, note, check)
-                if not err and base in notes and not check:
-                    notes[base].unlink()
+                gen = json.loads(gens[base].read_text(encoding='utf-8')) if base in gens else None
+                err = take_image(img, p, job, slot, note, check, gen)
+                if not err and not check:
+                    for side in (notes, gens):
+                        if base in side:
+                            side[base].unlink()
             else:
                 err = take_blocked(img, p, job, slot, check)
         except Exception as e:  # 열리지 않는 그림 — 두고 적는다
@@ -122,7 +127,7 @@ def ingest(img, check):
             problems.append({'file': 'inbox/' + name, 'why': err})
         else:
             done.append(base + (' (막힘)' if kind == 'blocked' else ''))
-    for base, p in notes.items():
+    for base, p in list(notes.items()) + list(gens.items()):
         if base not in by_file:
             problems.append({'file': 'inbox/' + p.name, 'why': '어느 일감에도 없는 이름'})
     return problems, done
@@ -153,7 +158,7 @@ def build_next(img, jobs, problems):
             continue
         open_rows.append('| [%s](%s/REQUEST.md) | %s | %d / %d%s | %s |' % (j['job'], j['job'], j.get('label') or '', d, len(files), (' · 막힘 %d' % b) if b else '', j['model']))
     out = ['# 열린 일감', '',
-           'GPT 세션: 아래에서 일감 **하나**를 골라 그 `REQUEST.md` 만 읽고 그대로 해줘. 위에서부터 고르면 된다. 이 파일은 워크플로가 다시 쓴다 — 고치지 않는다.', '']
+           'GPT 세션: 아래에서 모델이 **chatgpt** 인 일감 **하나**를 골라 그 `REQUEST.md` 만 읽고 그대로 해줘. 위에서부터 고르면 된다. api26 · api25 일감은 Claude 가 API 로 그린다. 이 파일은 워크플로가 다시 쓴다 — 고치지 않는다.', '']
     if open_rows:
         out += ['| 일감 | 이름 | 그린 칸 | 모델 |', '|---|---|---|---|'] + open_rows
     else:

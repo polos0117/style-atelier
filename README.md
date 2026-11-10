@@ -4,7 +4,7 @@
 
 - 화면: `index.html` — 그림 찾기 · 축 비교 · 섞어보기(조합 → 지시문) · 일감
 - 부품 `data/parts.json` · 조합 `data/recipes.json` · 시험 캐릭터 `data/subjects/`
-- 조립부 `lib/build.js` · 도구 `tools/`(import-subject · make-job · ingest · find)
+- 조립부 `lib/build.js` · 도구 `tools/`(import-subject · make-job · draw-api · ingest · find)
 - 구조 [docs/STRUCTURE.md](docs/STRUCTURE.md) · 규칙 [AGENTS.md](AGENTS.md) · 바뀐 것 [docs/PATCH.md](docs/PATCH.md)
 
 ```bash

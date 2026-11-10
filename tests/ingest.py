@@ -37,6 +37,7 @@ try:
     Image.new('RGB', (1024, 1536), (120, 90, 60)).save(inbox / (a + '.png'))
     Image.new('RGB', (1000, 1500), (60, 90, 120)).save(inbox / (b + '.png'))          # 2:3 이지만 크기가 다르다 → 맞춘다
     (inbox / (b + '.note.txt')).write_text('얼굴이 둥글다\n')
+    (inbox / (a + '.gen.json')).write_text(json.dumps({'model': 'gpt-image-2.6-sunburst', 'usage': {'output_tokens': 1132}}))
     (inbox / (c + '.blocked.txt')).write_text('This request violates our content policies.\n')
     (inbox / 'nobody__chatgpt__1.png').write_bytes(b'x')
     subprocess.run([sys.executable, str(ROOT / 'tools/ingest.py'), '--img', str(img)], check=True, capture_output=True)
@@ -45,7 +46,10 @@ try:
     assert (w / (a + '.webp')).exists() and (img / 'thumb/sam.wenyang/samguk' / (a + '.webp')).exists()
     assert Image.open(w / (b + '.webp')).size == (1024, 1536)
     assert max(Image.open(img / 'thumb/sam.wenyang/samguk' / (a + '.webp')).size) == 512
+    ra = json.loads((img / 'rec' / (a + '.json')).read_text())
+    assert ra['generation']['usage']['output_tokens'] == 1132 and ra['note'] is None
     rb = json.loads((img / 'rec' / (b + '.json')).read_text())
+    assert rb['generation'] is None
     assert rb['resized_from'] == [1000, 1500] and rb['note'] == '얼굴이 둥글다' and rb['recipe']['id'] == 'km1-il1-pr1-cs1-xf1' and rb['job'] == 'j0001-t'
     assert (img / 'rec/blocked' / (c + '.json')).exists()
     left = sorted(p.name for p in inbox.iterdir())
@@ -72,6 +76,6 @@ try:
     assert a in f and '1장' in f, f
     g = subprocess.run(['node', str(ROOT / 'tools/find.cjs'), '--img', str(img), '--gaps', '--base', 'semi_smooth', '--vary', 'paint', '--subject', 'sam.wenyang', '--world', 'samguk'], check=True, capture_output=True, text=True).stdout
     assert '있음' in g and '비었음' in g and '짝 안 맞음' in g, g
-    print('PASS 수거: 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
+    print('PASS 수거: API 생성 정보 · 일감 끊기 · 겹침 막기 · 번호 올리기 · webp · 썸네일 · 기록 · 막힘 · 메모 · 모르는 이름 · 덮지 않기 · 색인 · NEXT · 찾기 · 빈 칸')
 finally:
     shutil.rmtree(d)
