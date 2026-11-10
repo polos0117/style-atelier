@@ -495,8 +495,8 @@
    },
    "semi_paint": {
     "code": "sp",
-    "ko": "반실사 · 가볍게 이상화",
-    "current": "v2",
+    "ko": "반실사 · 그린 살결",
+    "current": "v3",
     "versions": [
      {
       "v": "v1",
@@ -508,6 +508,16 @@
       "text": "A semi-realistic face with natural structure, only lightly idealised.",
       "ko": "반실사 · 가볍게 이상화",
       "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     },
+     {
+      "v": "v3",
+      "text": "A semi-realistic painted face: realistic proportions and softly modelled volume, with features refined slightly beyond life.",
+      "ko": "반실사 · 그린 살결",
+      "by": "사용자 2026-11-10 7차 반복 평가 「2d로 간 얼굴」 · 「반실사의 한계인듯. 2d-3d 왔다갔다」 → 수정안 「응 그렇게 해줘」",
+      "avoid": [
+       "photographic skin texture",
+       "flat anime-style features"
+      ]
      }
     ],
     "pairs": {
@@ -547,8 +557,8 @@
    },
    "illustrated": {
     "code": "il",
-    "ko": "그린 얼굴 · 가볍게 단순화",
-    "current": "v2",
+    "ko": "그린 얼굴 · 깔끔한 형태 단순화",
+    "current": "v3",
     "versions": [
      {
       "v": "v1",
@@ -560,6 +570,12 @@
       "text": "A recognisably drawn face with gently simplified anatomical structure.",
       "ko": "그린 얼굴 · 가볍게 단순화",
       "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     },
+     {
+      "v": "v3",
+      "text": "A drawn face with gently simplified structure: features reduced to clean, readable shapes, with soft painted shading across the planes of the face.",
+      "ko": "그린 얼굴 · 깔끔한 형태 단순화",
+      "by": "사용자 2026-11-10 7차 반복 평가 「2d로 간 얼굴」 · 「반실사의 한계인듯. 2d-3d 왔다갔다」 → 수정안 「응 그렇게 해줘」"
      }
     ],
     "pairs": {
@@ -807,8 +823,8 @@
    },
    "oil_glaze": {
     "code": "og",
-    "ko": "유화 글레이즈",
-    "current": "v3",
+    "ko": "유화 글레이즈 · 얼굴 말 뺌",
+    "current": "v4",
     "versions": [
      {
       "v": "v1",
@@ -826,6 +842,12 @@
       "text": "Oil painting with smooth glazes: deep layered colour, soft lost-and-found edges and fine detail kept for the face and ornaments.",
       "ko": "유화 글레이즈",
       "by": "재검토안(2026-11-10 c432626) 3절 — 담당 범위 · 부정 말 정리"
+     },
+     {
+      "v": "v4",
+      "text": "Oil painting with smooth glazes: deep layered colour and soft lost-and-found edges, with crisp detail kept for the ornaments.",
+      "ko": "유화 글레이즈 · 얼굴 말 뺌",
+      "by": "사용자 2026-11-10 7차 반복 평가 「2d로 간 얼굴」 · 「반실사의 한계인듯. 2d-3d 왔다갔다」 → 수정안 「응 그렇게 해줘」"
      }
     ]
    },

@@ -1,6 +1,6 @@
 """수거 · 일감 검사 — python3 tests/ingest.py
 임시 그림 저장소에 make-job 으로 일감을 만들고, inbox 에 그림 · 막힘 · 메모 · 모르는 이름을 넣어 수거한다."""
-import json, os, shutil, subprocess, sys, tempfile
+import json, re, os, shutil, subprocess, sys, tempfile
 from pathlib import Path
 from PIL import Image
 
@@ -66,7 +66,7 @@ try:
     assert len(ix['rows']) == 2 and ix['cols'][7] == 'recipe'
     row = dict(zip(ix['cols'], ix['rows'][0]))
     assert row['round'] == 1
-    assert row['face'].endswith('@v2') and row['subject'] == 'sam.wenyang'
+    assert re.search(r'@v\d+$', row['face']) and row['subject'] == 'sam.wenyang'
     pend = json.loads((img / 'index/pending.json').read_text())
     assert s1['slots'][3]['file'] in pend and a not in pend and c not in pend, pend
     pr = json.loads((img / 'index/problems.json').read_text())

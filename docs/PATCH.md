@@ -3,6 +3,12 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-10 · claude · 얼굴 · 유화 부품 새 판 · 8차 일감
+- 7차 둘째 평가 — 하늘은 맞았는데 얼굴이 「2d로 간 얼굴」 · 「2d-3d 왔다갔다」. 캐릭터 잡음을 걷어 낸 뒤라 원인은 부품 문장 — 유화가 얼굴 말(fine detail kept for the face)로 얼굴 축과 줄다리기, 얼굴 문장은 추상적. 사용자 「응 그렇게 해줘」
+- 유화 og v4 — 얼굴 말 빼고 장신구만. 반실사 sp v3 — realistic proportions · softly modelled volume · refined slightly beyond life, avoid photographic skin texture · flat anime-style features. 그린 얼굴 il v3 — features reduced to clean, readable shapes · soft painted shading(눈 · 코 · 입 말은 얼굴 축 범위 검사에 걸려 뺐다 — 생김새는 캐릭터 몫)
+- 문앙 무협 하늘 「clear daytime under a pale blue sky」 → 「soft hazy daylight under a pale, lightly clouded sky」(사용자 「오일쪽은 쨍한 오전보다는 5번 그림같은 분위기가 나은듯」)
+- 8차 j0069-r8-face(6장) — 유화 두 조합 새 판 × 2, kr_drawn_brush_rim 새 il v3 × 1, kr_anime_brush × 1(장면만 바뀐 대조)
+
 ## 2026-11-10 · claude · 문앙 무협 시간대 고정 · 7차 둘째 일감
 - 7차 평가 — 머리 장식은 잡혔고 남은 차이는 색감(낮 하늘 · 노을빛 배경). 장면에 시간 · 하늘 말이 없었다
 - 사용자 A2 「응」 — 문앙 복사본 무협 World 줄 끝에 「seen in clear daytime under a pale blue sky」. 삼국지 공방은 그대로
