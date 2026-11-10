@@ -18,7 +18,7 @@ from pathlib import Path
 IMG_EXT = ('.png', '.webp', '.jpg', '.jpeg')
 W, H, THUMB = 1024, 1536, 512
 CLAIM_TTL_MIN = 120   # 예약이 이만큼 지나도록 그림이 안 오면 「예약 만료」 — 다른 세션이 가져가도 된다
-COLS = ['id', 'subject', 'world', 'kind', 'exposure', 'model', 'n', 'recipe', 'direction', 'face', 'paint', 'light', 'fx', 'job', 'added', 'rating']
+COLS = ['id', 'subject', 'world', 'kind', 'exposure', 'model', 'n', 'recipe', 'direction', 'face', 'paint', 'light', 'fx', 'job', 'added', 'rating', 'round']
 
 
 def today():
@@ -134,13 +134,14 @@ def ingest(img, check):
     return problems, done
 
 
-def build_index(img):
+def build_index(img, jobs=()):
     rows, blocked = [], []
+    rounds = {j['job']: j.get('round', 1) for j in jobs}   # 차수는 일감에서 — 일감의 차수를 고치면 색인도 따라간다
     for p in sorted((img / 'rec').glob('*.json')):
         r = json.loads(p.read_text(encoding='utf-8'))
         parts = {x['axis']: x['key'] + '@' + x['v'] for x in r['recipe']['parts']}
         rows.append([r['id'], r['subject'], r['world'], r['kind'], r.get('exposure'), r['model'], r['n'], r['recipe']['id'],
-                     parts.get('direction'), parts.get('face'), parts.get('paint'), parts.get('light'), parts.get('fx'), r['job'], r['added'], r.get('rating')])
+                     parts.get('direction'), parts.get('face'), parts.get('paint'), parts.get('light'), parts.get('fx'), r['job'], r['added'], r.get('rating'), rounds.get(r['job'], 1)])
     for p in sorted((img / 'rec' / 'blocked').glob('*.json')):
         blocked.append(json.loads(p.read_text(encoding='utf-8')))
     return {'version': 1, 'cols': COLS, 'rows': rows}, blocked
@@ -180,12 +181,12 @@ def build_next(img, jobs, problems):
             continue
         c = claim_of(img, j['job'])
         cell = '—' if not c else ('예약 중 · %s · %d분 전' % (c['who'], c['age_min']) if c['fresh'] else '예약 만료(%d분) — 가져가도 됨' % c['age_min'])
-        row = '| [%s](%s/REQUEST.md) | %s | %d / %d%s | %s | %s |' % (j['job'], j['job'], j.get('label') or '', d, len(files), (' · 막힘 %d' % b) if b else '', j['model'], cell)
+        row = '| [%s](%s/REQUEST.md) | %d차 | %s | %d / %d%s | %s | %s |' % (j['job'], j['job'], j.get('round', 1), j.get('label') or '', d, len(files), (' · 막힘 %d' % b) if b else '', j['model'], cell)
         (held_rows if c and c['fresh'] else free_rows).append(row)
     out = ['# 열린 일감', '',
            'GPT 세션: 모델이 **chatgpt** 이고 「예약」 칸이 **—** 인 일감 하나를 위에서부터 골라, 먼저 `jobs/<일감>/CLAIM.md` 를 **새 파일로** 만들어 예약한 뒤 그 `REQUEST.md` 대로 해줘. `CLAIM.md` 가 이미 있으면 다른 세션이 하는 중이니 다른 일감으로. 「예약 만료」 는 가져가도 된다. api26 · api25 일감은 Claude 가 API 로 그린다. 이 파일은 워크플로가 다시 쓴다 — 고치지 않는다.', '']
     if free_rows or held_rows:
-        out += ['| 일감 | 이름 | 그린 칸 | 모델 | 예약 |', '|---|---|---|---|---|'] + free_rows + held_rows
+        out += ['| 일감 | 차수 | 이름 | 그린 칸 | 모델 | 예약 |', '|---|---|---|---|---|---|'] + free_rows + held_rows
     else:
         out += ['열린 일감이 없다.']
     out += ['', '닫힌 일감 %d개.' % closed]
@@ -209,7 +210,7 @@ def main():
         print('남김 %s — %s' % (x['file'], x['why']))
     if a.check:
         return 0
-    idx, blocked = build_index(img)
+    idx, blocked = build_index(img, jobs)
     save_json(img / 'index' / 'images.json', idx)
     save_json(img / 'index' / 'blocked.json', blocked)
     if not a.refresh:

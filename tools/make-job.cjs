@@ -8,6 +8,7 @@
    그 밖:
      --subject sam.wenyang[,el.fe]  --world samguk[,fantasy]   (캐릭터마다 그 세계가 있어야 한다 — 없으면 건너뛴다)
      --model chatgpt(기본) | api26 | api25    --exposure moderate|low(기본은 캐릭터 기본값)
+     --round N(차수 — 화면 「1차 › 문앙」 묶음. 기본은 가장 최근 일감의 차수, 처음이면 1)
      --size 4(일감 하나에 칸 수)  --label <짧은 이름>  --repeat(이미 그린 칸도 다시 — 번호를 올린다)
      --img ../style-atelier-img     --dry(쓰지 않고 칸만 보인다)
    이미 만든 일감의 REQUEST.md 를 지금 꼴로 다시 쓰기: --rewrite all | j0001,j0002(칸 · 지시문은 그대로)
@@ -71,11 +72,15 @@ for (const sid of subjects) {
 }
 if (!slots.length) { console.log('새 칸이 없다'); process.exit(0); }
 let next = jobDirs.length ? +jobDirs[jobDirs.length - 1].slice(1, 5) + 1 : 1;
+const lastRound = jobDirs.length ? (JSON.parse(fs.readFileSync(path.join(jobsDir, jobDirs[jobDirs.length - 1], 'slots.json'), 'utf8')).round || 1) : 1;
+const round = +flag('round', lastRound);
+if (!(round >= 1 && Number.isInteger(round))) die('--round 는 1 이상 정수');
 const made = [];
 for (let i = 0; i < slots.length; i += size) {
   const part = slots.slice(i, i + size), jid = 'j' + String(next++).padStart(4, '0') + (label ? '-' + label : '');
   made.push([jid, part]);
 }
+console.log(round + '차');
 for (const [jid, part] of made) console.log(jid + ': ' + part.map(s => s.file).join('\n        '));
 if (has('dry')) process.exit(0);
 
@@ -83,9 +88,9 @@ const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 for (const [jid, part] of made) {
   const dir = path.join(jobsDir, jid); fs.mkdirSync(path.join(dir, 'prompts'), { recursive: true });
   part.forEach(s => fs.writeFileSync(path.join(dir, 'prompts', s.file + '.txt'), s.prompt + '\n'));
-  fs.writeFileSync(path.join(dir, 'slots.json'), JSON.stringify({ job: jid, created: today, model, label, size: part.length,
+  fs.writeFileSync(path.join(dir, 'slots.json'), JSON.stringify({ job: jid, round, created: today, model, label, size: part.length,
     slots: part.map(s => { const o = Object.assign({}, s); delete o.prompt; o.prompt_file = 'jobs/' + jid + '/prompts/' + s.file + '.txt'; return o; }) }, null, 1) + '\n');
-  fs.writeFileSync(path.join(dir, 'REQUEST.md'), request(jid, part, model));
+  fs.writeFileSync(path.join(dir, 'REQUEST.md'), request(jid, part, model, round));
 }
 /* NEXT.md · 색인은 수거 도구가 다시 짓는다(파일만 보고) */
 cp.execFileSync('python3', [path.join(__dirname, 'ingest.py'), '--img', IMG, '--refresh'], { stdio: 'inherit' });
@@ -99,17 +104,17 @@ function rewrite(which) {
     const J = JSON.parse(fs.readFileSync(path.join(jd, jid, 'slots.json'), 'utf8'));
     const part = J.slots.map(s => Object.assign({}, s, { prompt: fs.readFileSync(path.join(IMGR, s.prompt_file), 'utf8').trim() }));
     part.forEach(s => { if (sha(s.prompt) !== s.prompt_sha256) die(jid + ' ' + s.file + ' 지시문 해시가 다르다'); });
-    fs.writeFileSync(path.join(jd, jid, 'REQUEST.md'), request(jid, part, J.model));
+    fs.writeFileSync(path.join(jd, jid, 'REQUEST.md'), request(jid, part, J.model, J.round || 1));
     console.log('다시 씀 ' + jid + '/REQUEST.md');
   }
 }
 
-function request(jid, part, model) {
+function request(jid, part, model, round) {
   const how = model === 'chatgpt'
     ? 'ChatGPT 이미지 생성으로 그린다(세로 2:3, 1024×1536).'
     : '그림 API(' + model + ')로 그린다 — Claude 쪽 일감.';
   return [
-    '# 일감 ' + jid + ' — 그림 ' + part.length + '장',
+    '# 일감 ' + jid + ' — ' + round + '차 · 그림 ' + part.length + '장',
     '',
     'polos0117/style-atelier-img 저장소의 일감이야. 아래 칸마다 그림 한 장씩 그려서 `inbox/` 폴더에 정해진 이름으로 올려줘(main 에 일반 push). ' + how,
     '',

@@ -14,6 +14,7 @@ try:
     jobs = sorted(p.name for p in (img / 'jobs').glob('j*'))
     assert jobs == ['j0001-t', 'j0002-t'], jobs
     s1 = json.loads((img / 'jobs/j0001-t/slots.json').read_text())
+    assert s1['round'] == 1, s1.get('round')
     assert len(s1['slots']) == 4 and s1['slots'][0]['file'].endswith('__chatgpt__1')
     req = (img / 'jobs/j0001-t/REQUEST.md').read_text()
     assert req.count('```text') == 4 and s1['slots'][0]['file'] in req and 'inbox/' in req and 'jobs/j0001-t/CLAIM.md' in req
@@ -23,6 +24,9 @@ try:
     assert '새 칸이 없다' in run('--recipes', 'semi_smooth', '--subject', 'sam.wenyang', '--world', 'samguk')
     run('--recipes', 'semi_smooth', '--subject', 'sam.wenyang', '--world', 'samguk', '--repeat')
     s3 = json.loads((img / 'jobs/j0003/slots.json').read_text())
+    assert s3['round'] == 1   # 차수는 앞 일감을 따라간다
+    run('--recipes', 'oil_hikey', '--subject', 'el.fe', '--world', 'fantasy', '--round', '2')
+    assert json.loads((img / 'jobs/j0004/slots.json').read_text())['round'] == 2
     assert s3['slots'][0]['n'] == 2, s3['slots'][0]
     # 축 바꾸기 — 짝 안 맞는 3D 는 빠진다
     out = run('--base', 'semi_smooth', '--vary', 'face', '--subject', 'el.fe', '--world', 'fantasy', '--dry')
@@ -57,13 +61,14 @@ try:
     ix = json.loads((img / 'index/images.json').read_text())
     assert len(ix['rows']) == 2 and ix['cols'][7] == 'recipe'
     row = dict(zip(ix['cols'], ix['rows'][0]))
+    assert row['round'] == 1
     assert row['face'].endswith('@v1') and row['subject'] == 'sam.wenyang'
     pend = json.loads((img / 'index/pending.json').read_text())
     assert s1['slots'][3]['file'] in pend and a not in pend and c not in pend, pend
     pr = json.loads((img / 'index/problems.json').read_text())
     assert len(pr) == 1 and '어느 일감에도' in pr[0]['why']
     nxt = (img / 'jobs/NEXT.md').read_text()
-    assert '2 / 4 · 막힘 1' in nxt and 'nobody__chatgpt__1.png' in nxt
+    assert '2 / 4 · 막힘 1' in nxt and 'nobody__chatgpt__1.png' in nxt and '| 2차 |' in nxt
 
     # 이미 있는 그림은 덮지 않는다
     Image.new('RGB', (1024, 1536)).save(inbox / (a + '.png'))

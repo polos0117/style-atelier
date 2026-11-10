@@ -36,12 +36,34 @@ button.b { cursor:pointer; background:var(--acc2); }
 pre { white-space:pre-wrap; word-break:break-word; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; font-size:13px; }
 .meta { font-size:13px; color:var(--sub); margin:6px 0; }
 .warn { color:var(--warn); } .ok { color:var(--ok); }
-dialog { border:0; border-radius:10px; padding:0; max-width:min(1100px, 96vw); background:var(--panel); color:var(--ink); }
-dialog::backdrop { background:rgba(0,0,0,.6); }
-.dlg { display:grid; grid-template-columns:minmax(0, 420px) minmax(0, 1fr); gap:14px; padding:14px; }
-.dlg img { width:100%; border-radius:6px; }
-@media (max-width:760px) { .dlg { grid-template-columns:1fr; } }
-.x { float:right; }
+/* 검색 조건 — 「1차 › 문앙」 칩(그림이 있는 묶음만) */
+.groups { display:flex; flex-wrap:wrap; gap:8px; margin:2px 0 12px; }
+.chip { font:inherit; font-size:14px; padding:7px 12px; border:1px solid var(--line); border-radius:999px; background:var(--panel); color:var(--ink); cursor:pointer; }
+.chip .n { color:var(--sub); font-size:12px; margin-left:4px; }
+.chip[aria-pressed=true] { background:var(--acc); border-color:var(--acc); color:var(--panel); }
+.chip[aria-pressed=true] .n { color:inherit; opacity:.8; }
+details.more { margin-bottom:12px; }
+details.more summary { cursor:pointer; color:var(--sub); font-size:13px; margin-bottom:8px; }
+.empty-note { color:var(--sub); padding:24px 0; }
+/* 상세 — 그림 위, 조합표 아래 */
+#detail { position:fixed; inset:0; z-index:10; background:var(--bg); overflow-y:auto; }
+#detail[hidden] { display:none; }
+.dtop { position:sticky; top:0; z-index:1; display:flex; align-items:center; gap:8px; padding:10px 16px; background:var(--panel); border-bottom:1px solid var(--line); }
+.dtop .t { flex:1; min-width:0; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.dtop .pos { color:var(--sub); font-size:13px; white-space:nowrap; }
+.dbody { max-width:900px; margin:0 auto; padding:16px; }
+.dimg { display:block; margin:0 auto; max-width:100%; max-height:78vh; width:auto; height:auto; border-radius:8px; background:var(--line); }
+.dsub { text-align:center; color:var(--sub); font-size:13px; margin:8px 0 18px; }
+h3 { font-size:15px; margin:18px 0 8px; }
+table.recipe { width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; font-size:14px; }
+table.recipe th, table.recipe td { text-align:left; vertical-align:top; padding:8px 10px; border-bottom:1px solid var(--line); }
+table.recipe tr:last-child th, table.recipe tr:last-child td { border-bottom:0; }
+table.recipe th { width:4.5em; color:var(--sub); font-weight:500; white-space:nowrap; }
+table.recipe .k { display:block; color:var(--sub); font-size:12px; }
+table.recipe .txt { display:block; margin-top:4px; color:var(--sub); font-size:13px; }
+dl.facts { display:grid; grid-template-columns:auto 1fr; gap:4px 14px; margin:0; font-size:14px; }
+dl.facts dt { color:var(--sub); }
+dl.facts dd { margin:0; word-break:break-all; }
 </style>
 </head>
 <body>
@@ -58,7 +80,9 @@ dialog::backdrop { background:rgba(0,0,0,.6); }
 </header>
 <main>
   <section id="find">
-    <div class="bar" id="findBar"></div>
+    <div class="meta">검색 조건</div>
+    <div class="groups" id="groups"></div>
+    <details class="more"><summary>더 거르기 — 세계 · 모델 · 부품</summary><div class="bar" id="findBar"></div></details>
     <div class="meta" id="findMeta"></div>
     <div class="grid" id="findGrid"></div>
   </section>
@@ -76,7 +100,24 @@ dialog::backdrop { background:rgba(0,0,0,.6); }
     <pre id="jobsOut">불러오는 중…</pre>
   </section>
 </main>
-<dialog id="dlg"><div class="dlg"><div><img id="dImg" alt=""></div><div><button class="b x" onclick="dlg.close()">닫기</button><div id="dMeta" class="meta"></div><pre id="dPrompt"></pre></div></div></dialog>
+<div id="detail" hidden role="dialog" aria-modal="true" aria-labelledby="dTitle">
+  <div class="dtop">
+    <button class="b" id="dBack">← 목록</button>
+    <span class="t" id="dTitle"></span>
+    <span class="pos" id="dPos"></span>
+    <button class="b" id="dPrev" aria-label="이전 그림">‹</button>
+    <button class="b" id="dNext" aria-label="다음 그림">›</button>
+  </div>
+  <div class="dbody">
+    <img class="dimg" id="dImg" alt="">
+    <div class="dsub" id="dSub"></div>
+    <h3>조합표</h3>
+    <table class="recipe" id="dRecipe"></table>
+    <h3>그림 정보</h3>
+    <dl class="facts" id="dFacts"></dl>
+    <details><summary><h3 style="display:inline">지시문 전문</h3></summary><pre id="dPrompt"></pre></details>
+  </div>
+</div>
 <script src="lib/build.js"></script>
 <script>
 'use strict';
@@ -98,35 +139,86 @@ const specOf = r => ({ direction: r.direction, face: r.face, paint: r.paint, lig
 const thumb = id => { const r = rows.find(x => x.id === id); return IMG + 'thumb/' + r.subject + '/' + r.world + '/' + id + '.webp'; };
 const full = r => IMG + 'img/' + r.subject + '/' + r.world + '/' + r.id + '.webp';
 
-async function openImg(r) {
-  $('dImg').src = full(r); $('dPrompt').textContent = '…';
-  const rs = B.resolve(P, R, specOf(r));
-  $('dMeta').innerHTML = '';
-  $('dMeta').append(el('div', {}, el('b', {}, B.displayName(rs))), el('div', {}, r.id), el('div', {}, r.subject + ' · ' + r.world + ' · ' + r.model + ' · ' + r.job + ' · ' + r.added));
-  $('dlg').showModal();
+const koOf = sid => (SL.subjects.find(s => s.id === sid) || {}).ko || sid;
+const nameOf = rs => Object.keys(R.recipes).find(k => B.resolve(P, R, k).id === rs.id) || null;
+const WORLD_KO = { samguk: '무협', fantasy: '판타지', mecha: '메카', steampunk: '스팀펑크' };
+
+/* 상세 — 그림 크게, 아래 조합표 · 그림 정보 · 지시문. 주소 #img=<그림> 으로 바로 열린다(뒤로 가기 = 목록) */
+let LIST = [], CUR = -1;
+function openImg(r, list) {
+  LIST = (list && list.length ? list : [r]); CUR = LIST.indexOf(r);
+  if (location.hash !== '#img=' + r.id) location.hash = 'img=' + r.id; else showDetail(r);
+}
+async function showDetail(r) {
+  const rs = B.resolve(P, R, specOf(r)), nm = nameOf(rs);
+  $('detail').hidden = false; document.body.style.overflow = 'hidden';
+  $('dTitle').textContent = (nm ? nm + ' — ' : '') + koOf(r.subject) + ' · ' + (WORLD_KO[r.world] || r.world);
+  $('dPos').textContent = LIST.length > 1 ? (CUR + 1) + ' / ' + LIST.length : '';
+  $('dPrev').disabled = CUR <= 0; $('dNext').disabled = CUR < 0 || CUR >= LIST.length - 1;
+  $('dImg').src = full(r); $('dImg').alt = B.displayName(rs);
+  $('dSub').textContent = B.displayName(rs);
+  const t = $('dRecipe'); t.innerHTML = '';
+  t.append(el('tr', {}, el('th', {}, '조합'), el('td', {}, el('b', {}, nm || '(이름 없음)'), el('span', { class: 'k' }, rs.id))));
+  rs.parts.forEach(p => t.append(el('tr', {}, el('th', {}, P.axes.find(a => a.key === p.axis).ko),
+    el('td', {}, el('b', {}, p.ko), el('span', { class: 'k' }, p.key + ' @' + p.v), el('span', { class: 'txt' }, p.text || '(없음)')))));
+  const f = $('dFacts'); f.innerHTML = '';
+  const fact = (k, v) => { if (v != null && v !== '') f.append(el('dt', {}, k), el('dd', {}, String(v))); };
+  fact('캐릭터', koOf(r.subject) + ' (' + r.subject + ')'); fact('세계', (WORLD_KO[r.world] || r.world) + (r.exposure ? ' · 노출 ' + r.exposure : ''));
+  fact('모델', r.model + (r.n > 1 ? ' · ' + r.n + '번째' : '')); fact('차수 · 일감', (r.round || 1) + '차 · ' + r.job); fact('받은 날', r.added); fact('그림 이름', r.id);
+  $('dPrompt').textContent = '…';
   const rec = await getJ(IMG + 'rec/' + r.id + '.json');
-  if (rec && rec.note) $('dMeta').append(el('div', {}, '세션 메모: ' + rec.note));
+  if (LIST[CUR] !== r) return;   // 그사이 다른 그림으로 넘겼다
+  if (rec) { fact('세션 메모', rec.note); if (rec.generation && rec.generation.usage) fact('출력 토큰', rec.generation.usage.output_tokens); if (rec.resized_from) fact('원본 크기', rec.resized_from.join('×')); }
   $('dPrompt').textContent = rec ? (await getT(IMG + rec.prompt_file)) || '(지시문을 못 읽었다)' : '(기록을 못 읽었다)';
 }
-function card(r) {
-  const rs = B.resolve(P, R, specOf(r));
-  return el('div', { class: 'card', on: { click: () => openImg(r) } }, el('img', { src: thumb(r.id), loading: 'lazy', alt: '' }),
-    el('div', { class: 'cap' }, el('b', {}, (Object.keys(R.recipes).find(k => B.resolve(P, R, k).id === rs.id) || rs.id)), r.subject + ' · ' + r.world + ' · ' + r.model + (r.n > 1 ? ' #' + r.n : '')));
+function hideDetail() { $('detail').hidden = true; document.body.style.overflow = ''; }
+function step(d) { const r = LIST[CUR + d]; if (r) { CUR += d; history.replaceState(null, '', '#img=' + r.id); showDetail(r); } }
+function route() {
+  const m = /^#img=(.+)$/.exec(location.hash), r = m && rows.find(x => x.id === decodeURIComponent(m[1]));
+  if (!r) return hideDetail();
+  if (LIST[CUR] !== r) { LIST = findHits(); CUR = LIST.indexOf(r); if (CUR < 0) { LIST = [r]; CUR = 0; } }
+  showDetail(r);
+}
+$('dBack').addEventListener('click', () => history.length > 1 && /^#img=/.test(location.hash) ? history.back() : (location.hash = ''));
+$('dPrev').addEventListener('click', () => step(-1)); $('dNext').addEventListener('click', () => step(1));
+addEventListener('hashchange', route);
+addEventListener('keydown', e => { if ($('detail').hidden) return; if (e.key === 'Escape') $('dBack').click(); if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
+
+function card(r, list) {
+  const rs = B.resolve(P, R, specOf(r)), nm = nameOf(rs);
+  return el('div', { class: 'card', tabindex: '0', on: { click: () => openImg(r, list), keydown: e => { if (e.key === 'Enter') openImg(r, list); } } }, el('img', { src: thumb(r.id), loading: 'lazy', alt: B.displayName(rs) }),
+    el('div', { class: 'cap' }, el('b', {}, nm || rs.id), (WORLD_KO[r.world] || r.world) + ' · ' + r.model + (r.n > 1 ? ' #' + r.n : '')));
 }
 
-/* 그림 찾기 */
-const F = { subject: '', world: '', model: '' };
+/* 그림 찾기 — 검색 조건 = 「N차 › 캐릭터」(그림이 있는 묶음만), 더 거르기는 접어 둔다 */
+const F = { group: '', world: '', model: '' };
+function groupsUI() {
+  const box = $('groups'), cnt = {};
+  rows.forEach(r => { const g = (r.round || 1) + ':' + r.subject; cnt[g] = (cnt[g] || 0) + 1; });
+  /* 캐릭터(한글 이름 차례)마다 차수 차례 — 1차 › 문앙, 2차 › 문앙, 1차 › 철 (사용자 2026-11-10) */
+  const keys = Object.keys(cnt).sort((a, b) => { const [ra, sa] = a.split(':'), [rb, sb] = b.split(':'); return koOf(sa).localeCompare(koOf(sb), 'ko') || ra - rb; });
+  if (F.group && !cnt[F.group]) F.group = '';
+  box.innerHTML = '';
+  const chip = (g, label, n) => el('button', { class: 'chip', 'aria-pressed': String(F.group === g), on: { click: () => { F.group = g; groupsUI(); findRun(); } } }, label, el('span', { class: 'n' }, String(n)));
+  box.append(chip('', '전체', rows.length));
+  keys.forEach(g => { const [rd, sid] = g.split(':'); box.append(chip(g, rd + '차 › ' + koOf(sid), cnt[g])); });
+}
 function findUI() {
   const bar = $('findBar'); bar.innerHTML = '';
-  bar.append(sel('캐릭터', 'fs', [['', '전부']].concat(SL.subjects.map(s => [s.id, s.ko + ' (' + s.id + ')'])), F.subject, e => { F.subject = e.target.value; findRun(); }));
   bar.append(sel('세계', 'fw', [['', '전부']].concat([...new Set(SL.subjects.flatMap(s => s.worlds))].map(w => [w, w])), F.world, e => { F.world = e.target.value; findRun(); }));
   bar.append(sel('모델', 'fm', [['', '전부']].concat(B.MODELS.map(m => [m, m])), F.model, e => { F.model = e.target.value; findRun(); }));
   B.AXES.forEach(a => bar.append(sel(P.axes.find(x => x.key === a).ko, 'fa_' + a, partOpts(a, true), F[a] || '', e => { F[a] = e.target.value; findRun(); })));
 }
+function findHits() {
+  return rows.filter(r => (!F.group || (r.round || 1) + ':' + r.subject === F.group) && ['world', 'model'].every(c => !F[c] || r[c] === F[c]) && B.AXES.every(a => !F[a] || String(r[a]).split('@')[0] === F[a])).slice().reverse();
+}
 function findRun() {
-  const hit = rows.filter(r => ['subject', 'world', 'model'].every(c => !F[c] || r[c] === F[c]) && B.AXES.every(a => !F[a] || String(r[a]).split('@')[0] === F[a]));
-  $('findMeta').textContent = hit.length + '장 / 색인 ' + rows.length + '장 · 막힌 칸 ' + blocked.length;
-  const g = $('findGrid'); g.innerHTML = ''; hit.slice().reverse().forEach(r => g.append(card(r)));
+  const hit = findHits();
+  $('findMeta').textContent = hit.length + '장' + (F.group ? '' : ' · 막힌 칸 ' + blocked.length);
+  const g = $('findGrid'); g.innerHTML = '';
+  if (!rows.length) g.append(el('div', { class: 'empty-note' }, '아직 받은 그림이 없다 — 일감 탭에서 열린 일감을 본다.'));
+  else if (!hit.length) g.append(el('div', { class: 'empty-note' }, '이 조건에 맞는 그림이 없다.'));
+  hit.forEach(r => g.append(card(r, hit)));
 }
 
 /* 축 비교 */
@@ -154,7 +246,7 @@ function axisRun() {
     const isBase = base.parts.find(p => p.axis === A.axis).key === k;
     const c = el('div', { class: 'cell' }, el('div', { class: 'h' }, (isBase ? '● ' : '') + P.parts[A.axis][k].ko));
     if (clash) c.append(el('div', { class: 'empty' }, '짝 안 맞음'));
-    else if (hits.length) { n++; hits.forEach(r => c.append(el('img', { src: thumb(r.id), loading: 'lazy', alt: '', on: { click: () => openImg(r) } }))); }
+    else if (hits.length) { n++; hits.forEach(r => c.append(el('img', { src: thumb(r.id), loading: 'lazy', alt: '', on: { click: () => openImg(r, hits) } }))); }
     else { empty++; c.append(el('div', { class: 'empty' }, blocked.some(b => b.slot === slot) ? '막힘' : pending.some(f => f.startsWith(slot + '__' + A.model + '__')) ? '일감에 있음' : '비었음')); }
     c.append(el('div', {}, rs.id)); row.append(c);
   });
@@ -196,7 +288,7 @@ let COMBOS = 0;
   pending = pd || [];
   if (ix) rows = ix.rows.map(r => Object.fromEntries(ix.cols.map((c, i) => [c, r[i]])));
   blocked = bl || [];
-  findUI(); findRun(); axisUI(); mixUI();
+  groupsUI(); findUI(); findRun(); axisUI(); mixUI(); route();
   const nx = await getT(IMG + 'jobs/NEXT.md'); $('jobsOut').textContent = nx || '(일감 목록을 못 읽었다)';
 })();
 document.querySelectorAll('nav button').forEach(b => b.addEventListener('click', () => {

@@ -48,6 +48,7 @@ make-job ──────────────────────▶ j
 
 - `make-job` — 칸을 정하는 길 둘: `--recipes a,b` · `--base <조합> --vary <축>[=k1,k2]`. 캐릭터 · 세계 여럿 가능. 이미 그린 칸 · 열린 일감에 있는 칸은 빠진다(`--repeat` 면 번호를 올려 다시). 칸 4개씩 끊는다(`--size`).
 - 일감 이름 `j0001[-label]` — 차례대로. 일감 폴더는 지우지 않는다(기록이 가리킨다).
+- **차수**(`round`, `make-job --round N` — 기본은 가장 최근 일감의 차수): 시험 단계 묶음. 화면 검색 조건이 「1차 › 문앙 · 2차 › 문앙 · 1차 › 철」 꼴로 차수 × 캐릭터를 묶는다(사용자 2026-11-10). 색인의 `round` 는 일감에서 다시 읽는다 — 일감의 차수를 고치면 색인도 따라간다.
 - 세션이 올리는 것: 그림(png · webp · jpg) · `<그림>.blocked.txt`(거절 문구) · `<그림>.note.txt`(메모, 선택).
 - API 로 그리는 길(사용자 2026-11-10 「키는 클로드코드의 여러 세션에서 gpt api 도구를 위한 키야. 여기서도 쓰니까」): `make-job --model api26|api25` → `tools/draw-api.cjs <일감>`(같은 지시문으로 한 번 더 → 그래도 막히면 `.blocked.txt`) — 그림 옆 `<그림>.gen.json`(모델 · 사용량 · 시간)은 수거가 기록의 `generation` 으로 옮긴다. NEXT.md 는 GPT 세션에게 chatgpt 일감만 고르라고 한다.
 - 수거 — 2:3 이면 1024×1536 으로 맞추고(아니면 그대로 · 기록에 남김) webp 90 · 썸네일(긴 변 512) · 기록. 모르는 이름 · 이미 있는 그림은 inbox 에 두고 `index/problems.json` · NEXT.md 에 적는다(덮지 않는다). 그때 워크플로가 빨갛게 끝난다.
@@ -58,9 +59,9 @@ make-job ──────────────────────▶ j
 
 ## 4. 검색
 
-- `index/images.json` — `{cols, rows}`, 그림 한 장에 한 줄: id · subject · world · kind · exposure · model · n · recipe · direction · face · paint · light · fx(부품은 `열쇠@판`) · job · added · rating. 5천 장을 넘으면 캐릭터별로 쪼갠다.
+- `index/images.json` — `{cols, rows}`, 그림 한 장에 한 줄: id · subject · world · kind · exposure · model · n · recipe · direction · face · paint · light · fx(부품은 `열쇠@판`) · job · added · rating · round. 화면은 열 이름으로 읽는다(열을 더해도 옛 화면이 깨지지 않게 끝에 붙인다). 5천 장을 넘으면 캐릭터별로 쪼갠다.
 - `tools/find.cjs` — 조건으로 거르기(`--face semi_soft --world samguk`, 판까지면 `semi_soft@v1`) · 빈 칸(`--gaps --base … --vary …` → 있음 · 막힘 · 일감에 있음 · 비었음 · 짝 안 맞음).
-- 화면 `index.html` — 그림 찾기(칩) · 축 비교(기준 조합 + 축 → 한 줄, 빈 칸 채우는 명령) · 섞어보기(부품 고르면 지시문 · 조합 이름 · 짝 검사) · 일감(NEXT.md). 그림 저장소는 raw.githubusercontent 에서 읽는다(`?img=` 로 바꿀 수 있다).
+- 화면 `index.html` — 그림 찾기(검색 조건 = 「N차 › 캐릭터」 칩, 그림이 있는 묶음만 · 더 거르기는 접어 둠. 그림을 누르면 상세: 그림 크게 → 아래 조합표(축마다 부품 이름 · 열쇠@판 · 문장) → 그림 정보 → 지시문 전문, ‹ › · ← → 로 넘기고 주소 `#img=<그림>` 으로 바로 열린다) · 축 비교(기준 조합 + 축 → 한 줄, 빈 칸 채우는 명령) · 섞어보기(부품 고르면 지시문 · 조합 이름 · 짝 검사) · 일감(NEXT.md). 그림 저장소는 raw.githubusercontent 에서 읽는다(`?img=` 로 바꿀 수 있다).
 
 ## 5. 시험하는 차례(사용자 2026-11-10 — 다 그리지 않고 줄여서)
 
