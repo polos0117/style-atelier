@@ -256,6 +256,12 @@
    "verdict": "drop",
    "at": "2026-11-10T12:50Z",
    "by": "user"
+  },
+  "km2-il2-ba3-rg1-x01__sam.wenyang__samguk-world-slit__chatgpt__1": {
+   "verdict": "fix",
+   "note": "이쁜데 얼굴 눈가에 생긴 파란색 색조",
+   "at": "2026-11-10T12:52Z",
+   "by": "user"
   }
  }
 }
