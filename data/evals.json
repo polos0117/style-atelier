@@ -565,6 +565,16 @@
    "repeat": 4,
    "at": "2026-11-10T15:38Z",
    "by": "user"
+  },
+  "km2-sp3-og4-rg2-x01__sam.wenyang__samguk-world-slit__chatgpt__3": {
+   "taste": 3,
+   "intent": 4,
+   "keep": 3,
+   "side": "조금",
+   "repeat": 4,
+   "note": "얼굴이 달라진거 외에는 그림체는 통일된듯",
+   "at": "2026-11-10T15:40Z",
+   "by": "user"
   }
  }
 }
