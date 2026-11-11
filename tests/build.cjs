@@ -93,7 +93,8 @@ assert.equal(B.parseSlot(s0 + '-low~cr1').bg, 'cr1'); assert.equal(B.parseImage(
   const SK = J('data/skins.json'), k1 = B.build(P, R, S, 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit', skin: 'dewy_body', SK, bg: 'canvas_rough@v2', BG, boost: 'restate', BO });
   const K = k1.text.split('\n'), ci = K.indexOf('2. CHARACTER');
   assert(/^Skin finish: /.test(K[ci - 2]) && K[ci - 1] === '' && /glossy or shiny highlights on the face/.test(K[K.length - 1]), '피부 마감 줄은 1칸 끝 · avoid 합침');
-  assert(k1.slot.endsWith('-slit~cr2=dw1+ra1')); { const q = B.parseSlot(k1.slot); assert(q.bg === 'cr2' && q.skin === 'dw1' && q.boost === 'ra1'); }
+  assert(k1.slot.endsWith('-slit~cr2=dw1+ra1'));
+  { const c = B.parseImage('km2-il2-ba3-rg2-x01__sam.wenyang__samguk-casual7=dw1__api26__1'); assert(c && c.kind === 'casual7' && c.skin === 'dw1' && c.exposure === null, '일상컷 칸 이름(tools/casual-job.cjs)'); } { const q = B.parseSlot(k1.slot); assert(q.bg === 'cr2' && q.skin === 'dw1' && q.boost === 'ra1'); }
   for (const k of Object.keys(SK.skins)) { const g = B.skin(SK, k); assert(/^[a-z]/.test(g.text) && /\.$/.test(g.text) && !/\b(never|no|not)\b/i.test(g.text), '피부 ' + k); }
   assert(both.slot.endsWith('-slit~cr2+ra1')); const pb = B.parseImage(both.slot + '__api26__1'); assert(pb.bg === 'cr2' && pb.boost === 'ra1'); assert.equal(B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit' }).text.indexOf('Background treatment'), -1); }
 const im = B.parseImage(B.imageName(s0, 'chatgpt', 3));
