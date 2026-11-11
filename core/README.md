@@ -16,3 +16,4 @@ v1 기준: 공방마다 다른 열쇠는 고친 쪽 글(삼국지 — 표정 표
 |---|---|---|
 | v1 | 2026-11-11 | 처음 — 공방마다 다른 열쇠를 하나로(삼국지 글 기준, golden_tan 은 원소 글) |
 | v2 | 2026-11-11 | `VOCAB_EN.face_shape.long` 「long face」 → 「gently long oval face」(감사 E2 · X9, 원소 금 판타지 두 쌍 시험 — 사용자 「넣어주고」). 눈 small · 인상 fierce 는 그대로(「그대로 두고」), 눈 크기 ↔ 모양 모순은 공방 설계값에서 고친다(「설계값 모순만 바꿔줘」 — 원소 23자리, 삼국지는 11-10 에 이미) |
+| v3 | 2026-11-11 | `face_shape.square_soft` → 「softly squared face with a rounded jaw」, `face_shape.angular` → 「refined face with a clean, softly tapered outline」, `lips.wide_smile` → 「a wide mouth with softly upturned corners」(감사 E2 · S8 · G3 · B4, 한 쌍씩 시험에서 그림 차이는 거의 없음 — 부딪히는 말 정리, 사용자 「정리하는 김에 깔끔하게」). 원소 눈꼬리 모순은 설계값에서(삼국지와 같은 짝) |

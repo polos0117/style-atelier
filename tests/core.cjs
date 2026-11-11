@@ -6,6 +6,10 @@ for (const v of VERS) assert.equal(JSON.parse(fs.readFileSync(path.join(ROOT, 'c
 assert.equal(C.version, LATEST);
 /* v2 (2026-11-11 「넣어주고」) — 긴 얼굴 글. 눈 small · 인상 fierce 는 v1 글 그대로(「그대로 두고」) */
 assert.equal(C.VOCAB_EN.face_shape.long, 'gently long oval face');
+/* v3 (2026-11-11 「정리하는 김에 깔끔하게」) — 각진 얼굴 · 광대 · 웃는 입 글 */
+assert.equal(C.VOCAB_EN.face_shape.square_soft, 'softly squared face with a rounded jaw');
+assert.equal(C.VOCAB_EN.face_shape.angular, 'refined face with a clean, softly tapered outline');
+assert.equal(C.VOCAB_EN.lips.wide_smile, 'a wide mouth with softly upturned corners');
 assert.equal(C.FACE_DESIGN.eye_size.small, 'smaller, narrower eyes than usual anime proportion');
 assert.equal(C.FACE_DESIGN.impression.fierce, 'a fierce, wild ferocity');
 for (const t of ['FACE_DESIGN', 'EXPRESSION_DETAIL', 'VOCAB_EN']) assert(C[t] && typeof C[t] === 'object' && Object.keys(C[t]).length, t);
