@@ -37,6 +37,18 @@
       "fantasy": "km2-il2-ba3-rg2-x01__sam.wenyang__fantasy-world-slit=dw1__api26__1",
       "mecha": "km2-il2-ba3-rg2-x01__sam.wenyang__mecha-world-slit=dw1__api26__1"
      }
+    },
+    {
+     "bg": "canvas_rough@v2",
+     "skin": "dewy_body@v1",
+     "ko": "배경 + 피부 · 거친 유화 캔버스 + 몸 피부 물광",
+     "since": "2026-11-11",
+     "why": "사용자 「응 둘 다 얹은 것도 3장 그려줘」 → 「오 올려줘」. 2.6 API — 두 효과가 서로 안 먹고 같이 들어갔다(메카는 배경 거칠기가 조금 약함)",
+     "images": {
+      "samguk": "km2-il2-ba3-rg2-x01__sam.wenyang__samguk-world-slit~cr2=dw1__api26__1",
+      "fantasy": "km2-il2-ba3-rg2-x01__sam.wenyang__fantasy-world-slit~cr2=dw1__api26__1",
+      "mecha": "km2-il2-ba3-rg2-x01__sam.wenyang__mecha-world-slit~cr2=dw1__api26__1"
+     }
     }
    ]
   }
