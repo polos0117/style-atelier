@@ -124,3 +124,24 @@ make-job ──────────────────────▶ j
 
 사용자 2026-11-11 「인물의 피부쪽에만 물광같은 효과도 줄 수 있나해서」 · 「얼굴은 빼고」. 이펙트 축(발광 · 블룸 · 반짝임)이 아니라 따로 얹는 층 — `data/skins.json`. 1. STYLE 끝(얼굴 비율 줄 뒤)에 `Skin finish: …` 한 줄, avoid 는 5칸 Avoid 에 합친다. 칸 이름 `=<코드><판>`(예 `=dw1`) — 칸 이름 꼬리 차례는 `~배경 =피부 +세기`. 기록 `skin`, 색인 끝 열 `skin`. `make-job --skin <열쇠>`.
 
+## 잘 먹는 지시의 꼴
+
+사용자 2026-11-11 「이런 지시는 생각보다 잘먹네」 → 「응 적어줘」. 배경 처리(13차 canvas_rough) · 피부 마감(15차 dewy_body)은 한두 판 만에 그림이 확 바뀌었고, 화풍 문단은 멀리 떨어진 조합도 한 동네로 모였다(12차). 차이:
+
+| 잘 먹은 지시 | 덜 먹은 지시(화풍 문단) |
+|---|---|
+| 눈에 보이는 것 — 「thick, rough oil brushstrokes and palette-knife marks」, 「dewy, glass-like highlights」 | 장르 이름표 — 「Korean MMORPG character artwork」, 「A semi-realistic face」 → 모델이 아는 평균 그림으로 채운다 |
+| 범위가 좁다 — 「the setting behind her」, 「shoulders, arms, collarbones and legs」, 「her face keeps a soft, natural finish」 | 그림 전체에 막연히 걸린다 |
+| 비교 기준 — 「the background stays less detailed than the figure」(v1 에 없던 이 말로 v2 가 확 달라졌다) | 기준이 없다 — 얼마나 단순하게 · 거칠게인지 모른다 |
+| 이름 붙은 한 줄 — `Skin finish:` · `Background treatment:` | 의상 · 장면 묘사(지시문의 90%)에 묻힌다 |
+| 막을 것은 Avoid 로 — 「glossy or shiny highlights on the face」, 「sweaty, oily or plastic-looking skin」 | — |
+
+부품 문장을 고칠 때(새 판):
+1. 이름표는 한 마디로 줄이고, 그 화풍이 그림에 남기는 **보이는 흔적**을 쓴다 — 선 굵기 · 선이 고른지, 명암 단계 수, 그림자 경계(칼같이 · 번지게), 가장자리(딱딱 · 무름), 하이라이트 모양, 붓 자국 크기. 예(가챠 셀): 「even-weight outlines, two-step shading with hard-edged shadows」.
+2. 어디에 거는지 적는다(인물 · 얼굴 · 몸 · 배경 · 금속 · 천).
+3. 비교 기준을 하나 둔다(「~보다 덜 · 더」).
+4. 축 규칙(담당 범위 · 부정 말은 Avoid)은 그대로 — 생김새 · 크기 말은 얼굴 축에 넣지 않는다(캐릭터 몫).
+5. 한 차수에 한 가지만 바꾸고 대조군 한 장을 같이 그린다(7 · 8차 교훈).
+
+14차 화풍 세기(같은 말을 더 세게 — restate · head_medium)와 이 꼴(말을 보이는 것으로 — 부품 새 판)은 결이 다르다. 14차 결과와 견줘 어느 쪽이 화풍을 더 벌리는지 본다.
+
