@@ -390,7 +390,7 @@ function axisRun() {
 }
 
 /* 확정 화풍 — data/confirmed.json. 열쇠 · 화풍 이름 · 조합 이름(판 고정) · 세계별 대표 그림 · 부품표 · 화풍 문장(복사) · 평가 요약 */
-let CONF = null, BGS = null;
+let CONF = null, BGS = null, SKS = null;
 /* 범위 — 이 조합(판까지)으로 그린 그림을 캐릭터 · 세계마다 센다(그림 색인에서, 따로 적지 않는다) */
 function scopeTable(rid) {
   const t = el('table', { class: 'scope' }), ORD = Object.keys(WORLD_KO), worlds = [...new Set(SL.subjects.flatMap(s => s.worlds))].sort((a, b) => (ORD.indexOf(a) + 1 || 99) - (ORD.indexOf(b) + 1 || 99));
@@ -415,21 +415,27 @@ function confCard(c, cand) {
     rs.parts.forEach(p => t.append(el('tr', {}, el('th', {}, P.axes.find(a => a.key === p.axis).ko),
       el('td', {}, el('b', {}, p.ko), el('span', { class: 'k' }, p.key + ' @' + p.v + (p.v !== P.parts[p.axis][p.key].current ? ' · 지금 판은 ' + P.parts[p.axis][p.key].current : '')), el('span', { class: 'txt' }, p.text || '(없음)')))));
     const avoid = [...new Set(rs.parts.flatMap(p => p.avoid))];
-    const styleWith = (bgLine, bgAvoid) => { const av = [...new Set(avoid.concat(bgAvoid || []))]; return B.paragraph(rs) + '\n' + B.lightLine(rs) + (bgLine ? '\n' + bgLine : '') + (av.length ? '\nAvoid: ' + av.join(', ') + '.' : ''); };
+    /* 복사 문장 — 화풍 문단 → (피부 마감 줄) → Light 줄 → (배경 줄) → Avoid. 지시문에 들어가는 차례 그대로 */
+    const styleWith = (bgLine, bgAvoid, skLine, skAvoid) => { const av = [...new Set(avoid.concat(bgAvoid || [], skAvoid || []))]; return B.paragraph(rs) + (skLine ? '\n' + skLine : '') + '\n' + B.lightLine(rs) + (bgLine ? '\n' + bgLine : '') + (av.length ? '\nAvoid: ' + av.join(', ') + '.' : ''); };
     const styleText = styleWith();
     const ev = all.map(r => evOf(r.id)).filter(Boolean), avg = k => { const v = ev.map(e => e[k]).filter(x => typeof x === 'number'); return v.length ? (v.reduce((a, b) => a + b, 0) / v.length).toFixed(1) + ' (' + v.length + ')' : '—'; };
     const copyBtn = (txt, label) => el('button', { class: 'b', type: 'button', on: { click: e => navigator.clipboard.writeText(txt).then(() => { e.target.textContent = '복사함'; }) } }, label);
     const copy = copyBtn(styleText, '화풍 문장 복사');
     const detail = [el('h3', {}, '조합표'), t, el('h3', {}, '화풍 문장'), el('pre', {}, styleText), copy];
-    /* 변주 — 같은 화풍에 배경 처리(data/backgrounds.json, 판 고정)를 얹은 대표 그림 */
+    /* 변주 — 같은 화풍에 배경 처리(bg) · 피부 마감(skin)을 얹은 대표 그림. 판 고정(열쇠@판) */
     (c.variants || []).forEach(v => {
-      let g; try { g = B.background(BGS, v.bg); } catch (e) { return detail.push(el('div', { class: 'warn' }, '변주 ' + v.bg + ' — ' + e.message)); }
+      let g = null, k = null;
+      try { if (v.bg) g = B.background(BGS, v.bg); if (v.skin) k = B.skin(SKS, v.skin); } catch (e) { return detail.push(el('div', { class: 'warn' }, '변주 ' + (v.bg || v.skin) + ' — ' + e.message)); }
+      const name = v.ko || [g && g.ko, k && k.ko].filter(Boolean).join(' + ');
       const vi = Object.entries(v.images || {}), vw = el('div', { class: 'worlds' });
       vi.forEach(([w, id]) => { const r = rows.find(x => x.id === id);
-        vw.append(el('figure', {}, r ? el('img', { src: thumb(id), loading: 'lazy', alt: (v.ko || g.ko) + ' — ' + (WORLD_KO[w] || w), on: { click: () => openImg(r, vi.map(([, i]) => rows.find(x => x.id === i)).filter(Boolean)) } }) : el('div', { class: 'none' }, '그림 없음'), el('figcaption', {}, WORLD_KO[w] || w))); });
-      const line = 'Background treatment: ' + g.text, cur = BGS.backgrounds[g.key].current;
-      detail.push(el('h3', {}, '변주 — ' + (v.ko || g.ko)), el('div', { class: 'keys' }, '배경 처리 ', el('code', {}, g.key + ' @' + g.v), ' · 칸 끝 ~' + g.code + (g.v !== cur ? ' · 지금 판은 ' + cur : '')), el('div', { class: 'why' }, v.why || ''), vw,
-        el('pre', {}, line), copyBtn(styleWith(line, g.avoid), '화풍 문장 + 배경 줄 복사'));
+        vw.append(el('figure', {}, r ? el('img', { src: thumb(id), loading: 'lazy', alt: name + ' — ' + (WORLD_KO[w] || w), on: { click: () => openImg(r, vi.map(([, i]) => rows.find(x => x.id === i)).filter(Boolean)) } }) : el('div', { class: 'none' }, '그림 없음'), el('figcaption', {}, WORLD_KO[w] || w))); });
+      const bgLine = g ? 'Background treatment: ' + g.text : '', skLine = k ? 'Skin finish: ' + k.text : '';
+      const keys = el('div', { class: 'keys' });
+      if (g) { const cur = BGS.backgrounds[g.key].current; keys.append('배경 처리 ', el('code', {}, g.key + ' @' + g.v), ' · 칸 끝 ~' + g.code + (g.v !== cur ? ' · 지금 판은 ' + cur : '')); }
+      if (k) { const cur = SKS.skins[k.key].current; keys.append((g ? ' · ' : '') + '피부 마감 ', el('code', {}, k.key + ' @' + k.v), ' · 칸 끝 =' + k.code + (k.v !== cur ? ' · 지금 판은 ' + cur : '')); }
+      detail.push(el('h3', {}, '변주 — ' + name), keys, el('div', { class: 'why' }, v.why || ''), vw,
+        el('pre', {}, [skLine, bgLine].filter(Boolean).join('\n')), copyBtn(styleWith(bgLine, g && g.avoid, skLine, k && k.avoid), '화풍 문장 + ' + (g && k ? '배경 · 피부 줄' : g ? '배경 줄' : '피부 줄') + ' 복사'));
     });
     return el('div', { class: 'conf' + (cand ? ' cand' : '') },
       el('h2', {}, el('span', { class: 'tag' }, cand ? '후보' : '확정'), c.ko),
@@ -479,7 +485,7 @@ function mixRun() {
 
 let COMBOS = 0, FOCUS_EX = '';
 (async () => {
-  let FO; [P, R, SL, FO, CONF, BGS] = await Promise.all([getJ('data/parts.json'), getJ('data/recipes.json'), getJ('data/subjects/index.json'), getJ('data/focus.json'), getJ('data/confirmed.json'), getJ('data/backgrounds.json')]);
+  let FO; [P, R, SL, FO, CONF, BGS, SKS] = await Promise.all([getJ('data/parts.json'), getJ('data/recipes.json'), getJ('data/subjects/index.json'), getJ('data/focus.json'), getJ('data/confirmed.json'), getJ('data/backgrounds.json'), getJ('data/skins.json')]);
   if (FO) { A.subject = M.subject = FO.subject; A.world = M.world = FO.world; FOCUS_EX = FO.exposure || ''; }   /* 지금 시험하는 캐릭터 · 세계(data/focus.json)부터 */
   for (const s of SL.subjects) SUB[s.id] = await getJ('data/subjects/' + s.id + '.json');
   COMBOS = B.combos(P).length;

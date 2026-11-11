@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "확정 화풍 — 사용자가 「이걸로」 고른 조합. id 는 조합 이름(부품 열쇠 + 판 번호)이라 판이 박혀 있다 — 부품에 새 판이 생겨도 확정 화풍의 문장은 바뀌지 않는다. 바꾸려면 새 항목(또는 새 id)으로 다시 확정한다. images = 세계마다 대표 그림 이름(그림 저장소 rec/ 에 있는 것). 화면 「확정 화풍」 탭이 이것을 읽는다. candidates = 확정 바로 전 후보(같은 꼴, 사용자가 고르면 styles 로 옮긴다). 범위(어느 캐릭터 · 세계에서 그려 봤나)는 화면이 그림 색인에서 센다 — 여기 적지 않는다. variants = 같은 화풍에 얹는 변주(배경 처리 bg = data/backgrounds.json 열쇠@판, 판 고정) — 세계마다 대표 그림.",
+ "note": "확정 화풍 — 사용자가 「이걸로」 고른 조합. id 는 조합 이름(부품 열쇠 + 판 번호)이라 판이 박혀 있다 — 부품에 새 판이 생겨도 확정 화풍의 문장은 바뀌지 않는다. 바꾸려면 새 항목(또는 새 id)으로 다시 확정한다. images = 세계마다 대표 그림 이름(그림 저장소 rec/ 에 있는 것). 화면 「확정 화풍」 탭이 이것을 읽는다. candidates = 확정 바로 전 후보(같은 꼴, 사용자가 고르면 styles 로 옮긴다). 범위(어느 캐릭터 · 세계에서 그려 봤나)는 화면이 그림 색인에서 센다 — 여기 적지 않는다. variants = 같은 화풍에 얹는 변주(배경 처리 bg = data/backgrounds.json · 피부 마감 skin = data/skins.json, 열쇠@판으로 판 고정) — 세계마다 대표 그림.",
  "styles": [
   {
    "key": "kr_drawn_brush_rim",
@@ -25,6 +25,17 @@
       "samguk": "km2-il2-ba3-rg2-x01__sam.wenyang__samguk-world-slit~cr2__api26__1",
       "fantasy": "km2-il2-ba3-rg2-x01__sam.wenyang__fantasy-world-slit~cr2__api26__1",
       "mecha": "km2-il2-ba3-rg2-x01__sam.wenyang__mecha-world-slit~cr2__api26__1"
+     }
+    },
+    {
+     "skin": "dewy_body@v1",
+     "ko": "피부 · 몸 피부 물광(얼굴 빼고)",
+     "since": "2026-11-11",
+     "why": "사용자 「인물의 피부쪽에만 물광같은 효과」 · 「얼굴은 빼고」 → 「응 변주 붙여줘. 피부에 입체감이 더 생겼네」. 2.6 API",
+     "images": {
+      "samguk": "km2-il2-ba3-rg2-x01__sam.wenyang__samguk-world-slit=dw1__api26__1",
+      "fantasy": "km2-il2-ba3-rg2-x01__sam.wenyang__fantasy-world-slit=dw1__api26__1",
+      "mecha": "km2-il2-ba3-rg2-x01__sam.wenyang__mecha-world-slit=dw1__api26__1"
      }
     }
    ]
