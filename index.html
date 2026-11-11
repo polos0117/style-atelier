@@ -90,6 +90,10 @@ dl.facts dd { margin:0; word-break:break-all; }
 .conf .worlds .none { aspect-ratio:2/3; display:grid; place-items:center; border:1px dashed var(--line); border-radius:8px; color:var(--sub); font-size:13px; }
 .conf .stat { font-size:13px; color:var(--sub); margin-top:10px; }
 .conf.cand { border-style:dashed; }
+.conf .casrow { display:grid; grid-template-columns:repeat(6, minmax(0, 1fr)); gap:6px; margin:4px 0 10px; }
+.conf .casrow img { width:100%; aspect-ratio:2/3; object-fit:cover; border-radius:6px; background:var(--line); cursor:pointer; display:block; }
+.conf .caslab { font-size:13px; color:var(--sub); margin-top:6px; }
+@media (max-width:640px) { .conf .casrow { grid-template-columns:repeat(3, minmax(0, 1fr)); } }
 .conf .tag { display:inline-block; font-size:12px; font-weight:600; padding:1px 8px; border-radius:999px; margin-right:6px; vertical-align:middle; background:var(--acc); color:var(--panel); }
 .conf.cand .tag { background:var(--acc2); color:var(--acc); }
 table.scope { border-collapse:collapse; font-size:13px; background:var(--bg); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
@@ -436,6 +440,16 @@ function confCard(c, cand) {
       if (k) { const cur = SKS.skins[k.key].current; keys.append((g ? ' · ' : '') + '피부 마감 ', el('code', {}, k.key + ' @' + k.v), ' · 칸 끝 =' + k.code + (k.v !== cur ? ' · 지금 판은 ' + cur : '')); }
       detail.push(el('h3', {}, '변주 — ' + name), keys, el('div', { class: 'why' }, v.why || ''), vw,
         el('pre', {}, [skLine, bgLine].filter(Boolean).join('\n')), copyBtn(styleWith(bgLine, g && g.avoid, skLine, k && k.avoid), '화풍 문장 + ' + (g && k ? '배경 · 피부 줄' : g ? '배경 줄' : '피부 줄') + ' 복사'));
+    });
+    /* 일상컷 묶음 — 세계마다 여섯 장(tools/casual-job.cjs), 누르면 묶음 전체를 넘겨 본다 */
+    (c.casuals || []).forEach(cs => {
+      let k = null; try { if (cs.skin) k = B.skin(SKS, cs.skin); } catch (e) { return detail.push(el('div', { class: 'warn' }, '일상컷 ' + cs.skin + ' — ' + e.message)); }
+      const all = Object.values(cs.images || {}).flat().map(id => rows.find(x => x.id === id)).filter(Boolean);
+      detail.push(el('h3', {}, (cs.ko || '일상컷') + ' (' + all.length + '장)'), el('div', { class: 'why' }, cs.why || ''));
+      Object.entries(cs.images || {}).forEach(([w, ids]) => {
+        detail.push(el('div', { class: 'caslab' }, WORLD_KO[w] || w), el('div', { class: 'casrow' }, ids.map(id => { const r = rows.find(x => x.id === id);
+          return r ? el('img', { src: thumb(id), loading: 'lazy', alt: (cs.ko || '일상컷') + ' — ' + (WORLD_KO[w] || w) + ' ' + r.kind.slice(6), on: { click: () => openImg(r, all) } }) : el('div', { class: 'none' }, '없음'); })));
+      });
     });
     return el('div', { class: 'conf' + (cand ? ' cand' : '') },
       el('h2', {}, el('span', { class: 'tag' }, cand ? '후보' : '확정'), c.ko),

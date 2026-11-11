@@ -152,6 +152,11 @@ for (const s of SL.subjects) {
     assert.deepEqual(B.retiredIn(rs), [], c.key + ' 에 내린 부품'); assert.deepEqual(B.clashes(rs), [], c.key + ' 모순 짝');
     if (R.recipes[c.key]) assert.equal(B.recipeNameOf(R, rs), c.key, c.key + ' 은 등록한 조합과 같은 부품');
     for (const [w, id] of Object.entries(c.images || {})) { const m = B.parseImage(id); assert(m && id.startsWith(c.id + '__') && m.slot.includes('__' + w + '-'), c.key + ' 대표 그림 ' + w + ': ' + id); }
+    for (const cs of c.casuals || []) {   /* 일상컷 묶음 — 세계마다 그림 이름 목록, 칸은 casual<N>, 피부 꼬리가 맞는다 */
+      const k = cs.skin ? B.skin(J('data/skins.json'), cs.skin) : null; if (cs.skin) assert(/@v\d+$/.test(cs.skin), c.key + ' 일상컷 피부는 판까지');
+      for (const [w, ids] of Object.entries(cs.images || {})) { assert(Array.isArray(ids) && ids.length, c.key + ' 일상컷 ' + w);
+        ids.forEach(id => { const m = B.parseImage(id); assert(m && id.startsWith(c.id + '__') && m.world === w && /^casual\d+$/.test(m.kind) && m.skin === (k ? k.code : null), c.key + ' 일상컷 그림 ' + id); }); }
+    }
     for (const v of c.variants || []) {   /* 변주 — 배경 처리(~) · 피부 마감(=)은 판까지(열쇠@판), 대표 그림 칸 꼬리가 맞는다 */
       assert(v.bg || v.skin, c.key + ' 변주에 bg · skin 이 없다');
       for (const f of ['bg', 'skin']) if (v[f]) assert(/@v\d+$/.test(v[f]), c.key + ' 변주 ' + f + ' 는 판까지: ' + v[f]);
