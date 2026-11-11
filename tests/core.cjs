@@ -10,7 +10,7 @@ const strings = []; (function walk(o) { for (const v of Object.values(o)) typeof
 assert(strings.every(s => s.trim() === s && s.length), '빈 글 · 앞뒤 빈칸 없음');
 assert(!strings.some(s => /realistically proportioned|golden tan skin/.test(s)) && !Object.values(C.FACE_DESIGN.age).some(s => /cheekbones/.test(s)), '오늘 뺀 말(사실형 눈 비율 · golden tan · 나이 줄의 광대)이 돌아오지 않았다');
 let n = 0;
-for (const r of ['sam-atelier', 'element-atelier']) {
+for (const r of ['sam-atelier', 'element-atelier', 'pkm-atelier', 'game-atelier', 'book-atelier']) {
   const d = path.join(ROOT, '..', r); if (!fs.existsSync(d)) continue;
   const x = cp.spawnSync('node', [path.join(ROOT, 'core/sync.cjs'), d, '--check'], { encoding: 'utf8' });
   assert.equal(x.status, 0, r + ' 블록이 원본과 다르다\n' + x.stdout); n++;

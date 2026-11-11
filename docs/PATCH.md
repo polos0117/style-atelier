@@ -3,6 +3,12 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · core v1 — 포켓몬 · 게임 · 책도 쓴다
+- core/sync.cjs: look-spec.js 가 없는 공방은 prompt-spec.js 에 FACE_DESIGN · EXPRESSION_DETAIL · VOCAB_EN 을 한 블록으로
+- 세 공방은 표정 표 32개가 core 글로 바뀌고, 게임 · 책 VOCAB_EN 공통 열쇠는 이미 같았다. 신화는 낱말표 · 표정 표가 없어 옮길 것 없음
+- tests/core.cjs 가 옆 공방 다섯 곳 블록을 대조, core/README.md · docs/STRUCTURE.md 갱신
+- 사용자 2026-11-11 「응 1번부터 진행해줘」
+
 ## 2026-11-11 · claude · core v1 — 공방 공통 외형 · 표정 낱말
 - 사용자 「프롬포트 생성 관련 테스트나 문구관리를 하나의 공방에서 관리는 못하나」 → 「응 원소 글로 하고 core v1 만들어줘」 — core/v1/vocab.json(FACE_DESIGN 머리 줄 빼고 · EXPRESSION_DETAIL · VOCAB_EN): 공방마다 다른 열쇠는 삼국지 글(표정 32 · 나이 둘 · 외형 7), golden_tan 은 원소 글, 한쪽에만 있는 열쇠는 합침
 - core/sync.cjs — 공방 lib/prompt-spec.js · look-spec.js 끝 「core:v1」 블록으로 옮김(이미 있는 열쇠만 덮음, --check). core/README.md, tests/core.cjs(원본 꼴 · 옆 공방 블록 대조, CI). 삼국지 · 원소에 적용

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* core 낱말을 공방에 옮긴다 — 원본은 core/<판>/vocab.json 하나(사용자 2026-11-11 「프롬포트 생성 관련 테스트나 문구관리를 하나의 공방에서 관리는 못하나」 → 「응 원소 글로 하고 core v1 만들어줘」).
-   공방의 lib/prompt-spec.js 끝에 FACE_DESIGN(head 빼고) · EXPRESSION_DETAIL, lib/look-spec.js 끝에 VOCAB_EN 을 「core:<판>」 블록으로 쓴다 —
+   공방의 lib/prompt-spec.js 끝에 FACE_DESIGN(head 빼고) · EXPRESSION_DETAIL, lib/look-spec.js 끝에 VOCAB_EN 을 「core:<판>」 블록으로 쓴다(look-spec.js 가 없으면 prompt-spec.js 에 셋 다) —
    공방 생성기 · 도구 · 검사는 지금처럼 제 파일만 읽어도 core 글을 쓴다. 블록 안은 손으로 고치지 않는다(고치면 --check 가 잡는다).
    블록은 공방에 이미 있는 열쇠만 덮는다 — 공통 열쇠는 core 글로 맞고, 공방에만 있는 열쇠는 그 공방 글 그대로, core 에만 있는 열쇠는 들이지 않는다
    (원소 체형 표처럼 열쇠 목록에 맞춘 표가 있어서 — 2026-11-11).
@@ -17,7 +17,7 @@ const C = JSON.parse(fs.readFileSync(src, 'utf8'));
 const sha = s => crypto.createHash('sha256').update(s).digest('hex').slice(0, 12);
 
 function block(kind) {
-  const part = kind === 'spec' ? { FACE_DESIGN: C.FACE_DESIGN, EXPRESSION_DETAIL: C.EXPRESSION_DETAIL } : { VOCAB_EN: C.VOCAB_EN };
+  const part = kind === 'spec' ? { FACE_DESIGN: C.FACE_DESIGN, EXPRESSION_DETAIL: C.EXPRESSION_DETAIL } : kind === 'all' ? { FACE_DESIGN: C.FACE_DESIGN, EXPRESSION_DETAIL: C.EXPRESSION_DETAIL, VOCAB_EN: C.VOCAB_EN } : { VOCAB_EN: C.VOCAB_EN };
   const json = JSON.stringify(part);
   return [
     '/* ── core:' + ver + ' begin ' + sha(json) + ' — style-atelier core/' + ver + '/vocab.json 에서 core/sync.cjs 가 옮긴 것. 손으로 고치지 않는다 ── */',
@@ -37,7 +37,9 @@ function block(kind) {
 const RE = /\n?\/\* ── core:v\d+ begin[\s\S]*?\/\* ── core:v\d+ end ── \*\/\n?/;
 let bad = 0;
 for (const d of dirs) {
-  for (const [file, kind] of [['lib/prompt-spec.js', 'spec'], ['lib/look-spec.js', 'look']]) {
+  /* look-spec.js 가 없는 공방(포켓몬 · 게임 · 책 — VOCAB_EN 이 prompt-spec.js 안)은 prompt-spec.js 에 한 블록 */
+  const pairs = fs.existsSync(path.join(d, 'lib/look-spec.js')) ? [['lib/prompt-spec.js', 'spec'], ['lib/look-spec.js', 'look']] : [['lib/prompt-spec.js', 'all']];
+  for (const [file, kind] of pairs) {
     const f = path.join(d, file);
     if (!fs.existsSync(f)) { console.error('없다: ' + f); bad++; continue; }
     const cur = fs.readFileSync(f, 'utf8'), want = block(kind), m = cur.match(RE);
