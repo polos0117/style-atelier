@@ -730,8 +730,8 @@
   "paint": {
    "smooth": {
     "code": "sm",
-    "ko": "디지털 페인팅 · 매끄러움",
-    "current": "v2",
+    "ko": "에어브러시 · 붓 자국 없이 매끈",
+    "current": "v3",
     "versions": [
      {
       "v": "v1",
@@ -743,18 +743,37 @@
       "text": "Digital painting: softly modelled volumes, blended shading, rich clear midtones and barely visible brushwork, with silk, metal and leather told apart by their surface finish.",
       "ko": "디지털 페인팅 · 매끄러움",
       "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     },
+     {
+      "v": "v3",
+      "text": "Airbrushed digital painting: seamless soft gradients and invisible brush marks, gently rounded volumes and a clean, even finish; costume detail is kept to the main shapes and edges, rendered softly.",
+      "ko": "에어브러시 · 붓 자국 없이 매끈",
+      "by": "사용자 2026-11-11 「응 초안 보여줘」 → 「응 일감 만들어줘」 — 잘 먹는 지시의 꼴(보이는 흔적 · 디테일 수준을 부품마다 다르게), 셀 · 매트는 취향 아님이라 칠한 결 안에서 벌린다",
+      "avoid": [
+       "visible brushstrokes",
+       "hard-edged shading"
+      ]
      }
     ]
    },
    "glossy_digital": {
     "code": "gd",
-    "ko": "디지털 페인팅 · 유광",
-    "current": "v1",
+    "ko": "글로시 · 큰 반사광 · 면은 단순",
+    "current": "v2",
     "versions": [
      {
       "v": "v1",
       "text": "Glossy digital painting: smooth dimensional shading, softly polished skin with a gentle sheen, and lustrous metal, lacquer and silk with crisp specular accents.",
       "ko": "디지털 페인팅 · 유광"
+     },
+     {
+      "v": "v2",
+      "text": "Glossy digital painting: smooth, simplified surfaces with large, crisp specular highlights on metal, lacquer, silk and hair, and clear bright reflections that describe each material; surface detail stays moderate so the shine reads first.",
+      "ko": "글로시 · 큰 반사광 · 면은 단순",
+      "by": "사용자 2026-11-11 「응 초안 보여줘」 → 「응 일감 만들어줘」 — 잘 먹는 지시의 꼴(보이는 흔적 · 디테일 수준을 부품마다 다르게), 셀 · 매트는 취향 아님이라 칠한 결 안에서 벌린다",
+      "avoid": [
+       "matte, flat surfaces"
+      ]
      }
     ],
     "note": "광택 메우기(사용자 2026-11-10 「기존에 있던 gloosy 는 어떻게 대체 된거지?」 → 「응 셋 다 넣을거고」) — 삼국지 한국형 글로시(glossy_kr_game · glossy_kr_semireal) 의 표면 쪽"
@@ -779,8 +798,8 @@
    },
    "brush_layered": {
     "code": "bl",
-    "ko": "페인터리 디지털 · 보이는 붓질",
-    "current": "v2",
+    "ko": "겹친 붓질 · 얼굴만 또렷 · 바깥은 풀어짐",
+    "current": "v3",
     "versions": [
      {
       "v": "v1",
@@ -794,6 +813,15 @@
       "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표",
       "avoid": [
        "photographic rendering"
+      ]
+     },
+     {
+      "v": "v3",
+      "text": "Layered digital painting: overlapping brush marks in several passes of colour, sharp and fully resolved on the face, loosening into broad, broken strokes toward the costume edges and the background.",
+      "ko": "겹친 붓질 · 얼굴만 또렷 · 바깥은 풀어짐",
+      "by": "사용자 2026-11-11 「응 초안 보여줘」 → 「응 일감 만들어줘」 — 잘 먹는 지시의 꼴(보이는 흔적 · 디테일 수준을 부품마다 다르게), 셀 · 매트는 취향 아님이라 칠한 결 안에서 벌린다",
+      "avoid": [
+       "uniform detail across the whole image"
       ]
      }
     ]
@@ -855,8 +883,8 @@
    },
    "oil_brush": {
     "code": "ob",
-    "ko": "유화 붓질 · 글레이즈",
-    "current": "v2",
+    "ko": "유화 붓 · 굵은 붓 자국 · 장식은 암시",
+    "current": "v3",
     "versions": [
      {
       "v": "v1",
@@ -868,6 +896,16 @@
       "text": "Oil painting with delicate brushwork: layered glazes of colour, soft edges, refined detail on the face and costume, and silk and metal each with their own painterly texture.",
       "ko": "유화 붓질 · 글레이즈",
       "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표"
+     },
+     {
+      "v": "v3",
+      "text": "Oil painting with bold, directional brushstrokes: visible bristle marks that follow each form, thick paint on the lights and thin paint in the shadows; armour, embroidery and ornaments are suggested with a few confident strokes, with less surface detail than a highly rendered illustration.",
+      "ko": "유화 붓 · 굵은 붓 자국 · 장식은 암시",
+      "by": "사용자 2026-11-11 「응 초안 보여줘」 → 「응 일감 만들어줘」 — 잘 먹는 지시의 꼴(보이는 흔적 · 디테일 수준을 부품마다 다르게), 셀 · 매트는 취향 아님이라 칠한 결 안에서 벌린다",
+      "avoid": [
+       "smooth airbrushed blending",
+       "photographic detail"
+      ]
      }
     ]
    },
