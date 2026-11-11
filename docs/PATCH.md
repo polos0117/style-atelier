@@ -3,6 +3,9 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · 16차 결과 — 보이는 흔적 꼴이 먹었다
+- 사용자 「3번은 평소처럼, 1,2번은 셀 애니처럼 나왔어」 — cel_gradient v3 · matte_soft v3 로 가챠 · 매트 애니가 셀 애니로 벌어졌다(12차 cg2 · ms2 는 한국 게임 일러 동네). 대조군 그대로. STRUCTURE.md 「잘 먹는 지시의 꼴」 에 결과
+
 ## 2026-11-11 · claude · 칠 부품 새 판 — 보이는 흔적 · 디테일 기준 · 16차 일감
 - 사용자 「응 가줘」 — cel_gradient v3(고른 외곽선 · 두 단계 명암 · 칼같은 그림자 · 작은 하이라이트 · 갑옷 · 천 · 장식은 깔끔한 평면, 칠한 일러보다 훨씬 덜 그림; avoid painterly texture · soft airbrushed gradients), matte_soft v3(얇은 외곽선 · 넓은 평면 색 · 그림자 한 톤 · 무광, 디테일 덜; avoid glossy · dense surface detail). medium 칸도 새 판에
 - 16차 j0088-r16-visible — ja2-ag2-cg3-hp2-xs1 · jn2-aa2-ms3-oc1-x01 한 장씩 + 대조군 확정 화풍 #4
