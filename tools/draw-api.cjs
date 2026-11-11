@@ -11,6 +11,7 @@
 'use strict';
 const fs = require('node:fs'), path = require('node:path'), crypto = require('node:crypto');
 const ROOT = path.join(__dirname, '..');
+const B = require('../lib/build.js');
 const args = process.argv.slice(2), has = k => args.includes('--' + k), flag = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
 const IMG = path.resolve(ROOT, flag('img', '../style-atelier-img')), quality = flag('quality', 'medium');
 const jobs = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && args[i - 1].startsWith('--') && ['img', 'quality'].includes(args[i - 1].slice(2))));
@@ -41,13 +42,23 @@ async function one({ job, slot }) {
   let last = '';
   for (let retry = 0; retry < 2; retry++) {
     const t0 = Date.now();
-    const r = await fetch('https://api.openai.com/v1/images/generations', { method: 'POST', headers: { Authorization: 'Bearer ' + KEY, 'content-type': 'application/json' },
+    /* 첨부 그림이 있는 칸(일상컷 — tools/casual-job.cjs)은 images/edits 로 그 그림을 함께 보낸다 */
+    let r, endpoint = 'images/generations';
+    try {
+    if (slot.ref) {
+      const fd = new FormData(), rm = B.parseImage(slot.ref), rf = path.join(IMG, 'img', rm.subject, rm.world, slot.ref + '.webp');
+      if (!fs.existsSync(rf)) throw new Error('첨부 그림이 없다: ' + rf);
+      fd.append('model', model); fd.append('prompt', prompt); fd.append('n', '1'); fd.append('size', '1024x1536'); fd.append('quality', quality); fd.append('output_format', 'png');
+      fd.append('image[]', new Blob([fs.readFileSync(rf)], { type: 'image/webp' }), path.basename(rf));
+      r = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: 'Bearer ' + KEY }, body: fd }); endpoint = 'images/edits';
+    } else r = await fetch('https://api.openai.com/v1/images/generations', { method: 'POST', headers: { Authorization: 'Bearer ' + KEY, 'content-type': 'application/json' },
       body: JSON.stringify({ model, prompt, n: 1, size: '1024x1536', quality, output_format: 'png' }) });
+    } catch (e) { last = '네트워크: ' + e.message; console.log('  다시 — ' + slot.file + ' · ' + last); continue; }   /* fetch failed(연결 끊김)는 한 번 더 */
     const t = await r.text(); let j = null; try { j = JSON.parse(t); } catch (e) { /* 아래에서 */ }
     if (r.ok && j && j.data && j.data[0] && j.data[0].b64_json) {
       const png = Buffer.from(j.data[0].b64_json, 'base64');
       fs.writeFileSync(path.join(IMG, 'inbox', slot.file + '.png'), png);
-      fs.writeFileSync(path.join(IMG, 'inbox', slot.file + '.gen.json'), JSON.stringify({ tool: 'tools/draw-api.cjs', model, endpoint: 'images/generations', quality,
+      fs.writeFileSync(path.join(IMG, 'inbox', slot.file + '.gen.json'), JSON.stringify({ tool: 'tools/draw-api.cjs', model, endpoint, quality, ref: slot.ref || null,
         usage: j.usage || null, seconds: (Date.now() - t0) / 1000, retries: retry, png_sha256: sha(png), date: new Date().toISOString().slice(0, 10) }, null, 1) + '\n');
       console.log('받았다 ' + slot.file + ' · ' + ((Date.now() - t0) / 1000).toFixed(1) + '초 · 출력 ' + (j.usage && j.usage.output_tokens));
       return (j.usage && j.usage.output_tokens) || 0;

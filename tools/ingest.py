@@ -67,7 +67,7 @@ def take_image(img, src, job, slot, note, check, gen=None):
     t.thumbnail((THUMB, THUMB), Image.LANCZOS)
     th.parent.mkdir(parents=True, exist_ok=True)
     t.save(th, 'WEBP', quality=80, method=6)
-    r = {k: slot.get(k) for k in ('slot', 'subject', 'subject_commit', 'world', 'kind', 'exposure', 'model', 'n', 'recipe', 'background', 'boost', 'skin', 'prompt_file', 'prompt_sha256')}
+    r = {k: slot.get(k) for k in ('slot', 'subject', 'subject_commit', 'world', 'kind', 'exposure', 'model', 'n', 'recipe', 'background', 'boost', 'skin', 'ref', 'casual', 'prompt_file', 'prompt_sha256')}
     r = dict({'id': base, 'job': job['job']}, **r)
     r.update({'file': str(dst.relative_to(img)), 'thumb': str(th.relative_to(img)), 'size': list(im.size), 'resized_from': [w0, h0] if resized else None,
               'source': {'name': src.name, 'sha256': hashlib.sha256(raw).hexdigest(), 'size': [w0, h0]},
