@@ -3,6 +3,12 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · core v4 — 칸 꼴 틀
+- core/v4/vocab.json 에 FRAME(칸 머리 1~5 · 해부 줄 · Avoid 줄) — 블록이 AtelierSpec.CORE_FRAME 으로 통째 둔다(sync.cjs). 낱말은 v3 그대로
+- 삼국지 칸 꼴이 이 틀을 읽고(지시문 그대로), 원소 기본 화풍이 짧은 판 → 칸 꼴(같은 열쇠). 시험: 원소 금 판타지 한 쌍(2.6, 출력 2,264)
+- tests/core.cjs FRAME 칸 · README 판 표 · STRUCTURE 3단계
+- 사용자 2026-11-11 「다른거 먼저 3단계 진행해줘」 → 「응 네 안대로 하고 기존 화풍 열쇠로 해줘」
+
 ## 2026-11-11 · claude · core v3 — 각진 얼굴 · 광대 · 웃는 입 글
 - core/v3/vocab.json: v2 에서 VOCAB_EN.face_shape.square_soft · face_shape.angular · lips.wide_smile 셋만. v2 는 얼려 둠. tests/core.cjs · core/README.md 판 표 · docs/STRUCTURE.md
 - 시험(2.6, 10장, 출력 11,320): 장료 square · 장합 angular · 나트륨 wide_smile · 녹슨 갑옷 눈꼬리 · 타임머신 카메라 한 쌍씩 — 낱말 넷은 차이 거의 없음, 카메라는 그대로 두기로(장면 중심). 사용자 「정리하는 김에 깔끔하게 하는게 낫지?」

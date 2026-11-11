@@ -2,6 +2,7 @@
 /* core 낱말을 공방에 옮긴다 — 원본은 core/<판>/vocab.json 하나(사용자 2026-11-11 「프롬포트 생성 관련 테스트나 문구관리를 하나의 공방에서 관리는 못하나」 → 「응 원소 글로 하고 core v1 만들어줘」).
    공방의 lib/prompt-spec.js 끝에 FACE_DESIGN(head 빼고) · EXPRESSION_DETAIL, lib/look-spec.js 끝에 VOCAB_EN 을 「core:<판>」 블록으로 쓴다(look-spec.js 가 없으면 prompt-spec.js 에 셋 다) —
    공방 생성기 · 도구 · 검사는 지금처럼 제 파일만 읽어도 core 글을 쓴다. 블록 안은 손으로 고치지 않는다(고치면 --check 가 잡는다).
+   FRAME(칸 꼴 틀, v4~)은 덮지 않고 AtelierSpec.CORE_FRAME 으로 통째 둔다.
    블록은 공방에 이미 있는 열쇠만 덮는다 — 공통 열쇠는 core 글로 맞고, 공방에만 있는 열쇠는 그 공방 글 그대로, core 에만 있는 열쇠는 들이지 않는다
    (원소 체형 표처럼 열쇠 목록에 맞춘 표가 있어서 — 2026-11-11).
 
@@ -20,13 +21,14 @@ const sha = s => crypto.createHash('sha256').update(s).digest('hex').slice(0, 12
 
 function block(kind) {
   const part = kind === 'spec' ? { FACE_DESIGN: C.FACE_DESIGN, EXPRESSION_DETAIL: C.EXPRESSION_DETAIL } : kind === 'all' ? { FACE_DESIGN: C.FACE_DESIGN, EXPRESSION_DETAIL: C.EXPRESSION_DETAIL, VOCAB_EN: C.VOCAB_EN } : { VOCAB_EN: C.VOCAB_EN };
+  if (kind !== 'look' && C.FRAME) part.FRAME = C.FRAME;   /* 칸 꼴 틀(v4~) — 덮지 않고 통째로 AtelierSpec.CORE_FRAME 에 */
   const json = JSON.stringify(part);
   return [
     '/* ── core:' + ver + ' begin ' + sha(json) + ' — style-atelier core/' + ver + '/vocab.json 에서 core/sync.cjs 가 옮긴 것. 손으로 고치지 않는다 ── */',
     '(function (S) {',
     '  if (!S) return;',
     '  var C = ' + json + ';',
-    '  Object.keys(C).forEach(function (t) { if (!S[t]) return; Object.keys(C[t]).forEach(function (g) {',
+    '  Object.keys(C).forEach(function (t) { if (t === "FRAME") { S.CORE_FRAME = C[t]; return; } if (!S[t]) return; Object.keys(C[t]).forEach(function (g) {',
     '    if (!(g in S[t])) return;',
     '    if (C[t][g] && typeof C[t][g] === "object") { if (!S[t][g] || typeof S[t][g] !== "object") return; Object.keys(C[t][g]).forEach(function (k) { if (k in S[t][g]) S[t][g][k] = C[t][g][k]; }); }',
     '    else S[t][g] = C[t][g];',
