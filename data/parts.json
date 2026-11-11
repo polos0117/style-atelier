@@ -893,8 +893,8 @@
    },
    "cel_gradient": {
     "code": "cg",
-    "ko": "2D 셀~그라데이션 · 선화",
-    "current": "v2",
+    "ko": "셀 · 두 단계 명암 · 디테일 덜",
+    "current": "v3",
     "versions": [
      {
       "v": "v1",
@@ -911,13 +911,24 @@
        "photographic skin texture"
       ],
       "medium": "2D cel-shaded character illustration"
+     },
+     {
+      "v": "v3",
+      "text": "2D cel animation painting: even-weight dark outlines on every form, two-tone shading with hard-edged shadow shapes and small sharp highlight shapes on hair and metal; armour, cloth and ornaments are simplified into clean flat shapes with far less surface detail than a painted illustration.",
+      "ko": "셀 · 두 단계 명암 · 디테일 덜",
+      "by": "사용자 2026-11-11 「잘 먹는 지시의 꼴」(STRUCTURE.md) → 14차 화풍 세기는 못 벌림 → 보이는 흔적 · 디테일 기준으로 새 판 「응 가줘」",
+      "avoid": [
+       "painterly texture",
+       "soft airbrushed gradients"
+      ],
+      "medium": "2D cel-shaded character illustration"
      }
     ]
    },
    "matte_soft": {
     "code": "ms",
-    "ko": "2D 무광 소프트",
-    "current": "v2",
+    "ko": "무광 평면 · 그림자 한 톤 · 디테일 덜",
+    "current": "v3",
     "versions": [
      {
       "v": "v1",
@@ -929,6 +940,17 @@
       "text": "2D soft matte painting: smooth gentle gradients and quiet, powdery surfaces.",
       "ko": "2D 무광 소프트",
       "by": "사용자 2026-11-10 검토안(docs/AXIS_REVIEW.md) → 「그 순서로 진행해줘」 · v2 표",
+      "medium": "flat 2D matte character illustration"
+     },
+     {
+      "v": "v3",
+      "text": "Flat 2D matte painting: thin soft outlines, broad flat colour areas with one gentle shadow tone and dull, non-reflective surfaces; armour, cloth and ornaments are reduced to simple readable shapes with far less surface detail than a painted illustration.",
+      "ko": "무광 평면 · 그림자 한 톤 · 디테일 덜",
+      "by": "사용자 2026-11-11 「잘 먹는 지시의 꼴」(STRUCTURE.md) → 14차 화풍 세기는 못 벌림 → 보이는 흔적 · 디테일 기준으로 새 판 「응 가줘」",
+      "avoid": [
+       "glossy or specular highlights",
+       "dense surface detail"
+      ],
       "medium": "flat 2D matte character illustration"
      }
     ]
