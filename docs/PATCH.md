@@ -3,6 +3,10 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · core v1 — 공방 공통 외형 · 표정 낱말
+- 사용자 「프롬포트 생성 관련 테스트나 문구관리를 하나의 공방에서 관리는 못하나」 → 「응 원소 글로 하고 core v1 만들어줘」 — core/v1/vocab.json(FACE_DESIGN 머리 줄 빼고 · EXPRESSION_DETAIL · VOCAB_EN): 공방마다 다른 열쇠는 삼국지 글(표정 32 · 나이 둘 · 외형 7), golden_tan 은 원소 글, 한쪽에만 있는 열쇠는 합침
+- core/sync.cjs — 공방 lib/prompt-spec.js · look-spec.js 끝 「core:v1」 블록으로 옮김(이미 있는 열쇠만 덮음, --check). core/README.md, tests/core.cjs(원본 꼴 · 옆 공방 블록 대조, CI). 삼국지 · 원소에 적용
+
 ## 2026-11-11 · claude · 철 복사본 — 얼굴 말 둘 빼기(안 가) · 원소 화풍 기준 그림
 - 사용자 「우선 가로 바꾸고, 지금 원소공방 화풍으로 스팀펑크로 만들어줘」 — data/subjects/el.fe.overrides.json: character 「moderately sized, realistically proportioned eyes — 」 · head 「 with defined cheekbones」 빼기(원소 공방 설계는 그대로). 원소 공방 지금 판(ece957c)으로 다시 가져옴, 한글 이름 철 되돌림
 - 기준 그림: 원소 공방 jp_paint_anime 철 스팀펑크 지시문 그대로(얼굴 말 둘만 뺌) 2.6 API 2장 · 출력 2,264 — style-atelier-img/ref/el.fe/(색인 밖)
