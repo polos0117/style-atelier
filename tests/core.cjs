@@ -1,7 +1,13 @@
-/* core — 원본 v1/vocab.json 꼴 · 옆 공방 블록이 원본과 같은지(있을 때). Run: node tests/core.cjs */
+/* core — 판마다 원본 vocab.json 꼴 · 가장 새 판의 바꾼 글 · 옆 공방 블록이 가장 새 판과 같은지(있을 때). Run: node tests/core.cjs */
 const fs = require('node:fs'), path = require('node:path'), cp = require('node:child_process'), assert = require('node:assert/strict');
-const ROOT = path.join(__dirname, '..'), C = JSON.parse(fs.readFileSync(path.join(ROOT, 'core/v1/vocab.json'), 'utf8'));
-assert.equal(C.version, 'v1');
+const ROOT = path.join(__dirname, '..'), VERS = fs.readdirSync(path.join(ROOT, 'core')).filter(d => /^v\d+$/.test(d)).sort((a, b) => +a.slice(1) - +b.slice(1));
+const LATEST = VERS[VERS.length - 1], C = JSON.parse(fs.readFileSync(path.join(ROOT, 'core', LATEST, 'vocab.json'), 'utf8'));
+for (const v of VERS) assert.equal(JSON.parse(fs.readFileSync(path.join(ROOT, 'core', v, 'vocab.json'), 'utf8')).version, v, v + ' 폴더 판 이름');
+assert.equal(C.version, LATEST);
+/* v2 (2026-11-11 「넣어주고」) — 긴 얼굴 글. 눈 small · 인상 fierce 는 v1 글 그대로(「그대로 두고」) */
+assert.equal(C.VOCAB_EN.face_shape.long, 'gently long oval face');
+assert.equal(C.FACE_DESIGN.eye_size.small, 'smaller, narrower eyes than usual anime proportion');
+assert.equal(C.FACE_DESIGN.impression.fierce, 'a fierce, wild ferocity');
 for (const t of ['FACE_DESIGN', 'EXPRESSION_DETAIL', 'VOCAB_EN']) assert(C[t] && typeof C[t] === 'object' && Object.keys(C[t]).length, t);
 assert(!('head' in C.FACE_DESIGN), 'FACE_DESIGN.head 는 공방 몫');
 assert.equal(C.FACE_DESIGN.skin_tone.golden_tan, 'light warm-beige skin with a golden undertone');
@@ -15,4 +21,4 @@ for (const r of ['sam-atelier', 'element-atelier', 'pkm-atelier', 'game-atelier'
   const x = cp.spawnSync('node', [path.join(ROOT, 'core/sync.cjs'), d, '--check'], { encoding: 'utf8' });
   assert.equal(x.status, 0, r + ' 블록이 원본과 다르다\n' + x.stdout); n++;
 }
-console.log('PASS core: v1 원본 꼴 · 옆 공방 ' + n + '곳 블록 같음');
+console.log('PASS core: 판 ' + VERS.join(' · ') + ' 꼴 · 옆 공방 ' + n + '곳 블록 = ' + LATEST);

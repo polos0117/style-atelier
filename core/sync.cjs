@@ -5,11 +5,13 @@
    블록은 공방에 이미 있는 열쇠만 덮는다 — 공통 열쇠는 core 글로 맞고, 공방에만 있는 열쇠는 그 공방 글 그대로, core 에만 있는 열쇠는 들이지 않는다
    (원소 체형 표처럼 열쇠 목록에 맞춘 표가 있어서 — 2026-11-11).
 
-   node core/sync.cjs <공방 폴더> [<공방 폴더> …] [--ver v1] [--check]
+   node core/sync.cjs <공방 폴더> [<공방 폴더> …] [--ver vN — 없으면 가장 새 판] [--check]
      --check  블록이 원본과 같은지만 본다(다르면 1로 끝난다) */
 'use strict';
 const fs = require('node:fs'), path = require('node:path'), crypto = require('node:crypto');
-const args = process.argv.slice(2), ver = (i => i >= 0 ? args[i + 1] : 'v1')(args.indexOf('--ver')), check = args.includes('--check');
+/* 판을 안 주면 가장 새 판(core/v<N>/ 중 N 이 가장 큰 것) */
+const latest = () => fs.readdirSync(__dirname).filter(d => /^v\d+$/.test(d)).sort((a, b) => +a.slice(1) - +b.slice(1)).pop();
+const args = process.argv.slice(2), ver = (i => i >= 0 ? args[i + 1] : latest())(args.indexOf('--ver')), check = args.includes('--check');
 const dirs = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--ver');
 if (!dirs.length) { console.error('쓰는 법: node core/sync.cjs <공방 폴더> … [--check]'); process.exit(1); }
 const src = path.join(__dirname, ver, 'vocab.json');

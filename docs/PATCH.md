@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · core v2 — 긴 얼굴 글
+- core/v2/vocab.json: v1 에서 VOCAB_EN.face_shape.long 「long face」 → 「gently long oval face」 하나만. v1 은 얼려 둠
+- sync.cjs 는 판을 안 주면 가장 새 판, tests/core.cjs 는 판마다 꼴 · v2 글 · 옆 공방 다섯 곳 = v2 를 본다, core/README.md 판 표
+- 시험: 원소 금 판타지 지금 · 새 글 두 쌍, 문앙 fierce 두 쌍, 위연 눈 small 한 쌍(2.6, 10장, 출력 11,320) — 사용자 「넣어주고(긴 얼굴), 그대로 두고(fierce), 설계값 모순만 바꿔줘(눈 small)」
+
 ## 2026-11-11 · claude · core v1 — 포켓몬 · 게임 · 책도 쓴다
 - core/sync.cjs: look-spec.js 가 없는 공방은 prompt-spec.js 에 FACE_DESIGN · EXPRESSION_DETAIL · VOCAB_EN 을 한 블록으로
 - 세 공방은 표정 표 32개가 core 글로 바뀌고, 게임 · 책 VOCAB_EN 공통 열쇠는 이미 같았다. 신화는 낱말표 · 표정 표가 없어 옮길 것 없음
