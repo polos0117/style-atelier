@@ -3,6 +3,10 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · 철 복사본 — 얼굴 말 둘 빼기(안 가) · 원소 화풍 기준 그림
+- 사용자 「우선 가로 바꾸고, 지금 원소공방 화풍으로 스팀펑크로 만들어줘」 — data/subjects/el.fe.overrides.json: character 「moderately sized, realistically proportioned eyes — 」 · head 「 with defined cheekbones」 빼기(원소 공방 설계는 그대로). 원소 공방 지금 판(ece957c)으로 다시 가져옴, 한글 이름 철 되돌림
+- 기준 그림: 원소 공방 jp_paint_anime 철 스팀펑크 지시문 그대로(얼굴 말 둘만 뺌) 2.6 API 2장 · 출력 2,264 — style-atelier-img/ref/el.fe/(색인 밖)
+
 ## 2026-11-11 · claude · 17차 평가 — 칠 셋 후보로
 - 사용자 「17차 평가 올렸어」 — 겹친 붓질(bl3) · 글로시(gd2) · 매끈(sm3) 판정 「좋다」, 유화 붓(ob3) · 대조군은 평가 없음
 - recipes.json 에 kr_drawn_layered_rim · kr_drawn_glossy_rim · kr_drawn_smooth_rim, confirmed.json 후보 칸에 셋(무협 한 장씩 — 반복 · 다른 세계는 아직)
