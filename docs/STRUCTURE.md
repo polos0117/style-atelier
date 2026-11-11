@@ -120,3 +120,7 @@ make-job ──────────────────────▶ j
 - `head_medium`(+hm) — 머리말의 「character image」 를 채색 부품 판의 `medium`(parts.json 채색 판의 칸, 문화권 말 없이 — 예 brush_anime v3 「2D brush-painted character illustration」)으로. medium 이 없는 채색이면 멈춘다.
 칸 이름 끝 `+<코드><판>`(배경 처리 `~cr2` 뒤). 기록 `boost`, 색인 끝 열 `boost`. `make-job --boost <열쇠>`. 14차 j0083 — 가챠(붓 칠로 거칠게 ja2-ag2-ba3-hp2-xs1) · 매트 애니(jn2-aa2-ms2-oc1-x01) × 없음 · A · B(매트 애니 「없음」 은 12차 그림).
 
+## 피부 마감
+
+사용자 2026-11-11 「인물의 피부쪽에만 물광같은 효과도 줄 수 있나해서」 · 「얼굴은 빼고」. 이펙트 축(발광 · 블룸 · 반짝임)이 아니라 따로 얹는 층 — `data/skins.json`. 1. STYLE 끝(얼굴 비율 줄 뒤)에 `Skin finish: …` 한 줄, avoid 는 5칸 Avoid 에 합친다. 칸 이름 `=<코드><판>`(예 `=dw1`) — 칸 이름 꼬리 차례는 `~배경 =피부 +세기`. 기록 `skin`, 색인 끝 열 `skin`. `make-job --skin <열쇠>`.
+

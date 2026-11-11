@@ -18,7 +18,7 @@ from pathlib import Path
 IMG_EXT = ('.png', '.webp', '.jpg', '.jpeg')
 W, H, THUMB = 1024, 1536, 512
 CLAIM_TTL_MIN = 120   # 예약이 이만큼 지나도록 그림이 안 오면 「예약 만료」 — 다른 세션이 가져가도 된다
-COLS = ['id', 'subject', 'world', 'kind', 'exposure', 'model', 'n', 'recipe', 'direction', 'face', 'paint', 'light', 'fx', 'job', 'added', 'rating', 'round', 'bg', 'boost']
+COLS = ['id', 'subject', 'world', 'kind', 'exposure', 'model', 'n', 'recipe', 'direction', 'face', 'paint', 'light', 'fx', 'job', 'added', 'rating', 'round', 'bg', 'boost', 'skin']
 
 
 def today():
@@ -67,7 +67,7 @@ def take_image(img, src, job, slot, note, check, gen=None):
     t.thumbnail((THUMB, THUMB), Image.LANCZOS)
     th.parent.mkdir(parents=True, exist_ok=True)
     t.save(th, 'WEBP', quality=80, method=6)
-    r = {k: slot.get(k) for k in ('slot', 'subject', 'subject_commit', 'world', 'kind', 'exposure', 'model', 'n', 'recipe', 'background', 'boost', 'prompt_file', 'prompt_sha256')}
+    r = {k: slot.get(k) for k in ('slot', 'subject', 'subject_commit', 'world', 'kind', 'exposure', 'model', 'n', 'recipe', 'background', 'boost', 'skin', 'prompt_file', 'prompt_sha256')}
     r = dict({'id': base, 'job': job['job']}, **r)
     r.update({'file': str(dst.relative_to(img)), 'thumb': str(th.relative_to(img)), 'size': list(im.size), 'resized_from': [w0, h0] if resized else None,
               'source': {'name': src.name, 'sha256': hashlib.sha256(raw).hexdigest(), 'size': [w0, h0]},
@@ -143,7 +143,7 @@ def build_index(img, jobs=()):
         r = json.loads(p.read_text(encoding='utf-8'))
         parts = {x['axis']: x['key'] + '@' + x['v'] for x in r['recipe']['parts']}
         rows.append([r['id'], r['subject'], r['world'], r['kind'], r.get('exposure'), r['model'], r['n'], r['recipe']['id'],
-                     parts.get('direction'), parts.get('face'), parts.get('paint'), parts.get('light'), parts.get('fx'), r['job'], r['added'], r.get('rating'), rounds.get(r['job'], 1), (r.get('background') or {}).get('key', '') + ('@' + r['background']['v'] if r.get('background') else ''), (r.get('boost') or {}).get('key', '') + ('@' + r['boost']['v'] if r.get('boost') else '')])
+                     parts.get('direction'), parts.get('face'), parts.get('paint'), parts.get('light'), parts.get('fx'), r['job'], r['added'], r.get('rating'), rounds.get(r['job'], 1), (r.get('background') or {}).get('key', '') + ('@' + r['background']['v'] if r.get('background') else ''), (r.get('boost') or {}).get('key', '') + ('@' + r['boost']['v'] if r.get('boost') else ''), (r.get('skin') or {}).get('key', '') + ('@' + r['skin']['v'] if r.get('skin') else '')])
     for p in sorted((img / 'rec' / 'blocked').glob('*.json')):
         blocked.append(json.loads(p.read_text(encoding='utf-8')))
     return {'version': 1, 'cols': COLS, 'rows': rows}, blocked

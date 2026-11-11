@@ -10,7 +10,7 @@
        비우면 data/focus.json(지금은 문앙 · 무협 — 화풍 비교는 캐릭터 하나로). 그 밖의 캐릭터 · 세계는 --off-focus 를 붙일 때만(사용자가 정할 때).
      --model chatgpt(기본) | api26 | api25    --exposure none|bold|moderate|low(기본은 data/focus.json — 지금 none, 노출 줄 없이)
      --round N(차수 — 화면 「1차 › 문앙」 묶음. 기본은 가장 최근 일감의 차수, 처음이면 1)
-     --size 10(일감 하나에 칸 수 — 사용자 2026-11-10 「4장보다 한 번에 맡기는 양 더 늘려도 돼」, 처음엔 4)  --label <짧은 이름>  --repeat(이미 그린 칸도 다시 — 번호를 올린다)  --bg <배경 처리 열쇠>(data/backgrounds.json — 장면에 Background treatment 줄, 칸 이름 끝 ~cr1)  --boost <화풍 세기 열쇠>(data/boosts.json — 칸 이름 끝 +ra1)  --times N(칸마다 N 장 — 한 일감에 같은 칸 번호 n · n+1 …, 반복 유지 보기)
+     --size 10(일감 하나에 칸 수 — 사용자 2026-11-10 「4장보다 한 번에 맡기는 양 더 늘려도 돼」, 처음엔 4)  --label <짧은 이름>  --repeat(이미 그린 칸도 다시 — 번호를 올린다)  --bg <배경 처리 열쇠>(data/backgrounds.json — 장면에 Background treatment 줄, 칸 이름 끝 ~cr1)  --boost <화풍 세기 열쇠>(data/boosts.json — 칸 이름 끝 +ra1)  --skin <피부 마감 열쇠>(data/skins.json — 칸 이름 =dw1)  --times N(칸마다 N 장 — 한 일감에 같은 칸 번호 n · n+1 …, 반복 유지 보기)
      --img ../style-atelier-img     --dry(쓰지 않고 칸만 보인다)
    아직 아무도 손대지 않은 일감을 크게 다시 묶기: --merge all | j0003,j0004 [--size 10]
      예약(CLAIM.md) · 그림(rec · rec/blocked · inbox)이 하나도 없는 일감만. 차수 · 모델 · 캐릭터가 같은 칸끼리 차례대로 고르게 나눠 새 일감으로,
@@ -26,7 +26,8 @@ const args = process.argv.slice(2), has = k => args.includes('--' + k), flag = (
 const P = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/parts.json'), 'utf8')), R = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/recipes.json'), 'utf8'));
 const IMG = path.resolve(ROOT, flag('img', '../style-atelier-img'));
 const BG = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/backgrounds.json'), 'utf8')), bgRef = flag('bg', null);
-const BO = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/boosts.json'), 'utf8')), boostRef = flag('boost', null);   /* 화풍 세기 — data/boosts.json 열쇠(칸 이름 끝 +ra1) */   /* 배경 처리 — data/backgrounds.json 열쇠(칸 이름 끝 ~cr1) */
+const BO = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/boosts.json'), 'utf8')), boostRef = flag('boost', null);
+const SK = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/skins.json'), 'utf8')), skinRef = flag('skin', null);   /* 피부 마감 — data/skins.json 열쇠(칸 이름 =dw1) */   /* 화풍 세기 — data/boosts.json 열쇠(칸 이름 끝 +ra1) */   /* 배경 처리 — data/backgrounds.json 열쇠(칸 이름 끝 ~cr1) */
 const model = flag('model', 'chatgpt'), size = +flag('size', 10), label = flag('label', ''), times = +flag('times', 1);
 if (!(times >= 1 && times <= 5 && Number.isInteger(times))) die('--times 는 1~5 정수');
 let exposure = flag('exposure', null);   /* 비우면 data/focus.json 의 exposure(지금은 none — 노출 줄 없이) */
@@ -77,7 +78,7 @@ for (const sid of subjects) {
       const dead = B.retiredIn(B.resolve(P, R, rc)); if (dead.length) die('내린 부품이 들어 있다: ' + rc + ' — ' + dead.join(' · '));
       /* 노출 — 고른 값, 없으면 초점 노출(그 캐릭터 · 세계에 그 단계가 있을 때만 — slit 은 문앙 복사본에만 있다), 없으면 캐릭터 기본값 */
       const ex = exposure || (FOCUS.exposure && (FOCUS.exposure === 'none' || (subj.worlds[w].exposure || {})[FOCUS.exposure] != null) ? FOCUS.exposure : undefined);
-      const b = B.build(P, R, subj, w, rc, { model, exposure: ex, bg: bgRef, BG, boost: boostRef, BO });
+      const b = B.build(P, R, subj, w, rc, { model, exposure: ex, bg: bgRef, BG, boost: boostRef, BO, skin: skinRef, SK });
       const k = b.slot + '__' + model;
       if (taken[k] && !has('repeat')) { console.log('  있음(건너뜀) ' + b.slot); continue; }
       for (let t = 0; t < times; t++) {
@@ -87,6 +88,7 @@ for (const sid of subjects) {
         subject_overrides: (subj.overrides || []).map(o => o.field + ': ' + o.from + ' → ' + o.to),
         background: b.bg ? { key: b.bg.key, v: b.bg.v, code: b.bg.code, ko: b.bg.ko } : null,
         boost: b.boost ? { key: b.boost.key, v: b.boost.v, code: b.boost.code, ko: b.boost.ko } : null,
+        skin: b.skin ? { key: b.skin.key, v: b.skin.v, code: b.skin.code, ko: b.skin.ko } : null,
         prompt: b.text, prompt_sha256: sha(b.text) });
       }
     }
@@ -230,7 +232,7 @@ function request(jid, part, model, round) {
   ]).concat(part.map((s, i) => [
     '## ' + (i + 1) + '. `' + s.file + '`',
     '',
-    s.recipe.display + ' — ' + s.subject + ' · ' + s.world + (s.exposure ? ' · 노출 ' + s.exposure : '') + (s.background ? ' · 배경 ' + s.background.ko : '') + (s.boost ? ' · 화풍 세기 ' + s.boost.ko : ''),
+    s.recipe.display + ' — ' + s.subject + ' · ' + s.world + (s.exposure ? ' · 노출 ' + s.exposure : '') + (s.background ? ' · 배경 ' + s.background.ko : '') + (s.boost ? ' · 화풍 세기 ' + s.boost.ko : '') + (s.skin ? ' · 피부 ' + s.skin.ko : ''),
     '',
     '```text', s.prompt, '```', ''
   ].join('\n'))).join('\n');

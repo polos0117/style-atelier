@@ -3,6 +3,11 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-11 · claude · 피부 마감 층 · 몸 피부 물광(2.6 API 3장)
+- 사용자 「인물의 피부쪽에만 물광같은 효과」 · 「얼굴은 빼고」 → 「응 3장 그려줘」 — data/skins.json dewy_body(dw) v1: 1칸 끝 Skin finish 줄(어깨 · 팔 · 쇄골 · 다리, 얼굴은 자연스럽게), avoid 얼굴 광 · 땀 · 기름 · 플라스틱 피부
+- build skin() · 칸 이름 =dw1 · make-job --skin · 기록 skin · 색인 skin 열 · 화면 표시 · 검사
+- 15차 j0084-r15-dewy — 확정 화풍 × 문앙 무협 · 판타지 · 메카, api26 3장 · 출력 3,396
+
 ## 2026-11-11 · claude · 화풍 세기 층 · 14차 시험 일감
 - 12차 평가 — 9 kg 가챠 글로시 4 · 10 확정 + 로우키 4 · 5 2.3D 일러 3 좋다, 1 가챠 셀 「선명보다 살짝 거칠게」, 8 3D 칠 · 6 유화 프로모 2. 열 장이 한 동네로 모였다 — 화풍 문단이 지시문의 10% 남짓
 - data/boosts.json — restate(+ra1, 5칸 끝 다시 말하기) · head_medium(+hm1, 머리말 「character image」 → 채색 medium). parts 채색 brush_anime v3 · matte_soft v2 · cel_gradient v2 에 medium 칸. build/make-job --boost · 기록 boost · 색인 boost 열 · 화면 표시 · 검사

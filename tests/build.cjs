@@ -69,7 +69,7 @@ for (const k of B.liveRecipes(R)) assert.deepEqual(B.retiredIn(B.resolve(P, R, k
 const s0 = B.slotName('km1-ss1-sm1-mu1-xf1', 'sam.wenyang', 'samguk', 'world', 'bold', { defaultExposure: 'bold' });
 assert.equal(s0, 'km1-ss1-sm1-mu1-xf1__sam.wenyang__samguk-world');
 assert.equal(B.slotName('km1-ss1-sm1-mu1-xf1', 'sam.wenyang', 'samguk', 'world', 'low', { defaultExposure: 'bold' }), s0 + '-low');
-assert.deepEqual(B.parseSlot(s0 + '-low'), { recipe: 'km1-ss1-sm1-mu1-xf1', subject: 'sam.wenyang', world: 'samguk', kind: 'world', exposure: 'low', bg: null, boost: null });
+assert.deepEqual(B.parseSlot(s0 + '-low'), { recipe: 'km1-ss1-sm1-mu1-xf1', subject: 'sam.wenyang', world: 'samguk', kind: 'world', exposure: 'low', bg: null, skin: null, boost: null });
 /* 배경 처리 — 칸 이름 끝 ~<코드><판>, 지시문은 장면의 Light 줄 뒤 한 줄 */
 assert.equal(B.slotName('km1-ss1-sm1-mu1-xf1', 'sam.wenyang', 'samguk', 'world', 'low', { defaultExposure: 'bold' }, 'cr1'), s0 + '-low~cr1');
 assert.equal(B.parseSlot(s0 + '-low~cr1').bg, 'cr1'); assert.equal(B.parseImage(s0 + '~cr1__api26__2').bg, 'cr1');
@@ -89,6 +89,12 @@ assert.equal(B.parseSlot(s0 + '-low~cr1').bg, 'cr1'); assert.equal(B.parseImage(
   assert(/^A full-body flat 2D matte character illustration, vertical/.test(h1.text) && h1.slot.endsWith('+hm1'));
   assert.throws(() => B.build(P, R, S, 'samguk', 'km2-ss2-sm2-mu2-xf1', { boost: 'head_medium', BO }), /medium 이 없다/);
   const both = B.build(P, R, S, 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit', bg: 'canvas_rough@v2', BG, boost: 'restate', BO });
+  /* 피부 마감 — 1칸 끝 Skin finish 줄, avoid 합침, 칸 이름 =dw1(~배경 =피부 +세기) */
+  const SK = J('data/skins.json'), k1 = B.build(P, R, S, 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit', skin: 'dewy_body', SK, bg: 'canvas_rough@v2', BG, boost: 'restate', BO });
+  const K = k1.text.split('\n'), ci = K.indexOf('2. CHARACTER');
+  assert(/^Skin finish: /.test(K[ci - 2]) && K[ci - 1] === '' && /glossy or shiny highlights on the face/.test(K[K.length - 1]), '피부 마감 줄은 1칸 끝 · avoid 합침');
+  assert(k1.slot.endsWith('-slit~cr2=dw1+ra1')); { const q = B.parseSlot(k1.slot); assert(q.bg === 'cr2' && q.skin === 'dw1' && q.boost === 'ra1'); }
+  for (const k of Object.keys(SK.skins)) { const g = B.skin(SK, k); assert(/^[a-z]/.test(g.text) && /\.$/.test(g.text) && !/\b(never|no|not)\b/i.test(g.text), '피부 ' + k); }
   assert(both.slot.endsWith('-slit~cr2+ra1')); const pb = B.parseImage(both.slot + '__api26__1'); assert(pb.bg === 'cr2' && pb.boost === 'ra1'); assert.equal(B.build(P, R, J('data/subjects/sam.wenyang.json'), 'samguk', 'km2-il2-ba3-rg2-x01', { exposure: 'slit' }).text.indexOf('Background treatment'), -1); }
 const im = B.parseImage(B.imageName(s0, 'chatgpt', 3));
 assert.equal(im.slot, s0); assert.equal(im.model, 'chatgpt'); assert.equal(im.n, 3);

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "note": "피부 마감 — 화풍 다섯 축과 따로, 1. STYLE 끝(얼굴 비율 줄 뒤)에 「Skin finish: …」 한 줄. 인물 피부의 마감만 바꾼다. 칸 이름 =<코드><판>(예 =dw1). make-job --skin <열쇠>.",
+ "skins": {
+  "dewy_body": {
+   "code": "dw",
+   "ko": "몸 피부 물광(얼굴 빼고)",
+   "current": "v1",
+   "versions": [
+    {
+     "v": "v1",
+     "text": "dewy, glass-like highlights on the skin of her shoulders, arms, collarbones and legs — a soft, luminous wet-look sheen that follows the body's forms; her face keeps a soft, natural finish.",
+     "ko": "몸 피부 물광(얼굴 빼고)",
+     "avoid": ["glossy or shiny highlights on the face", "sweaty, oily or plastic-looking skin"],
+     "by": "사용자 2026-11-11 「인물의 피부쪽에만 물광같은 효과도 줄 수 있나해서」 · 「얼굴은 빼고」 → 「응 3장 그려줘」"
+    }
+   ]
+  }
+ }
+}
