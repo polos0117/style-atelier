@@ -129,6 +129,42 @@
     "fantasy": "km2-aa2-ba3-gs1-x01__sam.wenyang__fantasy-world-slit__chatgpt__1",
     "mecha": "km2-aa2-ba3-gs1-x01__sam.wenyang__mecha-world-slit__chatgpt__1"
    }
+  },
+  {
+   "key": "kr_drawn_layered_rim",
+   "ko": "한국 MMORPG · 그린 얼굴 겹친 붓질 · 림 라이트",
+   "id": "km2-il2-bl3-rg2-x01",
+   "since": "2026-11-11",
+   "why": "17차 칠 펼치기 — brush_layered v3(겹친 붓질 · 얼굴만 또렷 · 바깥은 풀어짐), 사용자 판정 「좋다」. 무협 한 장 — 반복 · 다른 세계는 아직",
+   "subject": "sam.wenyang",
+   "exposure": "slit",
+   "images": {
+    "samguk": "km2-il2-bl3-rg2-x01__sam.wenyang__samguk-world-slit__chatgpt__1"
+   }
+  },
+  {
+   "key": "kr_drawn_glossy_rim",
+   "ko": "한국 MMORPG · 그린 얼굴 글로시 · 림 라이트",
+   "id": "km2-il2-gd2-rg2-x01",
+   "since": "2026-11-11",
+   "why": "17차 칠 펼치기 — glossy_digital v2(큰 반사광 · 면은 단순), 사용자 판정 「좋다」. 무협 한 장 — 반복 · 다른 세계는 아직",
+   "subject": "sam.wenyang",
+   "exposure": "slit",
+   "images": {
+    "samguk": "km2-il2-gd2-rg2-x01__sam.wenyang__samguk-world-slit__chatgpt__1"
+   }
+  },
+  {
+   "key": "kr_drawn_smooth_rim",
+   "ko": "한국 MMORPG · 그린 얼굴 에어브러시 · 림 라이트",
+   "id": "km2-il2-sm3-rg2-x01",
+   "since": "2026-11-11",
+   "why": "17차 칠 펼치기 — smooth v3(에어브러시 · 붓 자국 없이 매끈), 사용자 판정 「좋다」. 무협 한 장 — 반복 · 다른 세계는 아직",
+   "subject": "sam.wenyang",
+   "exposure": "slit",
+   "images": {
+    "samguk": "km2-il2-sm3-rg2-x01__sam.wenyang__samguk-world-slit__chatgpt__1"
+   }
   }
  ]
 }

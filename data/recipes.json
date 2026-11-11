@@ -258,6 +258,36 @@
     "light": "rim_gloss",
     "fx": "none"
    }
+  },
+  "kr_drawn_layered_rim": {
+   "note": "17차 칠 펼치기(확정 화풍에서 칠만 바꿈) — 사용자 판정 「좋다」 → 후보. 겹친 붓질 — 얼굴만 또렷, 바깥은 풀어짐",
+   "parts": {
+    "direction": "kr_mmorpg",
+    "face": "illustrated",
+    "paint": "brush_layered",
+    "light": "rim_gloss",
+    "fx": "none"
+   }
+  },
+  "kr_drawn_glossy_rim": {
+   "note": "17차 칠 펼치기(확정 화풍에서 칠만 바꿈) — 사용자 판정 「좋다」 → 후보. 글로시 — 큰 반사광, 면은 단순",
+   "parts": {
+    "direction": "kr_mmorpg",
+    "face": "illustrated",
+    "paint": "glossy_digital",
+    "light": "rim_gloss",
+    "fx": "none"
+   }
+  },
+  "kr_drawn_smooth_rim": {
+   "note": "17차 칠 펼치기(확정 화풍에서 칠만 바꿈) — 사용자 판정 「좋다」 → 후보. 에어브러시 — 붓 자국 없이 매끈",
+   "parts": {
+    "direction": "kr_mmorpg",
+    "face": "illustrated",
+    "paint": "smooth",
+    "light": "rim_gloss",
+    "fx": "none"
+   }
   }
  }
 }
