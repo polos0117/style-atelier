@@ -3,6 +3,12 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-13 · claude · core v6 — 체형 두 열쇠(슬림 근육형 · 아담한 풍만형)
+- core/v6/vocab.json — v5 그대로에 VOCAB_EN.body.lean_toned · petite_voluptuous(삼국지에서 만든 글 그대로). 사용자 「다른 공방에도 아까 만든 축융체형이랑 지금 만든 체형 추가할 수 있는지 검토해줘」 → 「공통으로 다 넣어주면 돼」
+- core/README.md · docs/STRUCTURE.md — 판 표 · 구조에 v6 한 줄
+- tests/core.cjs — v6 두 글 단언
+- node core/sync.cjs 로 여섯 공방(삼국지 · 원소 · 포켓몬 · 게임 · 책 · 신화) 블록을 v6 으로 — 블록은 공방에 있는 열쇠만 덮어서 공방 본표 · 선택지에 두 열쇠를 먼저 넣었다(mecha atelier 는 core 블록이 없어 그대로)
+
 ## 2026-11-12 · claude · 공방마다 있던 core-sync 검사 지움 — 대조는 여기 tests/core.cjs 하나
 - 사용자 「각 공방별로 필요없고 쓸데없이 시간만 잡아먹는 검사들 좀 없애줘.」 — 여섯 공방 tests/core-sync.cjs 는 여기 tests/core.cjs 와 같은 대조라 지웠다. docs/STRUCTURE.md · core/README.md 글 맞춤.
 

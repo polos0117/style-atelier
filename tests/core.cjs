@@ -6,6 +6,9 @@ for (const v of VERS) assert.equal(JSON.parse(fs.readFileSync(path.join(ROOT, 'c
 assert.equal(C.version, LATEST);
 /* v2 (2026-11-11 「넣어주고」) — 긴 얼굴 글. 눈 small · 인상 fierce 는 v1 글 그대로(「그대로 두고」) */
 assert.equal(C.VOCAB_EN.face_shape.long, 'gently long oval face');
+/* v6 (2026-11-12 「공통으로 다 넣어주면 돼」) — 삼국지에서 만든 체형 두 열쇠 */
+assert.equal(C.VOCAB_EN.body.lean_toned, 'lean and toned — a slim, firm waist with softly defined vertical abs and lightly sculpted arms and shoulders, a full bust');
+assert.equal(C.VOCAB_EN.body.petite_voluptuous, 'petite and short in stature yet voluptuous — a very full, heavy bust, a narrow waist and generously rounded hips on a small, compact frame, with realistic thighs and legs');
 /* v5 (2026-11-11 「진한 빨간 입술은 … 연하게」) */
 assert.equal(C.FACE_DESIGN.mark.red_lip, 'a soft rose-red tint on the lips');
 /* v4 (2026-11-11 3단계) — 칸 꼴 틀. 공방은 AtelierSpec.CORE_FRAME 으로 읽는다 */
