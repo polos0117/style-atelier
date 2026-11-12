@@ -5,7 +5,7 @@
 - `v<N>/vocab.json` — **원본**(가장 새 판이 지금 쓰는 글, 옛 판은 얼려 둔다). 얼굴 설계 낱말(`FACE_DESIGN` — head 빼고), 표정 표(`EXPRESSION_DETAIL`), 외형 낱말(`VOCAB_EN`)의 영어 글. 한 번 낸 판은 고치지 않는다 — 바꿀 땐 `v2/` 를 새로 만든다.
 - `sync.cjs` — 원본을 공방의 `lib/prompt-spec.js`(FACE_DESIGN · EXPRESSION_DETAIL) · `lib/look-spec.js`(VOCAB_EN) 끝 「core:v<N>」 블록으로 옮긴다(판을 안 주면 가장 새 판). `look-spec.js` 가 없는 공방(포켓몬 · 게임 · 책 — VOCAB_EN 이 prompt-spec.js 안)은 `prompt-spec.js` 에 셋을 한 블록으로. **공방에 이미 있는 열쇠만 덮는다** — 공통 열쇠는 core 글, 공방에만 있는 열쇠는 그 공방 글.
   - `node core/sync.cjs ../sam-atelier ../element-atelier` — 옮기기
-  - `node core/sync.cjs ../sam-atelier --check` — 같은지 보기(공방 `tests/core-sync.cjs` 가 이걸 부른다)
+  - `node core/sync.cjs ../sam-atelier --check` — 같은지 보기(여섯 공방 대조는 여기 `node tests/core.cjs` 한 번 — 공방마다 있던 `tests/core-sync.cjs` 는 2026-11-12 지웠다)
 - 칸 꼴 틀(`FRAME`, v4~)은 블록이 `AtelierSpec.CORE_FRAME` 에 통째로 둔다 — 칸 꼴로 짓는 공방(삼국지 · 원소)의 조립부가 칸 머리 · 해부 줄 · Avoid 줄을 여기서 읽는다.
 - 공방 생성기 · 도구 · 검사는 제 파일만 읽어도 core 글을 쓴다(브라우저도 node 도). 블록 안은 손으로 고치지 않는다.
 
