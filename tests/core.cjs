@@ -15,15 +15,18 @@ assert.equal(C.FACE_DESIGN.mark.red_lip, 'a soft rose-red tint on the lips');
 assert(C.FRAME && ['s1', 's2', 's3', 's4', 's5', 'anatomy', 'avoid'].every(k => typeof C.FRAME[k] === 'string' && C.FRAME[k]), 'FRAME 칸');
 assert.equal(C.FRAME.s1, '1. STYLE'); assert(C.FRAME.s3.includes('{costume}') && C.FRAME.s3.includes('{genre}') && C.FRAME.avoid.includes('{list}'), 'FRAME 자리 표');
 /* v3 (2026-11-11 「정리하는 김에 깔끔하게」) — 각진 얼굴 · 광대 · 웃는 입 글 */
-assert.equal(C.VOCAB_EN.face_shape.square_soft, 'softly squared face with a rounded jaw');
+/* v7 (2026-11-20 「이건 지금 고치자」) — 얼굴 낱말에서 크기 말을 빼고 모양 · 방향만(각진 얼굴 · 웃는 입 · 눈 크기 글도) */
+assert.equal(C.VOCAB_EN.face_shape.square_soft, 'face with soft jaw angles that taper gently toward a rounded chin, not wide from the front');
+assert.equal(C.VOCAB_EN.nose.broad_soft, 'a nose with a soft, rounded tip and natural width');
+assert.equal(C.VOCAB_EN.eyes.round_large, 'rounder almond eyes of natural size');
 assert.equal(C.VOCAB_EN.face_shape.angular, 'refined face with a clean, softly tapered outline');
-assert.equal(C.VOCAB_EN.lips.wide_smile, 'a wide mouth with softly upturned corners');
-assert.equal(C.FACE_DESIGN.eye_size.small, 'smaller, narrower eyes than usual anime proportion');
+assert.equal(C.VOCAB_EN.lips.wide_smile, 'a mouth of natural width whose corners lift easily');
+assert.equal(C.FACE_DESIGN.eye_size.small, 'eyes on the smaller side of natural');
 assert.equal(C.FACE_DESIGN.impression.fierce, 'a fierce, wild ferocity');
 for (const t of ['FACE_DESIGN', 'EXPRESSION_DETAIL', 'VOCAB_EN']) assert(C[t] && typeof C[t] === 'object' && Object.keys(C[t]).length, t);
 assert(!('head' in C.FACE_DESIGN), 'FACE_DESIGN.head 는 공방 몫');
 assert.equal(C.FACE_DESIGN.skin_tone.golden_tan, 'light warm-beige skin with a golden undertone');
-assert.equal(C.FACE_DESIGN.eye_size.medium, 'medium-sized eyes');
+assert.equal(C.FACE_DESIGN.eye_size.medium, 'eyes of natural size');
 const strings = []; (function walk(o) { for (const v of Object.values(o)) typeof v === 'string' ? strings.push(v) : walk(v); })(C);
 assert(strings.every(s => s.trim() === s && s.length), '빈 글 · 앞뒤 빈칸 없음');
 assert(!strings.some(s => /realistically proportioned|golden tan skin/.test(s)) && !Object.values(C.FACE_DESIGN.age).some(s => /cheekbones/.test(s)), '오늘 뺀 말(사실형 눈 비율 · golden tan · 나이 줄의 광대)이 돌아오지 않았다');
