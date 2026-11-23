@@ -3,6 +3,13 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-23 · claude · 인상 열네 개 더함 — 섹시 · 도발 · 퇴폐 · 팜파탈 · 새침 · 도도 · 여우 · 몽환 · 신비 · 당당 · 냉미녀 · 수줍음 · 당찬 · 아련함
+- core/v7/vocab.json — FACE_DESIGN.impression 에 열네 열쇠(seductive · provocative · decadent · femme_fatale · coquettish · haughty · mischievous · dreamy · mysterious · confident · icy · shy · sassy · wistful). 있던 열일곱 글은 그대로라 판은 v7 그대로 두고 열쇠만 더했다. 사용자 2026-11-23 「인상중에 뭔가 섹시,도발, 퇴폐 느낌이 없네」 → 「다른 인상도 더 있을까?」 → 「다 넣어주고 공방 다 적용해줘. 설계 있는거에서도 옮겨주고」
+- core/v7/vocab.json — 웃음 규칙(입 벌린 웃음 · 비웃음 없음, 삼국지 표정 꼬리 「no sneer … smirk-pulled cheek or chin lifted to look down」)에 맞춰 두 글만 손봄: provocative 「a knowing smirk」 → 「a knowing closed-lip smile」, haughty 「chin slightly raised, looking down her nose」 → 「a cool, superior gaze and a proud, straight-backed poise」
+- tests/core.cjs — 인상 31열쇠 · seductive 글 · 인상 글에 smirk/laugh/open-mouth 없음 단언
+- core/README.md — v7 줄에 오늘 더한 것(나이 문장 · 인상 열넷)
+- node core/sync.cjs 로 일곱 공방(도시 · 삼국지 · 원소 · 포켓몬 · 게임 · 책 · 신화) 블록을 옮김 — 블록은 공방에 있는 열쇠만 덮어서 도시 · 삼국지 · 원소 본표에 열네 열쇠를 먼저 넣었다(게임 · 책 · 신화는 얼굴 설계 표가 없어 블록만, 포켓몬은 제 분위기 표 IMPRESSION_VIBES)
+
 ## 2026-11-23 · claude · core v7 나이 문장 — 20대 초 youthful · 중반 young-adult · 후반 clear adult
 - core/v7/vocab.json — FACE_DESIGN.age early_20s 「a youthful face」 · mid_20s 「a young-adult face」 · late_20s 「a clear adult face」(사용자 2026-11-23 「20대초를 youthful, 20대중반을 young adult, 20대 후반을 clear adult 로」), 일곱 공방에 옮김
 

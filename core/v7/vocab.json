@@ -27,7 +27,21 @@
    "fierce": "a fierce, wild ferocity",
    "melancholic": "a quiet melancholy",
    "androgynous": "a striking androgynous handsomeness",
-   "innocent": "a clear, innocent purity"
+   "innocent": "a clear, innocent purity",
+   "seductive": "a seductive, smouldering allure — a slow, inviting gaze",
+   "provocative": "a provocative, teasing boldness — a challenging, half-lidded stare and a knowing closed-lip smile",
+   "decadent": "a decadent, world-weary glamour — heavy-lidded eyes and a jaded, careless poise",
+   "femme_fatale": "a dangerous femme-fatale poise — cool, calculating eyes behind a faint smile",
+   "coquettish": "a coquettish, flirtatious charm — a sidelong glance and a playful pout",
+   "haughty": "a haughty, untouchable pride — a cool, superior gaze and a proud, straight-backed poise",
+   "mischievous": "a mischievous, sly-fox playfulness — narrowed, amused eyes",
+   "dreamy": "a dreamy, faraway gaze — soft unfocused eyes, lost in thought",
+   "mysterious": "an enigmatic, mysterious aura — an unreadable, veiled gaze",
+   "confident": "a bold, self-assured confidence — a direct, steady gaze",
+   "icy": "an icy, cold beauty — piercing, emotionless eyes",
+   "shy": "a shy, bashful sweetness — a lowered gaze and a faint blush",
+   "sassy": "a sassy, spirited attitude — a raised brow and a sharp little smile",
+   "wistful": "a wistful, longing tenderness — soft, misty eyes"
   },
   "skin_tone": {
    "porcelain": "porcelain-pale skin",

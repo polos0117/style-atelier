@@ -23,6 +23,10 @@ assert.equal(C.VOCAB_EN.face_shape.angular, 'refined face with a clean, softly t
 assert.equal(C.VOCAB_EN.lips.wide_smile, 'a mouth of natural width whose corners lift easily');
 assert.equal(C.FACE_DESIGN.eye_size.small, 'eyes on the smaller side of natural');
 assert.equal(C.FACE_DESIGN.impression.fierce, 'a fierce, wild ferocity');
+/* v7 더함(2026-11-23 「다 넣어주고 공방 다 적용해줘」) — 인상 열네 열쇠(섹시 · 도발 · 퇴폐 · 팜파탈 …), 있던 열일곱 글은 그대로 */
+assert.equal(Object.keys(C.FACE_DESIGN.impression).length, 31);
+assert.equal(C.FACE_DESIGN.impression.seductive, 'a seductive, smouldering allure — a slow, inviting gaze');
+assert(!/smirk|laugh|open[- ]mouth|teeth/.test(Object.values(C.FACE_DESIGN.impression).join(' ')), '인상 글에 웃음 · 비웃음 말 없음(입 다문 미소만)');
 for (const t of ['FACE_DESIGN', 'EXPRESSION_DETAIL', 'VOCAB_EN']) assert(C[t] && typeof C[t] === 'object' && Object.keys(C[t]).length, t);
 assert(!('head' in C.FACE_DESIGN), 'FACE_DESIGN.head 는 공방 몫');
 assert.equal(C.FACE_DESIGN.skin_tone.golden_tan, 'light warm-beige skin with a golden undertone');
