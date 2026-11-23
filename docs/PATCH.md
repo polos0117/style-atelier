@@ -3,6 +3,9 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-23 · claude · core v7 나이 문장 — 20대 초 youthful · 중반 young-adult · 후반 clear adult
+- core/v7/vocab.json — FACE_DESIGN.age early_20s 「a youthful face」 · mid_20s 「a young-adult face」 · late_20s 「a clear adult face」(사용자 2026-11-23 「20대초를 youthful, 20대중반을 young adult, 20대 후반을 clear adult 로」), 일곱 공방에 옮김
+
 ## 2026-11-13 · claude · core v6 — 체형 두 열쇠(슬림 근육형 · 아담한 풍만형)
 - core/v6/vocab.json — v5 그대로에 VOCAB_EN.body.lean_toned · petite_voluptuous(삼국지에서 만든 글 그대로). 사용자 「다른 공방에도 아까 만든 축융체형이랑 지금 만든 체형 추가할 수 있는지 검토해줘」 → 「공통으로 다 넣어주면 돼」
 - core/README.md · docs/STRUCTURE.md — 판 표 · 구조에 v6 한 줄
