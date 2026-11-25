@@ -1,0 +1,34 @@
+/* 들어갈 때 로딩 화면(lib/splash.js — 도시 · 원소 공방이 글자 하나 다르지 않게 같이). 늘 어두운 판(그림 + 그늘) 위라 공간 밝기를 따르지 않는다.
+   공방 몫은 변수로: --sp-display(제목 글꼴) · --sp-weight(굵기) · --sp-accent(세계 줄 · 막대) · --sp-ink(글자). 움직임이 꺼지면 애초에 뜨지 않는다(부르는 쪽 판단) */
+.sp {position:fixed;inset:0;z-index:2147483000;overflow:hidden;background:#000;color:var(--sp-ink,#fff);cursor:pointer;
+  -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:none;animation:sp-in .18s ease-out both}
+.sp.is-out {animation:sp-out var(--sp-out,300ms) ease-in forwards}
+.sp-img {position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;transform-origin:50% 58%;opacity:0;will-change:transform,opacity;
+  animation:sp-fade .75s ease-out .1s forwards,sp-kb 2.1s cubic-bezier(.25,.6,.35,1) forwards}
+.sp-fx {position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .45s ease-out}
+.sp-fx.on {opacity:1}
+.sp-fx canvas {display:block;width:100%;height:100%}
+/* 그늘 — 위는 옅게, 글자가 앉는 아래 절반은 짙게(가장자리도 조금) */
+.sp-scrim {position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(130% 80% at 50% 45%,transparent 45%,rgb(0 0 0 / .5) 100%),
+    linear-gradient(180deg,rgb(0 0 0 / .4) 0,transparent 22%,transparent 40%,rgb(0 0 0 / .5) 60%,rgb(0 0 0 / .88) 100%)}
+.sp-text {position:absolute;left:0;right:0;bottom:calc(max(13vh,104px) + env(safe-area-inset-bottom,0px));padding:0 24px;text-align:center;
+  text-shadow:0 2px 18px rgb(0 0 0 / .75),0 1px 2px rgb(0 0 0 / .9)}
+.sp-text > * {opacity:0;animation:sp-rise .55s cubic-bezier(.2,.7,.3,1) forwards}
+.sp-kicker {display:inline-flex;align-items:center;gap:12px;margin:0 0 8px;font-size:clamp(15px,1.5vw,21px);font-weight:700;letter-spacing:.32em;text-indent:.32em;color:var(--sp-accent,#f4d54c);animation-delay:.22s!important}
+.sp-kicker::before,.sp-kicker::after {content:'';width:clamp(28px,9vw,84px);height:1px;background:currentColor;opacity:.85;box-shadow:0 0 6px currentColor}
+.sp-title {margin:0;font-family:var(--sp-display,inherit);font-weight:var(--sp-weight,800);line-height:1.02;letter-spacing:.02em;white-space:nowrap;
+  font-size:min(clamp(56px,14vw,136px),calc((100vw - 48px) / var(--sp-n,4)));animation-delay:.3s!important}
+.sp-line {max-width:30em;margin:12px auto 0;font-size:clamp(15px,1.9vw,19px);font-weight:700;line-height:1.5;opacity:.92;animation-delay:.42s!important;text-wrap:balance}
+.sp-bar {position:absolute;left:50%;bottom:calc(max(7vh,52px) + env(safe-area-inset-bottom,0px));width:min(300px,62vw);height:2px;transform:translateX(-50%);
+  border-radius:2px;background:rgb(255 255 255 / .2);overflow:hidden}
+.sp-bar i {display:block;width:100%;height:100%;background:var(--sp-accent,#fff);box-shadow:0 0 10px var(--sp-accent,#fff);transform:scaleX(0);transform-origin:0 50%;animation:sp-bar 1.3s cubic-bezier(.4,.1,.5,1) forwards}
+.sp-skip {position:absolute;left:0;right:0;bottom:calc(max(7vh,52px) - 30px + env(safe-area-inset-bottom,0px));margin:0;text-align:center;font-size:12px;font-weight:700;opacity:.72;text-shadow:0 1px 3px #000}
+.sp-live {position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+@keyframes sp-in {from {opacity:0} to {opacity:1}}
+@keyframes sp-out {from {opacity:1} to {opacity:0}}
+@keyframes sp-fade {from {opacity:0} to {opacity:1}}
+@keyframes sp-kb {from {transform:scale(1)} to {transform:scale(1.06)}}
+@keyframes sp-rise {from {opacity:0;transform:translateY(14px)} to {opacity:1;transform:none}}
+@keyframes sp-bar {to {transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce) {.sp {display:none}}

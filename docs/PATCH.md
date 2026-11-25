@@ -3,6 +3,12 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-25 · claude · 공용 파일 한 곳에서 — style-atelier shared · sync
+- shared/lib/casual-tree.js · casual-tree-v2.js · fill-view.js · splash.js · splash.css — 공방들이 손으로 옮겨 쓰던 파일의 원본(도시 사본에서). casual-tree-v2.js 는 포켓몬 사본에만 있던 「가슴 위 · 얼굴 클로즈업에 두 손을 다 올리지 않기」 를 표 `raise_one` 으로 읽는다(표가 없으면 안 거른다). 사용자 「추천 순서대로 1번부터 진행해줘」 4번
+- shared/manifest.json · shared/sync.cjs · shared/README.md — 파일마다 원본 · 자리 · 공방, `node shared/sync.cjs [--check] [<공방 폴더> …]` 가 바이트 그대로 쓴다/대조한다. 일상컷 버전2 는 도시 · 삼국지 · 원소 · 포켓몬, 버전1 은 게임 · 책 · 신화까지(게임 · 책 · 신화 버전2 는 그 공방 검사기와 어긋나 밖)
+- tests/shared.cjs — manifest 꼴 · 옆 공방 사본 = 원본(없는 폴더는 건너뜀) · 포켓몬 raise_one 이 걸리고 표를 빼면 안 걸림
+- docs/STRUCTURE.md 「shared」 절 · AGENTS.md 10
+
 ## 2026-11-23 · claude · 인상 열네 개 더함 — 섹시 · 도발 · 퇴폐 · 팜파탈 · 새침 · 도도 · 여우 · 몽환 · 신비 · 당당 · 냉미녀 · 수줍음 · 당찬 · 아련함
 - core/v7/vocab.json — FACE_DESIGN.impression 에 열네 열쇠(seductive · provocative · decadent · femme_fatale · coquettish · haughty · mischievous · dreamy · mysterious · confident · icy · shy · sassy · wistful). 있던 열일곱 글은 그대로라 판은 v7 그대로 두고 열쇠만 더했다. 사용자 2026-11-23 「인상중에 뭔가 섹시,도발, 퇴폐 느낌이 없네」 → 「다른 인상도 더 있을까?」 → 「다 넣어주고 공방 다 적용해줘. 설계 있는거에서도 옮겨주고」
 - core/v7/vocab.json — 웃음 규칙(입 벌린 웃음 · 비웃음 없음, 삼국지 표정 꼬리 「no sneer … smirk-pulled cheek or chin lifted to look down」)에 맞춰 두 글만 손봄: provocative 「a knowing smirk」 → 「a knowing closed-lip smile」, haughty 「chin slightly raised, looking down her nose」 → 「a cool, superior gaze and a proud, straight-backed poise」

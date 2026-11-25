@@ -1,0 +1,10 @@
+{
+ "note": "공방들이 같이 쓰는 파일 — 원본은 shared/<src> 하나, node shared/sync.cjs 가 각 공방 <dest> 에 바이트 그대로 쓴다. 공방 쪽 사본은 손으로 고치지 않는다(덮인다). 공방마다 다른 규칙은 코드가 아니라 그 공방 표(data/…)에 둔다 — 예: 포켓몬 raise_one(data/casual-tree-v2.json). 2026-11-25",
+ "files": [
+  { "src": "lib/casual-tree.js", "dest": "lib/casual-tree.js", "ateliers": ["city-atelier", "sam-atelier", "element-atelier", "pkm-atelier", "game-atelier", "book-atelier", "myth-atelier"] },
+  { "src": "lib/casual-tree-v2.js", "dest": "lib/casual-tree-v2.js", "ateliers": ["city-atelier", "sam-atelier", "element-atelier", "pkm-atelier"] },
+  { "src": "lib/fill-view.js", "dest": "lib/fill-view.js", "ateliers": ["city-atelier", "sam-atelier", "element-atelier", "pkm-atelier"] },
+  { "src": "lib/splash.js", "dest": "lib/splash.js", "ateliers": ["city-atelier", "element-atelier"] },
+  { "src": "lib/splash.css", "dest": "lib/splash.css", "ateliers": ["city-atelier", "element-atelier"] }
+ ]
+}

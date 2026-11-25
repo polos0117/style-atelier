@@ -12,3 +12,4 @@
 7. **API 로 그릴 때**(사용자가 정할 때만) 장 수 · 출력 토큰(2.6 한 장 약 1,132 · 2.5 약 343)을 먼저 말한다. `make-job --model api26` → `node tools/draw-api.cjs <일감>` → `python3 tools/ingest.py` → 그림 저장소 push. 키는 환경 변수 `OPENAI_API_KEY`(사용자가 Claude Code 세션 환경에 넣어 둔 GPT API 키 — 여러 세션이 같이 쓴다)로만 — 값을 찍지 않는다. 누적 장 수는 세지 않는다.
 8. **검사** — 밀기 전에 `node tests/build.cjs` · `python3 tests/ingest.py`(Pillow 필요). 고쳤으면 `docs/PATCH.md` 맨 위에 한 칸.
 9. **git** — main 에 바로 민다(PR 없음). 강제 push · 이력 고쳐 쓰기 없음. 밀기 전에 `git pull --rebase origin main`. 그림 저장소와 함께 바꿀 때는 코드 저장소 먼저(워크플로가 코드 저장소 도구를 받아 쓴다).
+10. **공방들이 같이 쓰는 파일**(일상컷 트리 모듈 · 채우기 화면 · 첫 화면)의 원본은 `shared/` — 여기서 고치고 `node shared/sync.cjs` 로 옮긴 뒤 `node tests/shared.cjs` · 그 파일을 쓰는 공방의 검사, 공방마다 커밋(2026-11-25). 1번(읽기만)의 예외는 이것과 `core/sync.cjs` 둘. 자세히 `shared/README.md`.
