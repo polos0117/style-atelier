@@ -3,6 +3,14 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-25 · claude · 허브 즐겨찾기 — 크게 보기 꽉 채우기 · 가로 보기 · 한도
+- shared/lib/fill-core.js(새) — 꽉 채우기 몸통: fitBox · wide · MARGIN · makeTap(두 번 누르기) · attach(화면 틀 없는 크게 보기에 붙이기). 공방 모음 즐겨찾기가 attach 로 쓴다
+- shared/lib/fill-view.js — 셈 · 두 번 누르기를 fill-core.js 에서 가져다 쓴다(동작 같음, 네 공방 fill-view 검사 통과)
+- shared/lib/favorites.js(새 원본 — 공방 모음 favorites.js 에서 옮김) — MAX 500 → 3000, 넘치면 오래된 것을 몰래 빼던 것을 「가득이면 거절」로, error() · message() · room(), QuotaExceededError 를 'quota' 로(담아 둔 칸 그대로)
+- shared/manifest.json · sync.cjs — 받는 쪽에 건담(atelier) · 공방 모음(polos0117.github.io), 자리가 다른 곳은 dests
+- tests/shared.cjs — 받는 쪽 이름 · dests · 즐겨찾기 가득 거절 · 저장 공간
+- shared/README.md · AGENTS.md 10번
+
 ## 2026-11-25 · claude · 공용 파일 한 곳에서 — style-atelier shared · sync
 - shared/lib/casual-tree.js · casual-tree-v2.js · fill-view.js · splash.js · splash.css — 공방들이 손으로 옮겨 쓰던 파일의 원본(도시 사본에서). casual-tree-v2.js 는 포켓몬 사본에만 있던 「가슴 위 · 얼굴 클로즈업에 두 손을 다 올리지 않기」 를 표 `raise_one` 으로 읽는다(표가 없으면 안 거른다). 사용자 「추천 순서대로 1번부터 진행해줘」 4번
 - shared/manifest.json · shared/sync.cjs · shared/README.md — 파일마다 원본 · 자리 · 공방, `node shared/sync.cjs [--check] [<공방 폴더> …]` 가 바이트 그대로 쓴다/대조한다. 일상컷 버전2 는 도시 · 삼국지 · 원소 · 포켓몬, 버전1 은 게임 · 책 · 신화까지(게임 · 책 · 신화 버전2 는 그 공방 검사기와 어긋나 밖)
