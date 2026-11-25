@@ -3,6 +3,9 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-25 · claude · 뒷모습 상체 비틀림 막기
+- shared/lib/casual-tree-v2.js — 사용자 「몸방향 뒤, 시선먼곳, 카메라 눈높이 일 때, 자세는 뒷모습을 보이며 걸어가는 자세인데, 상체는 카메라쪽으로 돌아있어서 기괴한 이미지들이 있네」: backLock — 몸이 뒤쪽(far)이면 COMPOSITION 줄 맨 앞(extras.comp)에 「어깨 · 가슴 · 엉덩이가 한 줄로 돌아가 있다, 허리 비틀림 없음」. 뒤(back)는 얼굴 · 가슴이 안 보이고 노출은 뒤에서 보이는 곳만, 뒤 3/4 는 가슴이 돌아가 있음, 돌아보는 컷(look_back)은 고개 · 목만 돈다. sync 로 네 공방에
+
 ## 2026-11-25 · claude · 일상컷 트리 v2 — 소품 동작 · 자세의 옷 특징, 소품 동작 not_has, 상황 노출 situ_not_has
 - shared/lib/casual-tree-v2.js — 네 공방 일상컷 몸짓 · 운동 · 놀이 더하기(가슴 사이 물건은 목선이 열린 옷 cleavage, 헤엄 · 공기매트는 swimsuit, 요가 · 조깅은 sportswear, 삼국지 갑옷 손질은 underlayer): useFits 가 소품 동작의 outfit · not_has(놀이터 k_kids)를, why posture 가 자세의 outfit 을, situOk 가 표 situ_not_has 를 본다. 표에 칸이 없으면 안 거른다. FEATURES 에 넷 더함. sync 로 도시 · 삼국지 · 원소 · 포켓몬.
 
