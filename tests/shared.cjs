@@ -23,12 +23,12 @@ for (const f of M.files) {
   const e = i => ({ a: 'book', key: 'k', file: 'f' + i + '.webp', title: 't', thumb: 'x', full: 'x', link: '/x' });
   assert(F.MAX >= 3000, 'MAX ' + F.MAX);
   m[F.KEY] = JSON.stringify(Array.from({ length: F.MAX }, (_, i) => ({ ...e(i), at: 'x' })));
-  assert.equal(F.toggle(e('new')), false, '가득 차면 못 담는다'); assert.equal(F.error(), 'full'); assert.match(F.message(), /가득/);
+  assert.equal(F.toggle(e('new')), false, '가득 차면 못 담는다'); assert.equal(F.error(), 'full'); assert.equal(F.message(), '', '말은 파일에 없다 — 공방 낱말 표나 setMessages'); F.setMessages({ full: '가득 {max}' }); assert.equal(F.message(), '가득 ' + F.MAX);
   assert.equal(F.count(), F.MAX, '가득일 때 하나도 안 빠진다'); assert.equal(F.list()[F.MAX - 1].file, 'f' + (F.MAX - 1) + '.webp', '오래된 것 그대로'); assert.equal(F.room(), 0);
   assert.equal(F.toggle(e(5)), false, '가득이어도 빼기는 된다'); assert.equal(F.error(), ''); assert.equal(F.toggle(e('new')), true, '하나 빼면 담긴다');
   const Q = run({ getItem: k => m[k] || null, setItem: () => { throw Object.assign(new Error('full'), { name: 'QuotaExceededError', code: 22 }); }, removeItem() {} });
   const before = m[F.KEY]; F.remove('book', 'fnew.webp');
-  assert.equal(Q.toggle(e('q')), false, '저장 공간이 모자라면 못 담는다'); assert.equal(Q.error(), 'quota'); assert.match(Q.message(), /저장 공간/);
+  assert.equal(Q.toggle(e('q')), false, '저장 공간이 모자라면 못 담는다'); assert.equal(Q.error(), 'quota'); assert.equal(Q.message(), ''); Q.setMessages({ quota: '저장 공간' }); assert.match(Q.message(), /저장 공간/);
   assert.equal(Q.count(), F.MAX - 1, '못 담아도 담아 둔 칸은 그대로'); assert.notEqual(before, undefined);
 }
 /* 옆 공방 대조 — 없는 폴더는 건너뛴다(core.cjs 와 같게) */

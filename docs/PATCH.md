@@ -3,6 +3,9 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-25 · claude · 즐겨찾기 알림 말 — 공용 파일에서 빼서 낱말 표로
+- shared/lib/favorites.js · tests/shared.cjs — 공용 favorites.js 에 박혀 「화면 코드에 한글 금지」 검사(words)를 깨던 가득 · 저장 공간 알림 말을 빼고, 공방은 낱말 표, 공방 모음은 setMessages 로 준다
+
 ## 2026-11-25 · claude · 허브 즐겨찾기 — 크게 보기 꽉 채우기 · 가로 보기 · 한도
 - shared/lib/fill-core.js(새) — 꽉 채우기 몸통: fitBox · wide · MARGIN · makeTap(두 번 누르기) · attach(화면 틀 없는 크게 보기에 붙이기). 공방 모음 즐겨찾기가 attach 로 쓴다
 - shared/lib/fill-view.js — 셈 · 두 번 누르기를 fill-core.js 에서 가져다 쓴다(동작 같음, 네 공방 fill-view 검사 통과)
