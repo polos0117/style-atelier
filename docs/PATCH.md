@@ -3,6 +3,9 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-25 · claude · 일상컷 트리 v2 — 소품 동작 · 자세의 옷 특징, 소품 동작 not_has, 상황 노출 situ_not_has
+- shared/lib/casual-tree-v2.js — 네 공방 일상컷 몸짓 · 운동 · 놀이 더하기(가슴 사이 물건은 목선이 열린 옷 cleavage, 헤엄 · 공기매트는 swimsuit, 요가 · 조깅은 sportswear, 삼국지 갑옷 손질은 underlayer): useFits 가 소품 동작의 outfit · not_has(놀이터 k_kids)를, why posture 가 자세의 outfit 을, situOk 가 표 situ_not_has 를 본다. 표에 칸이 없으면 안 거른다. FEATURES 에 넷 더함. sync 로 도시 · 삼국지 · 원소 · 포켓몬.
+
 ## 2026-11-25 · claude · 즐겨찾기 알림 말 — 공용 파일에서 빼서 낱말 표로
 - shared/lib/favorites.js · tests/shared.cjs — 공용 favorites.js 에 박혀 「화면 코드에 한글 금지」 검사(words)를 깨던 가득 · 저장 공간 알림 말을 빼고, 공방은 낱말 표, 공방 모음은 setMessages 로 준다
 
