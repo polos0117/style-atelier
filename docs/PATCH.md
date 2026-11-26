@@ -3,6 +3,9 @@
 파일을 고친 쪽이 직접 한 칸 적는다. 한 칸은 `##` 으로 시작하고 `날짜 · 누가 · 무엇을 바꿨나` 를 가운뎃점으로 나눈다.
 그 아래 `-` 줄에 `파일 — 왜/무엇` 을 하나씩. 날짜는 `2026-11-10` 꼴, 누가는 `claude` 또는 `gpt`, 새 칸이 위로 간다.
 
+## 2026-11-26 · claude · 공용 casual-tree.js — 세계 장면 장소는 옷과 상관없이 세계 안 갈래
+- shared/lib/casual-tree.js — 사용자 「응 세계 줄에 무협 분위기도 넣어줘. 그리고 삼국지공방은 필수컷으로 그 세계의 장소 컷이 있는데, 지금 추가한 세계별 장면들을 거기에 포함시키면 될 것 같아.」(삼국지): isRequired 가 required.world.scene_places 를 본다. 그 칸이 없는 공방은 전과 같다. node shared/sync.cjs 로 일곱 공방에
+
 ## 2026-11-26 · claude · 일상컷 머리 연출 13가지 · 짧은 머리 거르기
 - shared/lib/casual-tree-v2.js — 사용자 「일상컷 머리연출도」: ambience 가 짧은 머리엔 긴 머리 연출(묶음 · 땋기 · 반묶음 …)을 거른다(opts.hairKey · 표 short_hairs · hair.*.long). sync 로 네 공방에
 
